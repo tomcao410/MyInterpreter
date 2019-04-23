@@ -16,6 +16,7 @@ class MainVC: UIViewController {
     @IBOutlet weak var interpreterButton: UIButton!
     
 
+
     static var isInterpreter: Bool = false;
     static var isUser: Bool = false;
     
@@ -23,8 +24,18 @@ class MainVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if Auth.auth().currentUser != nil
+        {
+            print("There is user!!!!")
+            try! Auth.auth().signOut()
+        }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+
+    }
     
 
 

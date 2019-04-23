@@ -7,24 +7,80 @@
 //
 
 import UIKit
+import Firebase
 
-class SignInUserVC: UIViewController {
+class SignInUserVC: UIViewController
+{
 
+    // MARK: UI elements
+    @IBOutlet weak var emailField: UITextField!
+    @IBOutlet weak var passwordField: UITextField!
+    @IBOutlet weak var lblError: UILabel!
+    
+    // MARK: views
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        hideKeyboard() // hide keyboard when tap anywhere outside the text field
+        
+        lblError.isHidden = true
+        
+        emailField.delegate = self
+        passwordField.delegate = self
+    }
+    
+    // MARK: Work place
+    
+    // MARK: --------KEYBOARD--------
+    func hideKeyboard()
+    {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector (dissmissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dissmissKeyboard()
+    {
+        view.endEditing(true)
+    }
+    
+    // MARK: --------BUTTON--------
+    @IBAction func handleLogIn(_ sender: UIButton)
+    {
+        guard let email = emailField.text else {return}
+        guard let pass = passwordField.text else {return}
+        
+        Auth.auth().signIn(withEmail: email, password: pass) { (user: AuthDataResult?, error: Error?) in
+            if user != nil
+            {
+                self.performSegue(withIdentifier: "userLogInSegue", sender: self)
+            }
+            else
+            {
+                self.lblError.isHidden = false
+                self.lblError.text = error!.localizedDescription
+            }
+        }
     }
     
 
-    /*
-    // MARK: - Navigation
+}
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+// MARK: --------TEXT FIELD--------
+extension SignInUserVC: UITextFieldDelegate
+{
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool
+    {
+        switch textField {
+        case emailField:
+            emailField.resignFirstResponder()
+            passwordField.becomeFirstResponder()
+            break
+        case passwordField:
+            passwordField.resignFirstResponder()
+            hideKeyboard()
+        default:
+            break
+        }
+        return true
     }
-    */
-
 }

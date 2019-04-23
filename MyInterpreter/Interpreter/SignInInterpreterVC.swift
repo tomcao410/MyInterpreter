@@ -7,27 +7,89 @@
 //
 
 import UIKit
+import Firebase
 
-class SignInInterpreterVC: UIViewController {
+class SignInInterpreterVC: UIViewController
+{
 
     // MARK: UI elements
+    @IBOutlet weak var idField: UITextField!
+    @IBOutlet weak var passwordField: UITextField!
+    @IBOutlet weak var lblError: UILabel!
     
     
-    override func viewDidLoad() {
+    // MARK: views
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        hideKeyboard() // hide keyboard when tap anywhere outside the textfield
+        
+        lblError.isHidden = true
+        
+        idField.delegate = self
+        passwordField.delegate = self
+    }
+    
+    // MARK: Work place
+
+    // MARK: --------KEYBOARD--------
+    func hideKeyboard()
+    {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector (dissmissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dissmissKeyboard()
+    {
+        view.endEditing(true)
+    }
+    
+    // MARK: --------BUTTON--------
+    @IBAction func handleLogIn(_ sender: UIButton)
+    {
+        
+        guard let id = idField.text else
+        {
+            return
+        }
+        guard let pass = passwordField.text else
+        {
+            return
+        }
+        
+        Auth.auth().signIn(withEmail: id, password: pass) { (user: AuthDataResult?, error: Error?) in
+            if user != nil
+            {
+                self.performSegue(withIdentifier: "interpreterLogInSegue", sender: self)
+            }
+            else
+            {
+                self.lblError.isHidden = false
+                self.lblError.text = error!.localizedDescription
+            }
+        }
     }
     
 
-    /*
-    // MARK: - Navigation
+}
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+// MARK: --------TEXT FIELD--------
+extension SignInInterpreterVC: UITextFieldDelegate
+{
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool
+    {
+        switch textField {
+        case idField:
+            idField.resignFirstResponder()
+            passwordField.becomeFirstResponder()
+            break
+        case passwordField:
+            passwordField.resignFirstResponder()
+            hideKeyboard()
+        default:
+            break
+        }
+        return true
     }
-    */
-
 }
