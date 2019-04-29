@@ -17,6 +17,7 @@ class SignUpStage2VC: UIViewController {
     @IBOutlet weak var confirmPWField: UITextField!
     @IBOutlet weak var lblError: UILabel!
     
+    var totalUsers: Int = 0
     
     // MARK: views
     override func viewDidLoad() {
@@ -26,6 +27,13 @@ class SignUpStage2VC: UIViewController {
         
         lblError.isHidden = true
         
+        // Get total users from database
+        let ref = Database.database().reference()
+        
+        ref.child("users/total").observeSingleEvent(of:  .value) { (snapshot) in
+            self.totalUsers = snapshot.value as! Int
+        }
+        
         emailField.delegate = self
         passwordField.delegate = self
         confirmPWField.delegate = self
@@ -33,6 +41,7 @@ class SignUpStage2VC: UIViewController {
     
     // MARK: Work place
     // MARK: ---Functions---
+    // Create user info in Database (Firebase)
     private func saveUserInfo(user: User)
     {
         let ref = Database.database().reference()
@@ -40,6 +49,9 @@ class SignUpStage2VC: UIViewController {
         let childPath = "users/" + user.getEncodedEmail()
 
         ref.child(childPath).setValue(["email": user.email, "name": user.name, "motherLanguage": user.motherLanguage, "secondLanguage": user.secondLanguage])
+        
+        // Update total users
+        ref.child("users/total").setValue(totalUsers)
     }
     
     // MARK: --------KEYBOARD--------
