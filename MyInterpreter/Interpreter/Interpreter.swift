@@ -21,6 +21,13 @@ class Interpreter
         secondLanguage = ""
     }
     
+    init(name: String, motherLanguage: String, secondLanguage: String)
+    {
+        self.name = name
+        self.motherLanguage = motherLanguage
+        self.secondLanguage = secondLanguage
+    }
+    
     // MARK: name
     func getName() -> String
     {

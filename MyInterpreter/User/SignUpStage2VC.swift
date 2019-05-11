@@ -17,8 +17,6 @@ class SignUpStage2VC: UIViewController {
     @IBOutlet weak var confirmPWField: UITextField!
     @IBOutlet weak var lblError: UILabel!
     
-    var totalUsers: Int = 0
-    
     // MARK: views
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,13 +24,6 @@ class SignUpStage2VC: UIViewController {
         hideKeyboard() // hide keyboard when tap anywhere outside the textfield
         
         lblError.isHidden = true
-        
-        // Get total users from database
-        let ref = Database.database().reference()
-        
-        ref.child("users/total").observeSingleEvent(of:  .value) { (snapshot) in
-            self.totalUsers = snapshot.value as! Int
-        }
         
         emailField.delegate = self
         passwordField.delegate = self
@@ -49,9 +40,6 @@ class SignUpStage2VC: UIViewController {
         let childPath = "users/" + user.getEncodedEmail()
 
         ref.child(childPath).setValue(["email": user.email, "name": user.name, "motherLanguage": user.motherLanguage, "secondLanguage": user.secondLanguage])
-        
-        // Update total users
-        ref.child("users/total").setValue(totalUsers)
     }
     
     // MARK: --------KEYBOARD--------

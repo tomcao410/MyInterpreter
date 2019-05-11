@@ -22,8 +22,7 @@ class ListInterpretersVC: UIViewController {
         super.viewDidLoad()
 
         // Get total interpreters from database
-        getTotalInterpreters()
-
+        getInterpreterInfo()
         
         listInterpreters.delegate = self
         listInterpreters.dataSource = self
@@ -31,66 +30,36 @@ class ListInterpretersVC: UIViewController {
     
     // MARK: Work place
     
-    // Get total interpreters from database
-    private func getTotalInterpreters()
-    {
-        DispatchQueue.global(qos: .userInteractive).async
-            {
-                let ref = Database.database().reference()
-                
-                ref.child("interpreters/total").observeSingleEvent(of: .value) { (snapshot) in
-                    self.totalInterpreters = snapshot.value as! Int
-                    
-                    // Get all interpreters info
-                    self.getInterpreterInfo()
-                    
-                    DispatchQueue.main.async {
-                        self.listInterpreters.reloadData()
-                    }
-                }
-        }
-    }
-    
     // Get interpreter info from database
     private func getInterpreterInfo()
     {
-        DispatchQueue.global(qos: .userInteractive).async
-            {
-                var path = "interpreters/interpreter"
-                let namePath = "name"
-                let motherLanguagePath = "motherLanguage"
-                let secondLanguagePath = "secondLanguage"
-                
-                var childPath = ""
-                for i in 1...self.totalInterpreters
+        DispatchQueue.global(qos: .userInteractive).async {
+            let ref = Database.database().reference().child("interpreters")
+            
+            ref.observe(.value) { (snapshot: DataSnapshot) in
+                if snapshot.childrenCount > 0
                 {
-                    path += String(i)
+                    self.interpreters.removeAll()
+                    self.totalInterpreters = Int(snapshot.childrenCount)
                     
-                    let ref = Database.database().reference()
-                    
-                    // Name
-                    childPath = path + namePath
-                    ref.child(childPath).observeSingleEvent(of: .value) { (snapshot) in
-                        self.interpreters[i].setName(name: snapshot.value as! String)
+                    for artists in snapshot.children.allObjects as![DataSnapshot]
+                    {
+                        let artistObject = artists.value as? [String: Any]
+                        
+                        let name = artistObject?["name"]
+                        let motherLanguage = artistObject?["motherLanguage"]
+                        let secondLanguage = artistObject?["secondLanguage"]
+                        
+                        let artist = Interpreter(name: name as! String, motherLanguage: motherLanguage as! String, secondLanguage: secondLanguage as! String)
+                        
+                        self.interpreters.append(artist)
                     }
                     
-                    // Mother language
-                    childPath = path + motherLanguagePath
-                    ref.child(childPath).observeSingleEvent(of: .value) { (snapshot) in
-                        self.interpreters[i].setMotherLanguage(motherLanguage: snapshot.value as! String)
-                    }
-                    
-                    // Second language
-                    childPath = path + secondLanguagePath
-                    ref.child(childPath).observeSingleEvent(of: .value) { (snapshot) in
-                        self.interpreters[i].setSecondLanguage(secondLanguage: snapshot.value as! String)
-                    }
-                    
-                    // Refresh tableview
                     DispatchQueue.main.async {
                         self.listInterpreters.reloadData()
                     }
                 }
+            }
         }
     }
 }
