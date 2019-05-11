@@ -22,7 +22,8 @@ class SignUpStage1VC: UIViewController {
                                "Vietnamese",
                                "German",
                                "Korean",
-                               "Spanish"]
+                               "Spanish",
+                               "Japanese"]
     var name: String = ""
     var motherLang: String = ""
     var secondLang: String = ""
