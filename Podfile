@@ -12,5 +12,7 @@ pod 'Firebase/Auth'
 pod 'Firebase/Database'
 pod 'Alamofire'
 pod 'Firebase/Storage'
+pod 'Stripe'
+
 
 end
