@@ -40,6 +40,9 @@ class SignUpStage2VC: UIViewController {
         let childPath = "users/" + user.getEncodedEmail()
 
         ref.child(childPath).setValue(["email": user.email, "name": user.name, "motherLanguage": user.motherLanguage, "secondLanguage": user.secondLanguage])
+        
+        // Update users booking status (default: "interpreter0" - means the user hasn't booked anyone yet)
+        ref.child("users/booking").setValue("interpreter0")
     }
     
     // MARK: --------KEYBOARD--------
