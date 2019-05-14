@@ -38,7 +38,7 @@ class SignUpStage2VC: UIViewController {
         let ref = Database.database().reference()
         
         let childPath = "users/" + user.getEncodedEmail()
-
+        
         ref.child(childPath).setValue(["email": user.email, "name": user.name, "motherLanguage": user.motherLanguage, "secondLanguage": user.secondLanguage])
         
         // Update users booking status (default: "interpreter0" - means the user hasn't booked anyone yet)
