@@ -53,11 +53,12 @@ class ListInterpretersVC: UIViewController {
                         let artist = Interpreter(name: name as! String, motherLanguage: motherLanguage as! String, secondLanguage: secondLanguage as! String)
                         
                         self.interpreters.append(artist)
+                        
+                        DispatchQueue.main.async {
+                            self.listInterpreters.reloadData()
+                        }
                     }
                     
-                    DispatchQueue.main.async {
-                        self.listInterpreters.reloadData()
-                    }
                 }
             }
         }
