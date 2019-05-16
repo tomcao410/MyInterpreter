@@ -476,6 +476,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RQY-pv-dVa">
                                 <rect key="frame" x="190" y="159" width="169" height="30"/>
                                 <state key="normal" title="About payment methods"/>
+                                <connections>
+                                    <action selector="btnAboutMethodClicked:" destination="x0P-PK-HCa" eventType="touchUpInside" id="vxN-Ed-vdI"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Payment amount:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sgi-YH-oeI">
                                 <rect key="frame" x="16" y="281" width="134" height="21"/>
@@ -538,6 +541,14 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UlW-kq-wYQ">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="k2L-vv-BYg">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <blurEffect style="dark"/>
+                            </visualEffectView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -548,14 +559,17 @@
                             <constraint firstItem="sgi-YH-oeI" firstAttribute="leading" secondItem="yQD-J1-dEt" secondAttribute="leading" constant="16" id="7ns-ws-KXx"/>
                             <constraint firstItem="acT-PU-Ing" firstAttribute="centerX" secondItem="7c7-c1-FfO" secondAttribute="centerX" id="959-gS-JwQ"/>
                             <constraint firstItem="acT-PU-Ing" firstAttribute="top" secondItem="VOP-LN-e0r" secondAttribute="bottom" constant="50" id="9PG-KY-Fa1"/>
+                            <constraint firstItem="UlW-kq-wYQ" firstAttribute="top" secondItem="yQD-J1-dEt" secondAttribute="top" id="9lg-CL-ZrS"/>
                             <constraint firstItem="eGo-Bw-bWL" firstAttribute="top" secondItem="vY3-24-eOb" secondAttribute="bottom" constant="46" id="AA2-lB-gHO"/>
                             <constraint firstItem="eGo-Bw-bWL" firstAttribute="leading" secondItem="sgi-YH-oeI" secondAttribute="trailing" constant="23" id="Bmx-3H-xSq"/>
                             <constraint firstItem="anW-4N-EiO" firstAttribute="top" secondItem="yQD-J1-dEt" secondAttribute="top" constant="30" id="CiQ-2n-MBR"/>
                             <constraint firstItem="Haa-Rp-RQe" firstAttribute="top" secondItem="dOZ-d9-SEa" secondAttribute="bottom" constant="30" id="DDA-Jm-ETP"/>
+                            <constraint firstItem="UlW-kq-wYQ" firstAttribute="leading" secondItem="yQD-J1-dEt" secondAttribute="leading" id="J2T-0L-tdO"/>
                             <constraint firstItem="anW-4N-EiO" firstAttribute="leading" secondItem="nua-K6-TDx" secondAttribute="trailing" constant="20" id="KPw-53-xm3"/>
                             <constraint firstItem="yQD-J1-dEt" firstAttribute="trailing" secondItem="YoK-2Y-h0k" secondAttribute="trailing" constant="16" id="N5J-Mx-t49"/>
                             <constraint firstItem="YoK-2Y-h0k" firstAttribute="leading" secondItem="VOP-LN-e0r" secondAttribute="trailing" constant="10" id="NUA-li-9PJ"/>
                             <constraint firstItem="nua-K6-TDx" firstAttribute="leading" secondItem="yQD-J1-dEt" secondAttribute="leading" constant="16" id="PJG-xG-THP"/>
+                            <constraint firstItem="yQD-J1-dEt" firstAttribute="trailing" secondItem="UlW-kq-wYQ" secondAttribute="trailing" id="Q4a-s9-pTe"/>
                             <constraint firstItem="sgi-YH-oeI" firstAttribute="top" secondItem="V8d-od-jiz" secondAttribute="bottom" constant="50" id="QNO-Ie-CpG"/>
                             <constraint firstItem="V8d-od-jiz" firstAttribute="top" secondItem="nua-K6-TDx" secondAttribute="bottom" constant="75" id="VcR-bB-aGn"/>
                             <constraint firstItem="YoK-2Y-h0k" firstAttribute="top" secondItem="Haa-Rp-RQe" secondAttribute="bottom" constant="20" id="azO-jf-Xg9"/>
@@ -563,6 +577,7 @@
                             <constraint firstItem="RQY-pv-dVa" firstAttribute="top" secondItem="anW-4N-EiO" secondAttribute="bottom" constant="5" id="il2-VN-kaE"/>
                             <constraint firstItem="dOZ-d9-SEa" firstAttribute="top" secondItem="sgi-YH-oeI" secondAttribute="bottom" constant="30" id="jas-Qo-FtJ"/>
                             <constraint firstItem="VOP-LN-e0r" firstAttribute="top" secondItem="Haa-Rp-RQe" secondAttribute="bottom" constant="20" id="kYf-90-tp4"/>
+                            <constraint firstItem="yQD-J1-dEt" firstAttribute="bottom" secondItem="UlW-kq-wYQ" secondAttribute="bottom" id="lo6-Xx-f41"/>
                             <constraint firstItem="vY3-24-eOb" firstAttribute="leading" secondItem="V8d-od-jiz" secondAttribute="trailing" constant="30" id="luE-wC-INP"/>
                             <constraint firstItem="VOP-LN-e0r" firstAttribute="leading" secondItem="yQD-J1-dEt" secondAttribute="leading" constant="16" id="nzN-zM-11b"/>
                             <constraint firstItem="Haa-Rp-RQe" firstAttribute="leading" secondItem="yQD-J1-dEt" secondAttribute="leading" constant="16" id="p7m-Rw-0n1"/>
@@ -571,18 +586,78 @@
                         <viewLayoutGuide key="safeArea" id="yQD-J1-dEt"/>
                     </view>
                     <connections>
-                        <outlet property="btnAboutPayment" destination="RQY-pv-dVa" id="j2x-rt-rC7"/>
                         <outlet property="lblNumberOfDays" destination="V8d-od-jiz" id="IM7-ID-W6N"/>
                         <outlet property="lblPrice" destination="eGo-Bw-bWL" id="ckV-Yf-yZt"/>
                         <outlet property="lblPricePerDay" destination="BB7-9t-hdK" id="e9N-e8-FqR"/>
+                        <outlet property="modalPaymentMethod" destination="IyG-ot-GbU" id="OOr-6h-v3w"/>
                         <outlet property="pickerPaymentMethod" destination="anW-4N-EiO" id="zEA-g3-aPs"/>
                         <outlet property="txtFieldCardName" destination="Haa-Rp-RQe" id="QdI-2Y-teE"/>
                         <outlet property="txtFieldCardNumber" destination="VOP-LN-e0r" id="okB-R0-chE"/>
                         <outlet property="txtFieldExpDate" destination="YoK-2Y-h0k" id="M2u-Sk-ScW"/>
                         <outlet property="txtFieldNumberOfDays" destination="vY3-24-eOb" id="PSP-Nl-u62"/>
+                        <outlet property="visualEffectView" destination="UlW-kq-wYQ" id="tRm-Mv-0b2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zrB-L1-MX0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="IyG-ot-GbU">
+                    <rect key="frame" x="0.0" y="0.0" width="323" height="430"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=". Daily prepaid:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dus-YU-mSU">
+                            <rect key="frame" x="16" y="20" width="123" height="21"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZQf-d5-fXy">
+                            <rect key="frame" x="16" y="51" width="291" height="122"/>
+                            <string key="text">You pay to book a interpreter for a single day and at the end of that day, system will ask use if you want to keep booking or not.
+
+Price: $0.99 per day</string>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=". Period prepaid:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Ej-UL-bnA">
+                            <rect key="frame" x="16" y="193" width="135" height="21"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yaH-ro-GwY">
+                            <rect key="frame" x="16" y="224" width="291" height="122"/>
+                            <string key="text">You pay to book a interpreter for a number of days and at the end of that period, system will ask use if you want to keep booking or not.
+
+Price: $1.49 per day</string>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mhr-lc-Vlb">
+                            <rect key="frame" x="140.5" y="376" width="42" height="30"/>
+                            <state key="normal" title="Got it!"/>
+                            <connections>
+                                <action selector="btnGotItClicked:" destination="x0P-PK-HCa" eventType="touchUpInside" id="qIk-Ko-s7K"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="yaH-ro-GwY" firstAttribute="leading" secondItem="K7Z-l4-N1u" secondAttribute="leading" constant="16" id="2S0-l4-k8s"/>
+                        <constraint firstItem="ZQf-d5-fXy" firstAttribute="top" secondItem="dus-YU-mSU" secondAttribute="bottom" constant="10" id="88A-DC-gcE"/>
+                        <constraint firstItem="dus-YU-mSU" firstAttribute="top" secondItem="K7Z-l4-N1u" secondAttribute="top" constant="20" id="9YH-jK-RJ9"/>
+                        <constraint firstItem="dus-YU-mSU" firstAttribute="leading" secondItem="K7Z-l4-N1u" secondAttribute="leading" constant="16" id="A2S-N1-EoG"/>
+                        <constraint firstItem="0Ej-UL-bnA" firstAttribute="leading" secondItem="K7Z-l4-N1u" secondAttribute="leading" constant="16" id="Jez-GX-SlQ"/>
+                        <constraint firstItem="K7Z-l4-N1u" firstAttribute="trailing" secondItem="ZQf-d5-fXy" secondAttribute="trailing" constant="16" id="eeg-5A-2FB"/>
+                        <constraint firstItem="Mhr-lc-Vlb" firstAttribute="top" secondItem="yaH-ro-GwY" secondAttribute="bottom" constant="30" id="mCu-c1-OMe"/>
+                        <constraint firstItem="ZQf-d5-fXy" firstAttribute="leading" secondItem="K7Z-l4-N1u" secondAttribute="leading" constant="16" id="rwa-n1-DAq"/>
+                        <constraint firstItem="Mhr-lc-Vlb" firstAttribute="centerX" secondItem="IyG-ot-GbU" secondAttribute="centerX" id="tpg-jV-8ej"/>
+                        <constraint firstItem="yaH-ro-GwY" firstAttribute="top" secondItem="0Ej-UL-bnA" secondAttribute="bottom" constant="10" id="uc1-UL-p4N"/>
+                        <constraint firstItem="0Ej-UL-bnA" firstAttribute="top" secondItem="ZQf-d5-fXy" secondAttribute="bottom" constant="20" id="wwL-6r-wnn"/>
+                        <constraint firstItem="K7Z-l4-N1u" firstAttribute="trailing" secondItem="yaH-ro-GwY" secondAttribute="trailing" constant="16" id="zpR-vy-LO4"/>
+                    </constraints>
+                    <viewLayoutGuide key="safeArea" id="K7Z-l4-N1u"/>
+                </view>
             </objects>
             <point key="canvasLocation" x="5244" y="-882.00899550224892"/>
         </scene>

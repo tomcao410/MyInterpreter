@@ -12,7 +12,6 @@ class PaymentVC: UIViewController {
 
     // MARK: UI elements
     @IBOutlet weak var pickerPaymentMethod: UIPickerView!
-    @IBOutlet weak var btnAboutPayment: UIButton!
     @IBOutlet weak var txtFieldNumberOfDays: UITextField!
     @IBOutlet weak var lblNumberOfDays: UILabel!
     @IBOutlet weak var lblPrice: UILabel!
@@ -21,6 +20,11 @@ class PaymentVC: UIViewController {
     @IBOutlet weak var txtFieldCardName: UITextField!
     @IBOutlet weak var txtFieldCardNumber: UITextField!
     @IBOutlet weak var txtFieldExpDate: UITextField!
+    
+    @IBOutlet var modalPaymentMethod: UIView!
+    @IBOutlet weak var visualEffectView: UIVisualEffectView!
+    
+    var effect: UIVisualEffect!
     
     var paymenMethods: [String] = []
     var method1: String = "Daily prepaid"
@@ -39,15 +43,52 @@ class PaymentVC: UIViewController {
     }
     
     // MARK: Work place
-    // MARK: --------Set UI--------
+    // MARK: --------Functions--------
     func setUI()
     {
+        effect = visualEffectView.effect
+        visualEffectView.effect = nil
+        visualEffectView.isHidden = true
+        
+        modalPaymentMethod.layer.cornerRadius = 10
+        
         paymenMethods.append(method1)
         paymenMethods.append(method2)
         
         txtFieldNumberOfDays.isEnabled = false
         lblNumberOfDays.textColor = .gray
         lblPricePerDay.textColor = .gray
+    }
+    
+    // For modal to pop in
+    func animateIn()
+    {
+        visualEffectView.isHidden = false
+        self.view.addSubview(modalPaymentMethod)
+        modalPaymentMethod.center = self.view.center
+        modalPaymentMethod.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+        modalPaymentMethod.alpha = 0
+        
+        UIView.animate(withDuration: 0.4) {
+            self.visualEffectView.effect = self.effect
+            self.modalPaymentMethod.alpha = 1
+            self.modalPaymentMethod.transform = CGAffineTransform.identity
+        }
+    }
+    
+    // For modal to pop out
+    func animateOut()
+    {
+        UIView.animate(withDuration: 0.4, animations:
+            {
+                self.modalPaymentMethod.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                self.modalPaymentMethod.alpha = 0
+                
+                self.visualEffectView.effect = nil
+        }) { (success: Bool) in
+            self.modalPaymentMethod.removeFromSuperview()
+        }
+        visualEffectView.isHidden = true
     }
     
     // MARK: --------KEYBOARD--------
@@ -78,7 +119,18 @@ class PaymentVC: UIViewController {
     }
     
     // MARK: --------BUTTON--------
-    @IBAction func btnBookClicked(_ sender: Any) {
+    @IBAction func btnAboutMethodClicked(_ sender: Any)
+    {
+        animateIn()
+    }
+    
+    @IBAction func btnGotItClicked(_ sender: Any)
+    {
+        animateOut()
+    }
+    
+    @IBAction func btnBookClicked(_ sender: Any)
+    {
         if (lblPrice.text == "$0.0")
         {
             alertInputNumberOfDays()
@@ -88,6 +140,7 @@ class PaymentVC: UIViewController {
             // MARKK: payment invoice processsing.... STRIPE!!!!!!!
         }
     }
+    
     // MARK: --------ALERT--------
     func alertInputNumberOfDays()
     {
@@ -156,5 +209,18 @@ extension PaymentVC: UIPickerViewDelegate, UIPickerViewDataSource
             txtFieldNumberOfDays.text = "0"
             lblPrice.text = "$0.0"
         }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        var pickerLabel: UILabel? = (view as? UILabel)
+        if pickerLabel == nil {
+            pickerLabel = UILabel()
+            pickerLabel?.font = UIFont(name: "System", size: 17.0)
+            pickerLabel?.textAlignment = .center
+        }
+        pickerLabel?.text = paymenMethods[row]
+        pickerLabel?.textColor = UIColor.black
+        
+        return pickerLabel!
     }
 }
