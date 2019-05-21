@@ -30,6 +30,9 @@ class PaymentVC: UIViewController {
     var method1: String = "Daily prepaid"
     var method2: String = "Period prepaid"
     
+    var stripePublishableKey: String = "pk_test_vqdGYXtezAO1bXGVv4hhRNQ600N5jBAQll"
+    var backendBaseURL: String = "https://sheltered-ocean-65585.herokuapp.com"
+    
     // MARK: Views
     override func viewDidLoad() {
         super.viewDidLoad()
