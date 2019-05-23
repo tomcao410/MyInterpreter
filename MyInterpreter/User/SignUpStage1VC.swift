@@ -32,9 +32,7 @@ class SignUpStage1VC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        hideKeyboard() // hide keyboard when tap anywhere outside the text field
-        
-        lblError.isHidden = true
+        setUI()
         
         nameField.delegate = self
         secondLanguagePicker.delegate = self
@@ -42,6 +40,14 @@ class SignUpStage1VC: UIViewController {
     }
     
     // MARK: Work place
+    
+    // MARK: Set UI
+    private func setUI()
+    {
+        hideKeyboard() // hide keyboard when tap anywhere outside the text field
+        
+        lblError.isHidden = true
+    }
     
     // MARK: --------KEYBOARD--------
     func hideKeyboard()
@@ -58,25 +64,31 @@ class SignUpStage1VC: UIViewController {
     // MARK: --------BUTTON--------
     @IBAction func nextButtonClicked(_ sender: Any)
     {
-        guard  let name = nameField.text else {
+        if (nameField.text?.isEmpty)!
+        {
             lblError.isHidden = false
             lblError.text = "Name field must be filled!!!"
-            return
+        }
+        else
+        {
+            lblError.isHidden = true
+            name = nameField.text!
+            if motherLang.isEmpty
+            {
+                motherLang = languages[0]
+            }
+            if secondLang.isEmpty
+            {
+                secondLang = languages[0]
+            }
+            
+            SignUpStage1VC.user.setName(name: name)
+            SignUpStage1VC.user.setMotherLanguage(motherLanguage: motherLang)
+            SignUpStage1VC.user.setSecondLanguage(secondLanguage: secondLang)
+            performSegue(withIdentifier: "userRegisterSegue1", sender: self)
         }
         
-        if motherLang.isEmpty
-        {
-            motherLang = languages[0]
-        }
-        if secondLang.isEmpty
-        {
-            secondLang = languages[0]
-        }
         
-        SignUpStage1VC.user.setName(name: name)
-        SignUpStage1VC.user.setMotherLanguage(motherLanguage: motherLang)
-        SignUpStage1VC.user.setSecondLanguage(secondLanguage: secondLang)
-        performSegue(withIdentifier: "userRegisterSegue1", sender: self)
     }
     
     
@@ -90,6 +102,10 @@ extension SignUpStage1VC: UITextFieldDelegate
     {
         switch textField {
         case nameField:
+            if !(nameField.text?.isEmpty)!
+            {
+                lblError.isHidden = true
+            }
             nameField.resignFirstResponder()
             hideKeyboard()
             break

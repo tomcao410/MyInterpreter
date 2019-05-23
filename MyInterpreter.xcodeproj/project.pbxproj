@@ -27,6 +27,11 @@
 		54E6B5472245E81C000F82D8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54E6B5452245E81C000F82D8 /* LaunchScreen.storyboard */; };
 		54E6B5522245E81C000F82D8 /* MyInterpreterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E6B5512245E81C000F82D8 /* MyInterpreterTests.swift */; };
 		54E6B55D2245E81C000F82D8 /* MyInterpreterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E6B55C2245E81C000F82D8 /* MyInterpreterUITests.swift */; };
+		54ED49FB229501C200BDCA68 /* CheckOutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54ED49FA229501C200BDCA68 /* CheckOutVC.swift */; };
+		54ED49FD2295196B00BDCA68 /* CheckoutRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54ED49FC2295196B00BDCA68 /* CheckoutRowView.swift */; };
+		54ED49FF22951A6100BDCA68 /* HighlightingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54ED49FE22951A6100BDCA68 /* HighlightingButton.swift */; };
+		54ED4A01229521E600BDCA68 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54ED4A00229521E600BDCA68 /* SettingsViewController.swift */; };
+		54ED4A032295266700BDCA68 /* PaymentContextFooterView .swift in Sources */ = {isa = PBXBuildFile; fileRef = 54ED4A022295266700BDCA68 /* PaymentContextFooterView .swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +78,11 @@
 		54E6B5582245E81C000F82D8 /* MyInterpreterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyInterpreterUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		54E6B55C2245E81C000F82D8 /* MyInterpreterUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInterpreterUITests.swift; sourceTree = "<group>"; };
 		54E6B55E2245E81C000F82D8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		54ED49FA229501C200BDCA68 /* CheckOutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckOutVC.swift; sourceTree = "<group>"; };
+		54ED49FC2295196B00BDCA68 /* CheckoutRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutRowView.swift; sourceTree = "<group>"; };
+		54ED49FE22951A6100BDCA68 /* HighlightingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightingButton.swift; sourceTree = "<group>"; };
+		54ED4A00229521E600BDCA68 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		54ED4A022295266700BDCA68 /* PaymentContextFooterView .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PaymentContextFooterView .swift"; sourceTree = "<group>"; };
 		67EC764C6C6ED974C804A8BF /* Pods-MyInterpreter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyInterpreter.debug.xcconfig"; path = "Target Support Files/Pods-MyInterpreter/Pods-MyInterpreter.debug.xcconfig"; sourceTree = "<group>"; };
 		D82D9072DBB8F4749C58B0C0 /* Pods_MyInterpreter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyInterpreter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -120,8 +130,7 @@
 				54B59CB6224E37B60026814A /* SignUpStage1VC.swift */,
 				543EF3F5224E7B79009CEAE6 /* SignUpStage2VC.swift */,
 				54C719EA2270C256001B2BFF /* ListInterpreters */,
-				54DBEA79228802CB00672238 /* PaymentVC.swift */,
-				54DEA6C52294529400C22A80 /* MyAPIClient.swift */,
+				54F1B6B522957202009FA286 /* Payment */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -190,6 +199,20 @@
 				54E6B55E2245E81C000F82D8 /* Info.plist */,
 			);
 			path = MyInterpreterUITests;
+			sourceTree = "<group>";
+		};
+		54F1B6B522957202009FA286 /* Payment */ = {
+			isa = PBXGroup;
+			children = (
+				54DBEA79228802CB00672238 /* PaymentVC.swift */,
+				54DEA6C52294529400C22A80 /* MyAPIClient.swift */,
+				54ED49FA229501C200BDCA68 /* CheckOutVC.swift */,
+				54ED49FC2295196B00BDCA68 /* CheckoutRowView.swift */,
+				54ED49FE22951A6100BDCA68 /* HighlightingButton.swift */,
+				54ED4A00229521E600BDCA68 /* SettingsViewController.swift */,
+				54ED4A022295266700BDCA68 /* PaymentContextFooterView .swift */,
+			);
+			path = Payment;
 			sourceTree = "<group>";
 		};
 		DAB0D5ED8D7BAD646A5CAC73 /* Pods */ = {
@@ -402,16 +425,21 @@
 			files = (
 				54C719E92270C24B001B2BFF /* ListInterpretersCell.swift in Sources */,
 				54DEA6C62294529400C22A80 /* MyAPIClient.swift in Sources */,
+				54ED49FB229501C200BDCA68 /* CheckOutVC.swift in Sources */,
 				54DBEA7A228802CB00672238 /* PaymentVC.swift in Sources */,
 				54B59CAF224E26FC0026814A /* SignInInterpreterVC.swift in Sources */,
+				54ED49FF22951A6100BDCA68 /* HighlightingButton.swift in Sources */,
 				543EF3F6224E7B79009CEAE6 /* SignUpStage2VC.swift in Sources */,
 				54E6B5422245E81B000F82D8 /* MyInterpreter.xcdatamodeld in Sources */,
 				54E6B53C2245E81B000F82D8 /* MainVC.swift in Sources */,
 				54B779382273618F001A53B7 /* Interpreter.swift in Sources */,
 				5466FEE1225255A10071B8FE /* User.swift in Sources */,
 				54E6B53A2245E81B000F82D8 /* AppDelegate.swift in Sources */,
+				54ED4A01229521E600BDCA68 /* SettingsViewController.swift in Sources */,
+				54ED4A032295266700BDCA68 /* PaymentContextFooterView .swift in Sources */,
 				54C719E72270C214001B2BFF /* ListInterpretersVC.swift in Sources */,
 				54B59CB7224E37B60026814A /* SignUpStage1VC.swift in Sources */,
+				54ED49FD2295196B00BDCA68 /* CheckoutRowView.swift in Sources */,
 				54B59CB5224E31690026814A /* SignInUserVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

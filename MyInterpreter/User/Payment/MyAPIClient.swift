@@ -97,6 +97,7 @@ class MyAPIClient: NSObject, STPCustomerEphemeralKeyProvider {
         let url = self.baseURL.appendingPathComponent("ephemeral_keys")
         Alamofire.request(url, method: .post, parameters: [
             "api_version": apiVersion,
+            "customer_id": "cus_F6zQhOa9cdmjDu"
             ])
             .validate(statusCode: 200..<300)
             .responseJSON { responseJSON in

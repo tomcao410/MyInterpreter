@@ -7,31 +7,34 @@
 //
 
 import UIKit
+import Stripe
 
 class PaymentVC: UIViewController {
 
-    // MARK: UI elements
+    // MARK: ---UI elements---
     @IBOutlet weak var pickerPaymentMethod: UIPickerView!
     @IBOutlet weak var txtFieldNumberOfDays: UITextField!
     @IBOutlet weak var lblNumberOfDays: UILabel!
     @IBOutlet weak var lblPrice: UILabel!
     @IBOutlet weak var lblPricePerDay: UILabel!
     
-    @IBOutlet weak var txtFieldCardName: UITextField!
-    @IBOutlet weak var txtFieldCardNumber: UITextField!
-    @IBOutlet weak var txtFieldExpDate: UITextField!
-    
     @IBOutlet var modalPaymentMethod: UIView!
     @IBOutlet weak var visualEffectView: UIVisualEffectView!
     
-    var effect: UIVisualEffect!
+    // MARK: ---Parameters---
+    var effect: UIVisualEffect! // effect for modal pop-up
     
     var paymenMethods: [String] = []
     var method1: String = "Daily prepaid"
     var method2: String = "Period prepaid"
     
-    var stripePublishableKey: String = "pk_test_vqdGYXtezAO1bXGVv4hhRNQ600N5jBAQll"
-    var backendBaseURL: String = "https://sheltered-ocean-65585.herokuapp.com"
+    static var price: Int = 0
+    
+//    let stripePublishableKey: String = "pk_test_vqdGYXtezAO1bXGVv4hhRNQ600N5jBAQll"
+//    let backendBaseURL: String = "https://sheltered-ocean-65585.herokuapp.com"
+//
+//    let paymentCurrency: String = "USD"
+
     
     // MARK: Views
     override func viewDidLoad() {
@@ -112,12 +115,12 @@ class PaymentVC: UIViewController {
         if (price != nil)
         {
             price = round(price! * 1.49 * 1000) / 1000
-            self.lblPrice.text = "$\(price!)"
+            self.lblPrice.text = "\(price!)"
         }
         else
         {
             alertInputNumberOfDays()
-            lblPrice.text = "$0.0"
+            lblPrice.text = "0.0"
         }
     }
     
@@ -132,15 +135,20 @@ class PaymentVC: UIViewController {
         animateOut()
     }
     
-    @IBAction func btnBookClicked(_ sender: Any)
+    @IBAction func btnNextClicked(_ sender: Any)
     {
-        if (lblPrice.text == "$0.0")
+        if (lblPrice.text == "0.0")
         {
             alertInputNumberOfDays()
         }
         else
         {
             // MARKK: payment invoice processsing.... STRIPE!!!!!!!
+            PaymentVC.price = Int((lblPrice.text! as NSString).floatValue * 100)
+            
+            let settingsVC = SettingsViewController()
+            let checkoutVC = CheckOutVC(product: "\(PaymentVC.price)", price: PaymentVC.price, settings: settingsVC.settings)
+            navigationController?.pushViewController(checkoutVC, animated: true)
         }
     }
     
@@ -150,31 +158,6 @@ class PaymentVC: UIViewController {
         let alert = UIAlertController(title: "Notice!", message: "Please input number of days that you want to book!", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alert, animated: true)
-    }
-}
-
-// MARK: --------TEXT FIELD--------
-extension PaymentVC: UITextFieldDelegate
-{
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        switch textField {
-        case txtFieldNumberOfDays:
-            txtFieldNumberOfDays.resignFirstResponder()
-            txtFieldCardName.becomeFirstResponder()
-            break
-        case txtFieldCardName:
-            txtFieldCardName.resignFirstResponder()
-            txtFieldCardNumber.becomeFirstResponder()
-            break
-        case txtFieldCardNumber:
-            txtFieldCardNumber.resignFirstResponder()
-            txtFieldExpDate.becomeFirstResponder()
-            hideKeyboard()
-            break
-        default:
-            break
-        }
-        return true
     }
 }
 
@@ -201,7 +184,7 @@ extension PaymentVC: UIPickerViewDelegate, UIPickerViewDataSource
             lblNumberOfDays.textColor = .gray
             lblPricePerDay.textColor = .gray
             
-            lblPrice.text = "$0.99"
+            lblPrice.text = "0.99"
         }
         else
         {
@@ -210,7 +193,7 @@ extension PaymentVC: UIPickerViewDelegate, UIPickerViewDataSource
             lblPricePerDay.textColor = .black
             
             txtFieldNumberOfDays.text = "0"
-            lblPrice.text = "$0.0"
+            lblPrice.text = "0.0"
         }
     }
     

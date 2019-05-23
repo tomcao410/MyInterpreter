@@ -13,19 +13,32 @@ class Interpreter
     var name: String
     var motherLanguage: String
     var secondLanguage: String
-    
+    var profileImageURL: String
     init()
     {
         name = ""
         motherLanguage = ""
         secondLanguage = ""
+        profileImageURL = ""
     }
     
-    init(name: String, motherLanguage: String, secondLanguage: String)
+    init(name: String, motherLanguage: String, secondLanguage: String, profileImageURL: String)
     {
         self.name = name
         self.motherLanguage = motherLanguage
         self.secondLanguage = secondLanguage
+        self.profileImageURL = profileImageURL
+    }
+    
+    // MARK: profile image
+    func getProfileImageURL() -> String
+    {
+        return profileImageURL
+    }
+    
+    func setProfileImageURL(imageURL: String)
+    {
+        self.profileImageURL = imageURL
     }
     
     // MARK: name

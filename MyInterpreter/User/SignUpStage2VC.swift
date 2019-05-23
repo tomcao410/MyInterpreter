@@ -8,7 +8,7 @@
 
 import UIKit
 import Firebase
-
+import FirebaseStorage
 class SignUpStage2VC: UIViewController {
 
     // MARK: UI elements
@@ -16,14 +16,13 @@ class SignUpStage2VC: UIViewController {
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var confirmPWField: UITextField!
     @IBOutlet weak var lblError: UILabel!
+    @IBOutlet weak var userImage: UIImageView!
     
     // MARK: views
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        hideKeyboard() // hide keyboard when tap anywhere outside the textfield
-        
-        lblError.isHidden = true
+        setUI()
         
         emailField.delegate = self
         passwordField.delegate = self
@@ -32,17 +31,67 @@ class SignUpStage2VC: UIViewController {
     
     // MARK: Work place
     // MARK: ---Functions---
-    // Create user info in Database (Firebase)
+    
+    private func setUI()
+    {
+        hideKeyboard() // hide keyboard when tap anywhere outside the textfield
+        
+        lblError.isHidden = true // Error UI
+        
+        // Profile Image UI
+        userImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(photoPickerController)))
+        userImage.isUserInteractionEnabled = true
+    }
+    
+    
+    // MARK: ---Create user info in Firebase
     private func saveUserInfo(user: User)
     {
-        let ref = Database.database().reference()
+        // STORAGE
+        let storageRef = Storage.storage().reference().child("users_profile_images").child("\(user.getEncodedEmail()).png") // Upload file to storage need a name for that file
         
-        let childPath = "users/" + user.getEncodedEmail()
-        
-        ref.child(childPath).setValue(["email": user.email, "name": user.name, "motherLanguage": user.motherLanguage, "secondLanguage": user.secondLanguage])
-        
-        // Update users booking status (default: "interpreter0" - means the user hasn't booked anyone yet)
-        ref.child("users/booking").setValue("interpreter0")
+        if let uploadData = self.userImage.image!.pngData()
+        {
+            storageRef.putData(uploadData, metadata: nil) { (metaData: StorageMetadata?, error: Error?) in
+                if error != nil
+                {
+                    self.alertAction(title: "Uploading image failed!", message: String(describing: error))
+                }
+                else
+                {
+                    storageRef.downloadURL(completion: { (url: URL?, error: Error?) in
+                        if error != nil
+                        {
+                            self.alertAction(title: "Uploading image failed!", message: String(describing: error))
+                        }
+                        else
+                        {
+                            // DATABASE
+                            user.setProfileImageURL(imageURL: (url?.absoluteString)!)
+                            
+                            let databaseRef = Database.database().reference()
+                            
+                            let childPath = "users/" + user.getEncodedEmail()
+                            
+                            databaseRef.child(childPath).setValue(["email": user.email, "name": user.name, "motherLanguage": user.motherLanguage, "secondLanguage": user.secondLanguage, "profileImageURL": user.profileImageURL])
+                            
+                            // Update users booking status (default: "interpreter0" - means the user hasn't booked anyone yet)
+                            databaseRef.child("users/\(user.getEncodedEmail())/booking").setValue("interpreter0")
+                        }
+                    })
+                }
+            }
+        }
+    }
+    
+    // Image Tap Handler
+    @objc private func photoPickerController()
+    {
+        let myPickerController = UIImagePickerController()
+        myPickerController.allowsEditing = true
+        myPickerController.delegate = self
+        myPickerController.sourceType = .photoLibrary
+        self.present(myPickerController, animated: true)
     }
     
     // MARK: --------KEYBOARD--------
@@ -87,7 +136,14 @@ class SignUpStage2VC: UIViewController {
             lblError.isHidden = false
             lblError.text = "Password and Confirm aren't match"
         }
+    }
+    
+    // MARK: --------ALERT--------
+    private func alertAction(title: String, message: String)
+    {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
+        self.present(alert, animated: true, completion: nil)
     }
 }
 
@@ -111,5 +167,29 @@ extension SignUpStage2VC: UITextFieldDelegate
             break
         }
         return true
+    }
+}
+
+// MARK: Delegate --------UIPICKER IMAGE - NAVIGATIONCONTROLLER--------
+extension SignUpStage2VC: UIImagePickerControllerDelegate, UINavigationControllerDelegate
+{
+    @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        if let editedImage = info[.editedImage] as? UIImage
+        {
+            self.userImage.image = editedImage
+        }
+        else
+        {
+            if let image = info[.originalImage] as? UIImage
+            {
+                self.userImage.image = image
+            }
+        }
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
     }
 }

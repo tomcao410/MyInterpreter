@@ -14,6 +14,7 @@ class User
     var motherLanguage: String
     var secondLanguage: String
     var email: String
+    var profileImageURL: String
     
     init()
     {
@@ -21,6 +22,18 @@ class User
         motherLanguage = ""
         secondLanguage = ""
         email = ""
+        profileImageURL = ""
+    }
+    
+    // MARK: profile image
+    func getProfileImageURL() -> String
+    {
+        return profileImageURL
+    }
+    
+    func setProfileImageURL(imageURL: String)
+    {
+        self.profileImageURL = imageURL
     }
     
     // MARK: name

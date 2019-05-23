@@ -30,7 +30,7 @@ class ListInterpretersVC: UIViewController {
     
     // MARK: Work place
     
-    // Get interpreter info from database
+    // MARK: ---Get interpreter info from database---
     private func getInterpreterInfo()
     {
         DispatchQueue.global(qos: .userInteractive).async {
@@ -49,8 +49,9 @@ class ListInterpretersVC: UIViewController {
                         let name = artistObject?["name"]
                         let motherLanguage = artistObject?["motherLanguage"]
                         let secondLanguage = artistObject?["secondLanguage"]
+                        let imageURL = artistObject?["profileImageURL"]
                         
-                        let artist = Interpreter(name: name as! String, motherLanguage: motherLanguage as! String, secondLanguage: secondLanguage as! String)
+                        let artist = Interpreter(name: name as! String, motherLanguage: motherLanguage as! String, secondLanguage: secondLanguage as! String, profileImageURL: imageURL as! String)
                         
                         self.interpreters.append(artist)
                         
@@ -62,6 +63,14 @@ class ListInterpretersVC: UIViewController {
                 }
             }
         }
+    }
+    
+    // MARK: --------ALERT--------
+    private func alertAction(title: String, message: String)
+    {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        self.present(alert, animated: true, completion: nil)
     }
 }
 
@@ -80,6 +89,17 @@ extension ListInterpretersVC: UITableViewDataSource, UITableViewDelegate
         // MARK: THREAD ERROR HERE!!!!
         cell.nameLbl.text = interpreters[indexPath.row].getName()
         cell.languagesLbl.text = interpreters[indexPath.row].getMotherLanguage() + " - " + interpreters[indexPath.row].getSecondLanguage()
+        
+        URLSession.shared.dataTask(with: URL(string: interpreters[indexPath.row].getProfileImageURL())!) { (data: Data?, resp: URLResponse?, error: Error?) in
+            if error != nil
+            {
+                self.alertAction(title: "Downloading profile image failed!", message: String(describing: error))
+                return
+            }
+            DispatchQueue.main.async {
+                cell.interpreterImage.image = UIImage(data: data!)
+            }
+        }.resume()
         
         return cell
     }
