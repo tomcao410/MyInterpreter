@@ -30,12 +30,6 @@ class PaymentVC: UIViewController {
     
     static var price: Int = 0
     
-//    let stripePublishableKey: String = "pk_test_vqdGYXtezAO1bXGVv4hhRNQ600N5jBAQll"
-//    let backendBaseURL: String = "https://sheltered-ocean-65585.herokuapp.com"
-//
-//    let paymentCurrency: String = "USD"
-
-    
     // MARK: Views
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,7 +60,7 @@ class PaymentVC: UIViewController {
         lblPricePerDay.textColor = .gray
     }
     
-    // For modal to pop in
+    // Effect for modal to pop in
     func animateIn()
     {
         visualEffectView.isHidden = false
@@ -82,7 +76,7 @@ class PaymentVC: UIViewController {
         }
     }
     
-    // For modal to pop out
+    // Effect for modal to pop out
     func animateOut()
     {
         UIView.animate(withDuration: 0.4, animations:
@@ -95,6 +89,11 @@ class PaymentVC: UIViewController {
             self.modalPaymentMethod.removeFromSuperview()
         }
         visualEffectView.isHidden = true
+    }
+    
+    private func confirmPayment()
+    {
+        
     }
     
     // MARK: --------KEYBOARD--------
@@ -145,10 +144,8 @@ class PaymentVC: UIViewController {
         {
             // MARKK: payment invoice processsing.... STRIPE!!!!!!!
             PaymentVC.price = Int((lblPrice.text! as NSString).floatValue * 100)
-            
-            let settingsVC = SettingsViewController()
-            let checkoutVC = CheckOutVC(product: "\(PaymentVC.price)", price: PaymentVC.price, settings: settingsVC.settings)
-            navigationController?.pushViewController(checkoutVC, animated: true)
+
+            performSegue(withIdentifier: "confirmPaymentSegue", sender: nil)
         }
     }
     
@@ -210,3 +207,5 @@ extension PaymentVC: UIPickerViewDelegate, UIPickerViewDataSource
         return pickerLabel!
     }
 }
+
+

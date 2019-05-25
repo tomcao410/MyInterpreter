@@ -562,6 +562,7 @@
                         <outlet property="pickerPaymentMethod" destination="anW-4N-EiO" id="zEA-g3-aPs"/>
                         <outlet property="txtFieldNumberOfDays" destination="vY3-24-eOb" id="PSP-Nl-u62"/>
                         <outlet property="visualEffectView" destination="UlW-kq-wYQ" id="tRm-Mv-0b2"/>
+                        <segue destination="cCi-af-cFv" kind="show" identifier="confirmPaymentSegue" id="joU-fE-SbA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zrB-L1-MX0" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -626,6 +627,140 @@ Price: $1.49 per day</string>
                 </view>
             </objects>
             <point key="canvasLocation" x="5244" y="-882.00899550224892"/>
+        </scene>
+        <!--Confirm PaymentVC-->
+        <scene sceneID="Jiz-vT-hr9">
+            <objects>
+                <viewController id="cCi-af-cFv" customClass="ConfirmPaymentVC" customModule="MyInterpreter" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="edB-1B-PPf">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="userIcon" translatesAutoresizingMaskIntoConstraints="NO" id="EUC-Bx-cU1">
+                                <rect key="frame" x="112.5" y="94" width="150" height="150"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="LmN-xZ-u1p"/>
+                                    <constraint firstAttribute="width" constant="150" id="dlD-cS-eyi"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="70"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nhf-fk-y1u">
+                                <rect key="frame" x="16" y="285" width="50" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="OHz-iN-hEJ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="price" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sy9-rA-1pr">
+                                <rect key="frame" x="116" y="285" width="243" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jfc-k2-aaO">
+                                <rect key="frame" x="16" y="254" width="343" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p5X-BM-SJx">
+                                <rect key="frame" x="16" y="356" width="343" height="120"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Credit-Card-Logos" translatesAutoresizingMaskIntoConstraints="NO" id="Rb0-2l-k0p">
+                                        <rect key="frame" x="43" y="0.0" width="256" height="29"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Card number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Vqs-5w-9ip">
+                                        <rect key="frame" x="0.0" y="45" width="343" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Expiry Date (MM/YY)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="J77-Ds-fwl">
+                                        <rect key="frame" x="0.0" y="83" width="271" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="CVC" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Jwi-Bx-kK0">
+                                        <rect key="frame" x="279" y="83" width="64" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="343" id="Mlj-Iy-v6j"/>
+                                    <constraint firstAttribute="height" constant="120" id="Vsi-Hd-CYE"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hxi-Yb-wYY">
+                                <rect key="frame" x="170" y="506" width="35" height="30"/>
+                                <state key="normal" title="Book"/>
+                                <connections>
+                                    <action selector="bookBtnClicked:" destination="cCi-af-cFv" eventType="touchUpInside" id="RDy-EP-DXB"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="EUC-Bx-cU1" firstAttribute="top" secondItem="WBN-9V-qLv" secondAttribute="top" constant="30" id="2r5-kv-kP2"/>
+                            <constraint firstItem="jfc-k2-aaO" firstAttribute="top" secondItem="EUC-Bx-cU1" secondAttribute="bottom" constant="10" id="6ux-vw-8lE"/>
+                            <constraint firstItem="Hxi-Yb-wYY" firstAttribute="top" secondItem="p5X-BM-SJx" secondAttribute="bottom" constant="30" id="73H-Zq-WXX"/>
+                            <constraint firstItem="nhf-fk-y1u" firstAttribute="top" secondItem="jfc-k2-aaO" secondAttribute="bottom" constant="10" id="9JZ-2K-mmA"/>
+                            <constraint firstItem="WBN-9V-qLv" firstAttribute="trailing" secondItem="jfc-k2-aaO" secondAttribute="trailing" constant="16" id="AiX-XF-3WY"/>
+                            <constraint firstItem="p5X-BM-SJx" firstAttribute="centerX" secondItem="edB-1B-PPf" secondAttribute="centerX" id="Kzg-Ok-8Hd"/>
+                            <constraint firstItem="WBN-9V-qLv" firstAttribute="trailing" secondItem="Sy9-rA-1pr" secondAttribute="trailing" constant="16" id="LWt-AB-DjF"/>
+                            <constraint firstItem="Sy9-rA-1pr" firstAttribute="top" secondItem="jfc-k2-aaO" secondAttribute="bottom" constant="10" id="Zfg-D1-VdP"/>
+                            <constraint firstItem="Hxi-Yb-wYY" firstAttribute="centerX" secondItem="edB-1B-PPf" secondAttribute="centerX" id="bI5-ca-7jB"/>
+                            <constraint firstItem="Sy9-rA-1pr" firstAttribute="leading" secondItem="nhf-fk-y1u" secondAttribute="trailing" constant="50" id="gBL-4O-PAf"/>
+                            <constraint firstItem="p5X-BM-SJx" firstAttribute="top" secondItem="nhf-fk-y1u" secondAttribute="bottom" constant="50" id="nk3-PN-dbs"/>
+                            <constraint firstItem="EUC-Bx-cU1" firstAttribute="centerX" secondItem="edB-1B-PPf" secondAttribute="centerX" id="uXp-7t-LmG"/>
+                            <constraint firstItem="jfc-k2-aaO" firstAttribute="centerX" secondItem="edB-1B-PPf" secondAttribute="centerX" id="w7R-PS-WOd"/>
+                            <constraint firstItem="nhf-fk-y1u" firstAttribute="leading" secondItem="WBN-9V-qLv" secondAttribute="leading" constant="16" id="yw7-Ms-000"/>
+                            <constraint firstItem="jfc-k2-aaO" firstAttribute="leading" secondItem="WBN-9V-qLv" secondAttribute="leading" constant="16" id="zcX-vk-V0P"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="WBN-9V-qLv"/>
+                    </view>
+                    <connections>
+                        <outlet property="cardNumberTxtFlield" destination="Vqs-5w-9ip" id="4vK-ua-ZeB"/>
+                        <outlet property="cvcTxtField" destination="Jwi-Bx-kK0" id="bqY-GE-WH1"/>
+                        <outlet property="expDateTxtField" destination="J77-Ds-fwl" id="Dwd-Ag-9yv"/>
+                        <outlet property="interpreterImage" destination="EUC-Bx-cU1" id="tnl-H2-ruU"/>
+                        <outlet property="nameLbl" destination="jfc-k2-aaO" id="dK4-dY-3FQ"/>
+                        <outlet property="priceLbl" destination="Sy9-rA-1pr" id="Q0H-3X-La9"/>
+                        <segue destination="k7P-0h-k7g" kind="show" identifier="messengerSegue" id="swn-Pe-bnL"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ipd-IV-WEk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6165.6000000000004" y="-882.00899550224892"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="hZK-gj-EsY">
+            <objects>
+                <viewController id="k7P-0h-k7g" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="UMQ-9M-JmE">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="LRI-SP-t3A"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="X2x-UL-UMT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="7002" y="-882"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Lik-AX-gMp">
@@ -759,6 +894,7 @@ Price: $1.49 per day</string>
         </scene>
     </scenes>
     <resources>
+        <image name="Credit-Card-Logos" width="2364" height="360"/>
         <image name="userIcon" width="48" height="48"/>
     </resources>
     <inferredMetricsTieBreakers>

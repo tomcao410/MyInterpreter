@@ -14,8 +14,11 @@ class ListInterpretersVC: UIViewController {
     // MARK: UI elements
     @IBOutlet weak var listInterpreters: UITableView!
     
+    // MARK: Parameters
     var totalInterpreters = Int()
     var interpreters = [Interpreter]()
+    
+    static var selectedInterpreter = Interpreter()
     
     // MARK: views
     override func viewDidLoad() {
@@ -46,12 +49,13 @@ class ListInterpretersVC: UIViewController {
                     {
                         let artistObject = artists.value as? [String: Any]
                         
+                        let email = artistObject?["email"]
                         let name = artistObject?["name"]
                         let motherLanguage = artistObject?["motherLanguage"]
                         let secondLanguage = artistObject?["secondLanguage"]
                         let imageURL = artistObject?["profileImageURL"]
                         
-                        let artist = Interpreter(name: name as! String, motherLanguage: motherLanguage as! String, secondLanguage: secondLanguage as! String, profileImageURL: imageURL as! String)
+                        let artist = Interpreter(email: email as! String, name: name as! String, motherLanguage: motherLanguage as! String, secondLanguage: secondLanguage as! String, profileImageURL: imageURL as! String)
                         
                         self.interpreters.append(artist)
                         
@@ -90,21 +94,21 @@ extension ListInterpretersVC: UITableViewDataSource, UITableViewDelegate
         cell.nameLbl.text = interpreters[indexPath.row].getName()
         cell.languagesLbl.text = interpreters[indexPath.row].getMotherLanguage() + " - " + interpreters[indexPath.row].getSecondLanguage()
         
-        URLSession.shared.dataTask(with: URL(string: interpreters[indexPath.row].getProfileImageURL())!) { (data: Data?, resp: URLResponse?, error: Error?) in
-            if error != nil
+        DispatchQueue.global().async
             {
-                self.alertAction(title: "Downloading profile image failed!", message: String(describing: error))
-                return
-            }
-            DispatchQueue.main.async {
-                cell.interpreterImage.image = UIImage(data: data!)
-            }
-        }.resume()
+                let url = URL(string: self.interpreters[indexPath.row].getProfileImageURL())
+                let data = NSData(contentsOf: url!)
+                DispatchQueue.main.async
+                    {
+                        cell.interpreterImage.image = UIImage(data: data! as Data)
+                }
+        }
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        ListInterpretersVC.selectedInterpreter = interpreters[indexPath.row]
         performSegue(withIdentifier: "paymentSegue", sender: nil)
     }
 }
