@@ -13,10 +13,12 @@ class SignInInterpreterVC: UIViewController
 {
 
     // MARK: UI elements
-    @IBOutlet weak var idField: UITextField!
+    @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var lblError: UILabel!
     
+    
+    var ref: DatabaseReference!
     
     // MARK: views
     override func viewDidLoad()
@@ -27,7 +29,7 @@ class SignInInterpreterVC: UIViewController
         
         lblError.isHidden = true
         
-        idField.delegate = self
+        emailField.delegate = self
         passwordField.delegate = self
     }
     
@@ -49,7 +51,7 @@ class SignInInterpreterVC: UIViewController
     @IBAction func handleLogIn(_ sender: UIButton)
     {
         
-        guard let id = idField.text else
+        guard let email = emailField.text else
         {
             return
         }
@@ -58,10 +60,31 @@ class SignInInterpreterVC: UIViewController
             return
         }
         
-        Auth.auth().signIn(withEmail: id, password: pass) { (user: AuthDataResult?, error: Error?) in
+        Auth.auth().signIn(withEmail: email, password: pass) { (user: AuthDataResult?, error: Error?) in
             if user != nil
             {
-                self.performSegue(withIdentifier: "interpreterLogInSegue", sender: self)
+                let clientsController = ClientsController()
+                clientsController.interpreterEmail = email
+                
+                self.ref = Database.database().reference()
+                
+                self.ref.child("bookings").observe(.value, with: { (snapshot) in
+                    
+                    let enumerator = snapshot.children
+                    while let rest = enumerator.nextObject() as? DataSnapshot {
+                        if let dataChange = rest.value as? [String:AnyObject] {
+                            if ((dataChange["interpreter"] as! String) == email) {
+                                clientsController.usersEmail.append(dataChange["user"] as! String)
+                                print(dataChange["user"] as! String)
+                            }
+                        }
+                    }
+                    
+                    self.navigationController?.pushViewController(clientsController, animated: true)
+                    
+                }) { (error) in
+                    print(error.localizedDescription)
+                }
             }
             else
             {
@@ -70,8 +93,6 @@ class SignInInterpreterVC: UIViewController
             }
         }
     }
-    
-
 }
 
 // MARK: --------TEXT FIELD--------
@@ -80,8 +101,8 @@ extension SignInInterpreterVC: UITextFieldDelegate
     func textFieldShouldReturn(_ textField: UITextField) -> Bool
     {
         switch textField {
-        case idField:
-            idField.resignFirstResponder()
+        case emailField:
+            emailField.resignFirstResponder()
             passwordField.becomeFirstResponder()
             break
         case passwordField:
@@ -91,5 +112,11 @@ extension SignInInterpreterVC: UITextFieldDelegate
             break
         }
         return true
+    }
+}
+
+extension String {
+    func cutGmailTail() -> String {
+        return self.replacingOccurrences(of: "@gmail.com", with: "")
     }
 }
