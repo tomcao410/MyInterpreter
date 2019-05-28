@@ -569,44 +569,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-<<<<<<< HEAD
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Credit-Card-Logos" translatesAutoresizingMaskIntoConstraints="NO" id="dOZ-d9-SEa">
-                                <rect key="frame" x="62.5" y="332" width="250" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="oWy-r5-ng1"/>
-                                    <constraint firstAttribute="width" constant="250" id="vO3-af-amz"/>
-                                </constraints>
-                            </imageView>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name on card" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Haa-Rp-RQe">
-                                <rect key="frame" x="16" y="392" width="343" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="rQu-Z5-r12"/>
-                                </constraints>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Card number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VOP-LN-e0r">
-                                <rect key="frame" x="16" y="452" width="200" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="4Fm-5b-IT1"/>
-                                    <constraint firstAttribute="height" constant="40" id="yf4-F7-LWD"/>
-                                </constraints>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Expiry date (MM/YY)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YoK-2Y-h0k">
-                                <rect key="frame" x="226" y="452" width="133" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="2Av-gD-9XE"/>
-                                </constraints>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-=======
->>>>>>> Tom
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="acT-PU-Ing">
                                 <rect key="frame" x="171.5" y="402" width="32" height="30"/>
                                 <state key="normal" title="Next"/>
