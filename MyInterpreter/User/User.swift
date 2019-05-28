@@ -14,6 +14,7 @@ class User
     var motherLanguage: String
     var secondLanguage: String
     var email: String
+    var profileImageURL: String
     
     init()
     {
@@ -21,6 +22,27 @@ class User
         motherLanguage = ""
         secondLanguage = ""
         email = ""
+        profileImageURL = ""
+    }
+    
+    init(email: String, name: String, motherLanguage: String, secondLanguage: String, profileImageURL: String)
+    {
+        self.email = email
+        self.name = name
+        self.motherLanguage = motherLanguage
+        self.secondLanguage = secondLanguage
+        self.profileImageURL = profileImageURL
+    }
+    
+    // MARK: profile image
+    func getProfileImageURL() -> String
+    {
+        return profileImageURL
+    }
+    
+    func setProfileImageURL(imageURL: String)
+    {
+        self.profileImageURL = imageURL
     }
     
     // MARK: name
@@ -64,7 +86,17 @@ class User
     
     func getEncodedEmail() -> String
     {
-        return email.replacingOccurrences(of: "@gmail.com", with: "")
+        var result = ""
+        
+        result = email.replacingOccurrences(of: "@", with: "-")
+        
+        if let index = result.range(of: ".")?.lowerBound
+        {
+            let substring = result[..<index]
+            result = String(substring)
+        }
+        
+        return result
     }
     
     func setEmail(email: String)

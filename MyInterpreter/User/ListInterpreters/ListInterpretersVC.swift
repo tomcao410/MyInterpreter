@@ -12,10 +12,13 @@ import Firebase
 class ListInterpretersVC: UIViewController {
 
     // MARK: UI elements
-    @IBOutlet weak var listInterpreters: UITableView!
+    @IBOutlet weak var listInterpretersTableView: UITableView!
     
+    // MARK: Parameters
     var totalInterpreters = Int()
-    var interpreters = [Interpreter]()
+    var listInterpreters = [Interpreter]()
+    
+    static var selectedInterpreter = Interpreter()
     
     // MARK: views
     override func viewDidLoad() {
@@ -24,13 +27,13 @@ class ListInterpretersVC: UIViewController {
         // Get total interpreters from database
         getInterpreterInfo()
         
-        listInterpreters.delegate = self
-        listInterpreters.dataSource = self
+        listInterpretersTableView.delegate = self
+        listInterpretersTableView.dataSource = self
     }
     
     // MARK: Work place
     
-    // Get interpreter info from database
+    // MARK: ---Get interpreter info from database---
     private func getInterpreterInfo()
     {
         DispatchQueue.global(qos: .userInteractive).async {
@@ -39,28 +42,43 @@ class ListInterpretersVC: UIViewController {
             ref.observe(.value) { (snapshot: DataSnapshot) in
                 if snapshot.childrenCount > 0
                 {
-                    self.interpreters.removeAll()
+                    self.listInterpreters.removeAll()
                     self.totalInterpreters = Int(snapshot.childrenCount)
+                    
+                    DispatchQueue.main.async {
+                        self.listInterpretersTableView.reloadData()
+                    }
                     
                     for artists in snapshot.children.allObjects as![DataSnapshot]
                     {
                         let artistObject = artists.value as? [String: Any]
                         
+                        let email = artistObject?["email"]
                         let name = artistObject?["name"]
                         let motherLanguage = artistObject?["motherLanguage"]
                         let secondLanguage = artistObject?["secondLanguage"]
+                        let imageURL = artistObject?["profileImageURL"]
                         
-                        let artist = Interpreter(name: name as! String, motherLanguage: motherLanguage as! String, secondLanguage: secondLanguage as! String)
+                        let artist = Interpreter(email: email as! String, name: name as! String, motherLanguage: motherLanguage as! String, secondLanguage: secondLanguage as! String, profileImageURL: imageURL as! String)
                         
-                        self.interpreters.append(artist)
+                        self.listInterpreters.append(artist)
+                        
+                        DispatchQueue.main.async {
+                            self.listInterpretersTableView.reloadData()
+                        }
                     }
                     
-                    DispatchQueue.main.async {
-                        self.listInterpreters.reloadData()
-                    }
                 }
             }
         }
+    }
+    
+    // MARK: --------ALERT--------
+    private func alertAction(title: String, message: String)
+    {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        self.present(alert, animated: true, completion: nil)
     }
 }
 
@@ -77,13 +95,24 @@ extension ListInterpretersVC: UITableViewDataSource, UITableViewDelegate
         let cell = tableView.dequeueReusableCell(withIdentifier: "interpreterCell") as! ListInterpretersCell
 
         // MARK: THREAD ERROR HERE!!!!
-        cell.nameLbl.text = interpreters[indexPath.row].getName()
-        cell.languagesLbl.text = interpreters[indexPath.row].getMotherLanguage() + " - " + interpreters[indexPath.row].getSecondLanguage()
+        cell.nameLbl.text = listInterpreters[indexPath.row].getName()
+        cell.languagesLbl.text = listInterpreters[indexPath.row].getMotherLanguage() + " - " + listInterpreters[indexPath.row].getSecondLanguage()
+        
+        DispatchQueue.global().async
+            {
+                let url = URL(string: self.listInterpreters[indexPath.row].getProfileImageURL())
+                let data = NSData(contentsOf: url!)
+                DispatchQueue.main.async
+                    {
+                        cell.interpreterImage.image = UIImage(data: data! as Data)
+                }
+        }
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        ListInterpretersVC.selectedInterpreter = listInterpreters[indexPath.row]
         performSegue(withIdentifier: "paymentSegue", sender: nil)
     }
 }

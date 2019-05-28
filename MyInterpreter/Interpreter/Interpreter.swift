@@ -10,22 +10,50 @@ import Foundation
 
 class Interpreter
 {
+    var email: String
     var name: String
     var motherLanguage: String
     var secondLanguage: String
+    var profileImageURL: String
     
     init()
     {
+        email = ""
         name = ""
         motherLanguage = ""
         secondLanguage = ""
+        profileImageURL = ""
     }
     
-    init(name: String, motherLanguage: String, secondLanguage: String)
+    init(email: String, name: String, motherLanguage: String, secondLanguage: String, profileImageURL: String)
     {
+        self.email = email
         self.name = name
         self.motherLanguage = motherLanguage
         self.secondLanguage = secondLanguage
+        self.profileImageURL = profileImageURL
+    }
+    
+    // MARK: email
+    func getEmail() -> String
+    {
+        return email
+    }
+    
+    func setEmail(email: String)
+    {
+        self.email = email
+    }
+    
+    // MARK: profile image
+    func getProfileImageURL() -> String
+    {
+        return profileImageURL
+    }
+    
+    func setProfileImageURL(imageURL: String)
+    {
+        self.profileImageURL = imageURL
     }
     
     // MARK: name
