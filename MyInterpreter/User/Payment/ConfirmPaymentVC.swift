@@ -9,7 +9,7 @@
 import UIKit
 import Stripe
 import Alamofire
-import FirebaseAuth
+import Firebase
 
 class ConfirmPaymentVC: UIViewController {
 
@@ -44,8 +44,12 @@ class ConfirmPaymentVC: UIViewController {
     
     private func setUI()
     {
+        hideKeyboard()
         nameLbl.text = ListInterpretersVC.selectedInterpreter.getName()
         priceLbl.text = "$\(Float(PaymentVC.price) / 100)"
+        
+        expDateTxtField.delegate = self
+        cvcTxtField.delegate = self
         
         DispatchQueue.global().async
             {
@@ -58,20 +62,26 @@ class ConfirmPaymentVC: UIViewController {
         }
         
         cardNumberTxtFlield.addTarget(self, action: #selector(reformatAsCardNumber), for: .editingChanged)
-        //expDateTxtField.addTarget(self, action: #selector(reformatAsExpiryDate), for: .editingChanged)
     }
     
-   
+    private func emailEncoded(email: String) -> String
+    {
+        return email.replacingOccurrences(of: "@gmail.com", with: "")
+    }
+    
+    // MARK: --------KEYBOARD--------
+    func hideKeyboard()
+    {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector (dissmissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dissmissKeyboard()
+    {
+        view.endEditing(true)
+    }
     
     // MARK: ---Text Field UI---
-    @objc func reformatAsExpiryDate(textField: UITextField)
-    {
-        if textField.text?.count == 2
-        {
-            textField.text? += "/"
-        }
-    }
-    
     @objc func reformatAsCardNumber(textField: UITextField) {
         var targetCursorPosition = 0
         if let startPosition = textField.selectedTextRange?.start {
@@ -196,7 +206,12 @@ class ConfirmPaymentVC: UIViewController {
                 if (code == 1)
                 {
                     // Do something
+                    let databaseRef = Database.database().reference()
                     
+                    // Update users booking status (default: "interpreter0" - means the user hasn't booked anyone yet)
+                    databaseRef.child("users/\(self.emailEncoded(email: (Auth.auth().currentUser?.email)!))/booking").setValue("\(self.emailEncoded(email: ListInterpretersVC.selectedInterpreter.getEmail()))")
+                    
+                    self.performSegue(withIdentifier: "userDashboardSegue", sender: nil)
                 }
                 else
                 {
@@ -210,6 +225,7 @@ class ConfirmPaymentVC: UIViewController {
     private func alertAction(title: String, message: String)
     {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
     }
 }
@@ -219,6 +235,46 @@ class ConfirmPaymentVC: UIViewController {
 extension ConfirmPaymentVC: UITextFieldDelegate
 {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        if textField == expDateTxtField
+        {
+            if string == "" {
+                return true
+            }
+            
+            let currentText = textField.text! as NSString
+            let updatedText = currentText.replacingCharacters(in: range, with: string)
+            
+            textField.text = updatedText
+            let numberOfCharacters = updatedText.count
+            if numberOfCharacters == 2 {
+                textField.text?.append("/")
+            }
+            if numberOfCharacters > 5
+            {
+                textField.text?.removeLast()
+            }
+            return false
+        }
+        if textField == cvcTxtField
+        {
+            if string == "" {
+                return true
+            }
+            
+            let currentText = textField.text! as NSString
+            let updatedText = currentText.replacingCharacters(in: range, with: string)
+            
+            textField.text = updatedText
+            let numberOfCharacters = updatedText.count
+            
+            if numberOfCharacters > 3
+            {
+                textField.text?.removeLast()
+            }
+            return false
+        }
+        
         previousTextFieldContent = textField.text;
         previousSelection = textField.selectedTextRange;
         return true
