@@ -16,7 +16,7 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
     let tableView = UITableView()
     private let cellID = "cellID"
     
-    var usersEmail: [String] = []
+    var usersId: [String] = []
     var interpreterEmail: String = ""
     
     override func viewDidLoad() {
@@ -48,12 +48,12 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return usersEmail.count
+        return usersId.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! MessageCell
-        cell.userEmail = usersEmail[indexPath.row]
+        cell.userId = usersId[indexPath.row]
         return cell
     }
     
@@ -64,14 +64,15 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let controller = ChatLogController()
         controller.interpreterEmail = interpreterEmail
-        controller.userEmail = usersEmail[indexPath.row]
+        controller.userId = usersId[indexPath.row]
         
-        Database.database().reference().child("messages").queryOrdered(byChild: "user").queryEqual(toValue: usersEmail[indexPath.row]).observe(.value) { (snapshot) in
+        Database.database().reference().child("messages").queryOrdered(byChild: "user").queryEqual(toValue: usersId[indexPath.row]).observe(.value) { (snapshot) in
             if let messages = snapshot.value as? NSDictionary {
                 let keyEnumulator = messages.keyEnumerator()
                 while let key = keyEnumulator.nextObject() {
                     let message = messages.value(forKey: key as! String) as? NSDictionary
-                    if (message?.value(forKey: "interpreter") as! String == self.interpreterEmail) {
+                    let encodedEmail = self.interpreterEmail.getEncodedEmail()
+                    if (message?.value(forKey: "interpreter") as! String == encodedEmail) {
                         controller.messages.append(Message(sender: message?.value(forKey: "sender") as! String, text: message?.value(forKey: "text") as! String, user: message?.value(forKey: "user") as! String, interpreter: message?.value(forKey: "interpreter") as! String, time: message?.value(forKey: "time") as! String))
                     }
                 }
@@ -101,24 +102,24 @@ class MessageCell: BaseCell {
         }
     }
     
-    var userEmail: String? {
+    var userId: String? {
         didSet {
             //get user from database
-            Database.database().reference().child("users").queryOrdered(byChild: "email").queryEqual(toValue: self.userEmail).observeSingleEvent(of: .value, with: { (snapshot) in
+            Database.database().reference().child("users").child(self.userId!).observeSingleEvent(of: .value, with: { (snapshot) in
                 if let dataChange = snapshot.value as? NSDictionary {
-                    let enumelator = dataChange.keyEnumerator()
-                    while let key = enumelator.nextObject() {
-                        let info = dataChange.value(forKey: key as! String) as! NSDictionary
-                        let user = User(email: info.value(forKey: "email") as! String, name: info.value(forKey: "name") as! String, motherLanguage: info.value(forKey: "motherLanguage") as! String, secondLanguage: info.value(forKey: "secondLanguage") as! String, profileImageURL: info.value(forKey: "profileImageURL") as! String, booking:  info.value(forKey: "booking") as! String)
-                        self.nameLabel.text = user.getName()
-                        DispatchQueue.global().async {
-                            let imageURL = URL(string: user.profileImageURL)
-                            let data = NSData(contentsOf: imageURL!)
-                            DispatchQueue.main.async {
-                                self.profileImageView.image = UIImage(data: data! as Data)
-                                self.seenImage.image = UIImage(data: data! as Data)
+                    let user = User(email: dataChange.value(forKey: "email") as! String, name: dataChange.value(forKey: "name") as! String, motherLanguage: dataChange.value(forKey: "motherLanguage") as! String, secondLanguage: dataChange.value(forKey: "secondLanguage") as! String, profileImageURL: dataChange.value(forKey: "profileImageURL") as! String, booking:  dataChange.value(forKey: "booking") as! String)
+                    self.nameLabel.text = user.getName()
+                    DispatchQueue.global().async {
+                        let imageURL = URL(string: user.profileImageURL)
+                        let data = NSData(contentsOf: imageURL!)
+                        DispatchQueue.main.async {
+                            guard let data = data else {
+                                return
                             }
+                            self.profileImageView.image = UIImage(data: data as Data)
+                            self.seenImage.image = UIImage(data: data as Data)
                         }
+                        
                     }
                 }
             })

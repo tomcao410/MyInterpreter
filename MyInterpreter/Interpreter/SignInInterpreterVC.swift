@@ -73,8 +73,9 @@ class SignInInterpreterVC: UIViewController
                     let enumerator = snapshot.children
                     while let rest = enumerator.nextObject() as? DataSnapshot {
                         if let dataChange = rest.value as? [String:AnyObject] {
-                            if ((dataChange["interpreter"] as! String) == email) {
-                                clientsController.usersEmail.append(dataChange["user"] as! String)
+                            let encodedEmail = email.getEncodedEmail()
+                            if ((dataChange["interpreter"] as! String) == encodedEmail) {
+                                clientsController.usersId.append(dataChange["user"] as! String)
                                 print(dataChange["user"] as! String)
                             }
                         }
@@ -112,11 +113,5 @@ extension SignInInterpreterVC: UITextFieldDelegate
             break
         }
         return true
-    }
-}
-
-extension String {
-    func cutGmailTail() -> String {
-        return self.replacingOccurrences(of: "@gmail.com", with: "")
     }
 }
