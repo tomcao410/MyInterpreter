@@ -15,7 +15,6 @@ class Interpreter
     var motherLanguage: String
     var secondLanguage: String
     var profileImageURL: String
-    
     init()
     {
         email = ""

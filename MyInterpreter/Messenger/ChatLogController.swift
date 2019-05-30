@@ -27,7 +27,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
                 let enumulator = dataChange.keyEnumerator()
                 while let key = enumulator.nextObject() {
                     let info = dataChange.value(forKey: key as! String) as! NSDictionary
-                    let user = User(name: info.value(forKey: "name") as! String, motherLanguage: info.value(forKey: "motherLanguage") as! String, secondLanguage: info.value(forKey: "secondLanguage") as! String, email: info.value(forKey: "email") as! String, booking: info.value(forKey: "booking") as! String, profileImageURL: info.value(forKey: "profileImageURL") as! String)
+                    let user = User(email: info.value(forKey: "email") as! String, name: info.value(forKey: "name") as! String, motherLanguage: info.value(forKey: "motherLanguage") as! String, secondLanguage: info.value(forKey: "secondLanguage") as! String, profileImageURL: info.value(forKey: "profileImageURL") as! String, booking: info.value(forKey: "booking") as! String)
                     let imageURL = URL(string: user.profileImageURL)
                     do {
                         let imageData = try Data(contentsOf: imageURL!)
