@@ -15,6 +15,7 @@ class User
     var secondLanguage: String
     var email: String
     var profileImageURL: String
+    var booking: String
     
     init()
     {
@@ -23,15 +24,17 @@ class User
         secondLanguage = ""
         email = ""
         profileImageURL = ""
+        booking = ""
     }
     
-    init(email: String, name: String, motherLanguage: String, secondLanguage: String, profileImageURL: String)
+    init(email: String, name: String, motherLanguage: String, secondLanguage: String, profileImageURL: String, booking: String)
     {
         self.email = email
         self.name = name
         self.motherLanguage = motherLanguage
         self.secondLanguage = secondLanguage
         self.profileImageURL = profileImageURL
+        self.booking = booking
     }
     
     // MARK: profile image
@@ -104,3 +107,19 @@ class User
         self.email = email
     }
 }
+
+extension String {
+    func getEncodedEmail() -> String {
+        var result = ""
+        
+        result = self.replacingOccurrences(of: "@", with: "-")
+        
+        if let index = result.range(of: ".")?.lowerBound
+        {
+            let substring = result[..<index]
+            result = String(substring)
+        }
+        
+        return result
+        }
+    }

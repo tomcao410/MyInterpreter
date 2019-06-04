@@ -27,11 +27,25 @@ class ListInterpretersVC: UIViewController {
         // Get total interpreters from database
         getInterpreterInfo()
         
+        setUI()
+
+    }
+    
+    // MARK: Work place
+    private func setUI()
+    {
+        let userButton = UIBarButtonItem(image: #imageLiteral(resourceName: "userIcon"), style: .plain, target: self, action: #selector(userButtonClicked))
+        
+        navigationItem.rightBarButtonItem = userButton
+        
         listInterpretersTableView.delegate = self
         listInterpretersTableView.dataSource = self
     }
     
-    // MARK: Work place
+    @objc func userButtonClicked()
+    {
+        performSegue(withIdentifier: "userInfoSegue", sender: nil)
+    }
     
     // MARK: ---Get interpreter info from database---
     private func getInterpreterInfo()

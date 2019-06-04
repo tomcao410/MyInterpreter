@@ -46,7 +46,7 @@ class ListUsersVC: UIViewController {
                             let motherLanguage = artistObject?["motherLanguage"]
                             let secondLanguage = artistObject?["secondLanguage"]
                             let imageURL = artistObject?["profileImageURL"]
-                            let artist = User(email: email as! String, name: name as! String, motherLanguage: motherLanguage as! String, secondLanguage: secondLanguage as! String, profileImageURL: imageURL as! String)
+                            let artist = User(email: email as! String, name: name as! String, motherLanguage: motherLanguage as! String, secondLanguage: secondLanguage as! String, profileImageURL: imageURL as! String, booking: booking)
                             
                             self.listUsers.append(artist)
                             

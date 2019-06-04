@@ -10,11 +10,24 @@ import UIKit
 
 class UserDashboardVC: UIViewController {
 
+    
+    // MARK: Views
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "userIcon"), style: .plain, target: self, action: nil)
+        setUI()
     }
     
+    // MARK: Work place
+    private func setUI()
+    {
+        let userButton = UIBarButtonItem(image: #imageLiteral(resourceName: "userIcon"), style: .plain, target: self, action: #selector(userButtonClicked))
+        
+        navigationItem.rightBarButtonItem = userButton
+    }
     
+    @objc func userButtonClicked()
+    {
+        performSegue(withIdentifier: "userInfoSegue", sender: nil)
+    }
 }
