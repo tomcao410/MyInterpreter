@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		361BCCCF5037E6A34EC9347E /* Pods_MyInterpreter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D82D9072DBB8F4749C58B0C0 /* Pods_MyInterpreter.framework */; };
 		5405E2432247ECB2001FF399 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5405E2422247ECB2001FF399 /* GoogleService-Info.plist */; };
+		5438759A229D28CD008799C4 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54387596229D28CD008799C4 /* Message.swift */; };
+		5438759B229D28CD008799C4 /* ChatLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54387597229D28CD008799C4 /* ChatLogController.swift */; };
+		5438759C229D28CD008799C4 /* ClientsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54387598229D28CD008799C4 /* ClientsController.swift */; };
 		543EF3F6224E7B79009CEAE6 /* SignUpStage2VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543EF3F5224E7B79009CEAE6 /* SignUpStage2VC.swift */; };
 		5466FEE1225255A10071B8FE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5466FEE0225255A10071B8FE /* User.swift */; };
 		548ABB922297D18300A7D9C4 /* ConfirmPaymentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548ABB912297D18300A7D9C4 /* ConfirmPaymentVC.swift */; };
@@ -52,6 +55,9 @@
 /* Begin PBXFileReference section */
 		41CE53F0620311A249F4CAF0 /* Pods-MyInterpreter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyInterpreter.release.xcconfig"; path = "Target Support Files/Pods-MyInterpreter/Pods-MyInterpreter.release.xcconfig"; sourceTree = "<group>"; };
 		5405E2422247ECB2001FF399 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		54387596229D28CD008799C4 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		54387597229D28CD008799C4 /* ChatLogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatLogController.swift; sourceTree = "<group>"; };
+		54387598229D28CD008799C4 /* ClientsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientsController.swift; sourceTree = "<group>"; };
 		543EF3F5224E7B79009CEAE6 /* SignUpStage2VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpStage2VC.swift; sourceTree = "<group>"; };
 		5466FEE0225255A10071B8FE /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		548ABB912297D18300A7D9C4 /* ConfirmPaymentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPaymentVC.swift; sourceTree = "<group>"; };
@@ -109,6 +115,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		54387594229D28CD008799C4 /* Messenger */ = {
+			isa = PBXGroup;
+			children = (
+				54387596229D28CD008799C4 /* Message.swift */,
+				54387597229D28CD008799C4 /* ChatLogController.swift */,
+				54387598229D28CD008799C4 /* ClientsController.swift */,
+			);
+			path = Messenger;
+			sourceTree = "<group>";
+		};
 		54B59CB0224E27120026814A /* Interpreter */ = {
 			isa = PBXGroup;
 			children = (
@@ -178,6 +194,7 @@
 			children = (
 				54E6B5392245E81B000F82D8 /* AppDelegate.swift */,
 				54E6B53B2245E81B000F82D8 /* MainVC.swift */,
+				54387594229D28CD008799C4 /* Messenger */,
 				54B59CB1224E27A20026814A /* User */,
 				54B59CB0224E27120026814A /* Interpreter */,
 				54E6B53D2245E81B000F82D8 /* Main.storyboard */,
@@ -425,12 +442,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5438759B229D28CD008799C4 /* ChatLogController.swift in Sources */,
 				548ABB922297D18300A7D9C4 /* ConfirmPaymentVC.swift in Sources */,
 				54C719E92270C24B001B2BFF /* ListInterpretersCell.swift in Sources */,
 				54DBEA7A228802CB00672238 /* PaymentVC.swift in Sources */,
+				5438759A229D28CD008799C4 /* Message.swift in Sources */,
 				54B59CAF224E26FC0026814A /* SignInInterpreterVC.swift in Sources */,
 				543EF3F6224E7B79009CEAE6 /* SignUpStage2VC.swift in Sources */,
 				54E6B5422245E81B000F82D8 /* MyInterpreter.xcdatamodeld in Sources */,
+				5438759C229D28CD008799C4 /* ClientsController.swift in Sources */,
 				54E4BAA5229A71410011C7D0 /* ListUsersVC.swift in Sources */,
 				54E6B53C2245E81B000F82D8 /* MainVC.swift in Sources */,
 				54B779382273618F001A53B7 /* Interpreter.swift in Sources */,

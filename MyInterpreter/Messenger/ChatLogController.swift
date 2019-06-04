@@ -27,7 +27,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
                 let enumulator = dataChange.keyEnumerator()
                 while let key = enumulator.nextObject() {
                     let info = dataChange.value(forKey: key as! String) as! NSDictionary
-                    let user = User(name: info.value(forKey: "name") as! String, motherLanguage: info.value(forKey: "motherLanguage") as! String, secondLanguage: info.value(forKey: "secondLanguage") as! String, email: info.value(forKey: "email") as! String, booking: info.value(forKey: "booking") as! String, profileImageURL: info.value(forKey: "profileImageURL") as! String)
+                    let user = User(email: info.value(forKey: "email") as! String, name: info.value(forKey: "name") as! String, motherLanguage: info.value(forKey: "motherLanguage") as! String, secondLanguage: info.value(forKey: "secondLanguage") as! String, profileImageURL: info.value(forKey: "profileImageURL") as! String)
                     let imageURL = URL(string: user.profileImageURL)
                     do {
                         let imageData = try Data(contentsOf: imageURL!)
@@ -74,14 +74,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
 
     private let cellID = "cellID"
     let tableView = UITableView()
-//    var friend: Friend? {
-//        didSet{
-//            navigationItem.title = friend?.name
-//
-//            messages = friend?.messages?.allObjects as? [Message]
-//            messages = messages?.sorted(by: {$0.date!.compare($1.date! as Date) == .orderedAscending})
-//        }
-//    }
+
 
     let messageInputContainerView: UIView = {
         let view = UIView()
@@ -175,29 +168,11 @@ class ChatLogMessageCell: BaseCell {
         return textView
     }()
 
-//    let imageBubbleView: UIImageView = {
-//        let bubbleView = UIImageView()
-//        bubbleView.image = UIImage(named: "bubble1")?.resizableImage(withCapInsets: UIEdgeInsets(top: 20, left: 25, bottom: 23, right: 42)).withRenderingMode(.alwaysTemplate)
-//        //bubbleView.tintColor = UIColor(white: 0.95, alpha: 1)
-//        return bubbleView
-//    }()
-
     override func setupViews() {
         super.setupViews()
         addSubview(textBubbleView)
         addSubview(messageTextView)
-//        messageTextView.translatesAutoresizingMaskIntoConstraints = false
-//        textBubbleView.translatesAutoresizingMaskIntoConstraints = false
-//
-//        textBubbleView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-//        textBubbleView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-//        textBubbleView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 2/3).isActive = true
-//        textBubbleView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 1, constant: -20).isActive = true
-//
-//        messageTextView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-//        messageTextView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-//        messageTextView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 2/3).isActive = true
-//        messageTextView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 1, constant: -20).isActive = true
+        
         addSubview(profileImageView)
         profileImageView.backgroundColor = #colorLiteral(red: 0.1921568662, green: 0.007843137719, blue: 0.09019608051, alpha: 1)
 
@@ -207,12 +182,6 @@ class ChatLogMessageCell: BaseCell {
         profileImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
         profileImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
 
-//        textBubbleView.addSubview(imageBubbleView)
-//        imageBubbleView.translatesAutoresizingMaskIntoConstraints = false
-//        imageBubbleView.widthAnchor.constraint(equalTo: textBubbleView.widthAnchor, multiplier: 1).isActive = true
-//        imageBubbleView.heightAnchor.constraint(equalTo: textBubbleView.heightAnchor, multiplier: 1).isActive = true
-//        imageBubbleView.centerXAnchor.constraint(equalToSystemSpacingAfter: textBubbleView.centerXAnchor, multiplier: 1).isActive = true
-//        imageBubbleView.centerYAnchor.constraint(equalToSystemSpacingBelow: textBubbleView.centerYAnchor, multiplier: 1).isActive = true
     }
 }
 

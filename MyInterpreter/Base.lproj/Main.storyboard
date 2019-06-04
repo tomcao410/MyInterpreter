@@ -120,7 +120,7 @@
                         <viewLayoutGuide key="safeArea" id="1TS-NY-vAy"/>
                     </view>
                     <connections>
-                        <outlet property="idField" destination="JyX-eB-ayO" id="V8R-Au-hvz"/>
+                        <outlet property="emailField" destination="JyX-eB-ayO" id="J3x-SS-5WL"/>
                         <outlet property="lblError" destination="Dbx-Vg-cRh" id="5y2-Qu-v9C"/>
                         <outlet property="passwordField" destination="mPy-eT-VSy" id="Tsn-cX-Wmz"/>
                         <segue destination="6EV-RK-V9e" kind="show" identifier="interpreterLogInSegue" id="ImP-VB-dGY"/>
@@ -961,7 +961,7 @@ Price: $1.49 per day</string>
     </scenes>
     <resources>
         <image name="Credit-Card-Logos" width="2364" height="360"/>
-        <image name="userIcon" width="16" height="16"/>
+        <image name="userIcon" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="HIX-ul-aOt"/>

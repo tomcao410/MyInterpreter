@@ -38,7 +38,7 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
             tableView.bottomAnchor.constraint(equalTo: guide.bottomAnchor).isActive = true
         }
         tableView.register(MessageCell.self, forCellReuseIdentifier: cellID)
-//        setupData()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -109,7 +109,7 @@ class MessageCell: BaseCell {
                     let enumelator = dataChange.keyEnumerator()
                     while let key = enumelator.nextObject() {
                         let info = dataChange.value(forKey: key as! String) as! NSDictionary
-                        let user = User(name: info.value(forKey: "name") as! String, motherLanguage: info.value(forKey: "motherLanguage") as! String, secondLanguage: info.value(forKey: "secondLanguage") as! String, email: info.value(forKey: "email") as! String, booking: info.value(forKey: "booking") as! String, profileImageURL: info.value(forKey: "profileImageURL") as! String)
+                        let user = User(email: info.value(forKey: "email") as! String, name: info.value(forKey: "name") as! String, motherLanguage: info.value(forKey: "motherLanguage") as! String, secondLanguage: info.value(forKey: "secondLanguage") as! String, profileImageURL: info.value(forKey: "profileImageURL") as! String)
                         self.nameLabel.text = user.getName()
                         DispatchQueue.global().async {
                             let imageURL = URL(string: user.profileImageURL)
@@ -127,35 +127,6 @@ class MessageCell: BaseCell {
         }
     }
     
-//    var message: Message? {
-//        didSet {
-//            nameLabel.text = self.message?.friend?.name
-//            if let imageName = self.message?.friend?.profileImageName {
-//                profileImageView.image = UIImage(named: imageName)
-//                seenImage.image = UIImage(named: imageName)
-//            }
-//        
-//            messageLabel.text = self.message?.text
-//            
-//            if let date = message?.date {
-//                let dateFormatter = DateFormatter()
-//                dateFormatter.dateFormat = "h:mm a"
-//
-//                let elapsedTimeInSeconds = NSDate().timeIntervalSince(date as Date)
-//                let secondsInDay: TimeInterval = 60 * 60 * 24
-//
-//                if elapsedTimeInSeconds > secondsInDay {
-//                    dateFormatter.dateFormat = "EEE"
-//                }
-//
-//                if elapsedTimeInSeconds > 7 * secondsInDay {
-//                    dateFormatter.dateFormat = "MM/dd/YY"
-//                }
-//
-//                timeLabel.text = dateFormatter.string(from: date as Date)
-//            }
-//        }
-//    }
     
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
@@ -248,26 +219,6 @@ class MessageCell: BaseCell {
         
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 class BaseCell: UITableViewCell{
