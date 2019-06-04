@@ -33,6 +33,9 @@
 		54E6B5472245E81C000F82D8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54E6B5452245E81C000F82D8 /* LaunchScreen.storyboard */; };
 		54E6B5522245E81C000F82D8 /* MyInterpreterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E6B5512245E81C000F82D8 /* MyInterpreterTests.swift */; };
 		54E6B55D2245E81C000F82D8 /* MyInterpreterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E6B55C2245E81C000F82D8 /* MyInterpreterUITests.swift */; };
+		FAEE113A229FDB6700CACDBD /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEE1136229FDB6700CACDBD /* Message.swift */; };
+		FAEE113B229FDB6700CACDBD /* ChatLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEE1137229FDB6700CACDBD /* ChatLogController.swift */; };
+		FAEE113C229FDB6700CACDBD /* ClientsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEE1138229FDB6700CACDBD /* ClientsController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +90,9 @@
 		54E6B55E2245E81C000F82D8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		67EC764C6C6ED974C804A8BF /* Pods-MyInterpreter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyInterpreter.debug.xcconfig"; path = "Target Support Files/Pods-MyInterpreter/Pods-MyInterpreter.debug.xcconfig"; sourceTree = "<group>"; };
 		D82D9072DBB8F4749C58B0C0 /* Pods_MyInterpreter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyInterpreter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAEE1136229FDB6700CACDBD /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		FAEE1137229FDB6700CACDBD /* ChatLogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatLogController.swift; sourceTree = "<group>"; };
+		FAEE1138229FDB6700CACDBD /* ClientsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientsController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +198,7 @@
 		54E6B5382245E81B000F82D8 /* MyInterpreter */ = {
 			isa = PBXGroup;
 			children = (
+				FAEE1134229FDB6700CACDBD /* Messenger */,
 				54E6B5392245E81B000F82D8 /* AppDelegate.swift */,
 				54E6B53B2245E81B000F82D8 /* MainVC.swift */,
 				54387594229D28CD008799C4 /* Messenger */,
@@ -249,6 +256,16 @@
 				D82D9072DBB8F4749C58B0C0 /* Pods_MyInterpreter.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FAEE1134229FDB6700CACDBD /* Messenger */ = {
+			isa = PBXGroup;
+			children = (
+				FAEE1136229FDB6700CACDBD /* Message.swift */,
+				FAEE1137229FDB6700CACDBD /* ChatLogController.swift */,
+				FAEE1138229FDB6700CACDBD /* ClientsController.swift */,
+			);
+			path = Messenger;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -442,6 +459,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+<<<<<<< HEAD
 				5438759B229D28CD008799C4 /* ChatLogController.swift in Sources */,
 				548ABB922297D18300A7D9C4 /* ConfirmPaymentVC.swift in Sources */,
 				54C719E92270C24B001B2BFF /* ListInterpretersCell.swift in Sources */,
@@ -451,6 +469,17 @@
 				543EF3F6224E7B79009CEAE6 /* SignUpStage2VC.swift in Sources */,
 				54E6B5422245E81B000F82D8 /* MyInterpreter.xcdatamodeld in Sources */,
 				5438759C229D28CD008799C4 /* ClientsController.swift in Sources */,
+=======
+				FAEE113B229FDB6700CACDBD /* ChatLogController.swift in Sources */,
+				548ABB922297D18300A7D9C4 /* ConfirmPaymentVC.swift in Sources */,
+				54C719E92270C24B001B2BFF /* ListInterpretersCell.swift in Sources */,
+				54DBEA7A228802CB00672238 /* PaymentVC.swift in Sources */,
+				FAEE113A229FDB6700CACDBD /* Message.swift in Sources */,
+				54B59CAF224E26FC0026814A /* SignInInterpreterVC.swift in Sources */,
+				543EF3F6224E7B79009CEAE6 /* SignUpStage2VC.swift in Sources */,
+				54E6B5422245E81B000F82D8 /* MyInterpreter.xcdatamodeld in Sources */,
+				FAEE113C229FDB6700CACDBD /* ClientsController.swift in Sources */,
+>>>>>>> 2c6f76be31fbd51a2823c08a975a8a35310e53fc
 				54E4BAA5229A71410011C7D0 /* ListUsersVC.swift in Sources */,
 				54E6B53C2245E81B000F82D8 /* MainVC.swift in Sources */,
 				54B779382273618F001A53B7 /* Interpreter.swift in Sources */,

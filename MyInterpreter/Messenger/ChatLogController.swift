@@ -12,7 +12,7 @@ import Firebase
 class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     var interpreterEmail: String = ""
-    var userEmail: String = ""
+    var userId: String = ""
     var messages: [Message] = []
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -22,6 +22,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! ChatLogMessageCell
         
+<<<<<<< HEAD
         Database.database().reference().child("users").queryOrdered(byChild: "email").queryEqual(toValue: self.userEmail).observeSingleEvent(of: .value, with: { (snapshot) in
             if let dataChange = snapshot.value as? NSDictionary {
                 let enumulator = dataChange.keyEnumerator()
@@ -51,6 +52,32 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
                         cell.textBubbleView.backgroundColor = UIColor(red: 0, green: 137/255, blue: 255/255, alpha: 1)
                         
                     }
+=======
+        Database.database().reference().child("users").child(self.userId).observeSingleEvent(of: .value, with: { (snapshot) in
+            if let info = snapshot.value as? NSDictionary {
+                let user = User(email: info.value(forKey: "email") as! String, name: info.value(forKey: "name") as! String, motherLanguage: info.value(forKey: "motherLanguage") as! String, secondLanguage: info.value(forKey: "secondLanguage") as! String, profileImageURL: info.value(forKey: "profileImageURL") as! String, booking: info.value(forKey: "booking") as! String)
+                let imageURL = URL(string: user.profileImageURL)
+                do {
+                    let imageData = try Data(contentsOf: imageURL!)
+                    cell.profileImageView.image = UIImage(data: imageData)
+                } catch let error {
+                    print(error)
+                }
+                cell.messageTextView.text = self.messages[indexPath.row].text
+                let sizeToFit = CGSize(width: self.view.frame.width * 2 / 3, height: CGFloat.greatestFiniteMagnitude)
+                let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+                let estimatedFrame = NSString(string: self.messages[indexPath.row].text).boundingRect(with: sizeToFit, options: options, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)], context: nil)
+                if (self.messages[indexPath.row].sender == "user") {
+                    cell.messageTextView.frame = CGRect(x: 48 + 8, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
+                    cell.textBubbleView.frame = CGRect(x: 48 , y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 20)
+                    cell.profileImageView.isHidden = false
+                } else {
+                    cell.messageTextView.frame = CGRect(x: self.view.frame.width - estimatedFrame.width - 16 - 16, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
+                    cell.textBubbleView.frame = CGRect(x: self.view.frame.width - estimatedFrame.width - 16 - 8 - 16, y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 20)
+                    cell.profileImageView.isHidden = true
+                    
+                    cell.textBubbleView.backgroundColor = UIColor(red: 0, green: 137/255, blue: 255/255, alpha: 1)
+>>>>>>> 2c6f76be31fbd51a2823c08a975a8a35310e53fc
                 }
             }
         })
