@@ -44,7 +44,9 @@ class ConfirmPaymentVC: UIViewController {
     
     private func setUI()
     {
+        keyboardEvents()
         hideKeyboard()
+        
         nameLbl.text = ListInterpretersVC.selectedInterpreter.getName()
         priceLbl.text = "$\(Float(PaymentVC.price) / 100)"
         
@@ -70,6 +72,37 @@ class ConfirmPaymentVC: UIViewController {
     }
     
     // MARK: --------KEYBOARD--------
+    func keyboardEvents()
+    {
+        NotificationCenter.default.addObserver(self, selector: #selector (keyboardWillChange(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector (keyboardWillChange(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector (keyboardWillChange(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+    }
+    
+    @objc func keyboardWillChange(notification: Notification)
+    {
+        guard let keyboardRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+            else
+        {
+            return
+        }
+        if notification.name == UIResponder.keyboardWillShowNotification || notification.name == UIResponder.keyboardWillChangeFrameNotification
+        {
+            
+            view.frame.origin.y = -0.5 * keyboardRect.height
+        }
+        else
+        {
+            view.frame.origin.y = 0
+        }
+    }
+    
     func hideKeyboard()
     {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector (dissmissKeyboard))

@@ -416,6 +416,7 @@
                         <outlet property="lblError" destination="fOY-Wz-tGa" id="f76-P1-vgF"/>
                         <outlet property="passwordField" destination="mv7-ch-ivG" id="ZKd-Qq-nDc"/>
                         <segue destination="5ie-he-HVt" kind="show" identifier="userLogInSegue" id="NIp-pH-V6n"/>
+                        <segue destination="k7P-0h-k7g" kind="show" identifier="userDashboardSegue" id="7A9-2z-BIR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V6c-od-Tm2" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -500,11 +501,12 @@
                     <connections>
                         <outlet property="listInterpretersTableView" destination="Pyx-al-Rhq" id="JL5-4h-VDg"/>
                         <segue destination="x0P-PK-HCa" kind="show" identifier="paymentSegue" id="s8r-ct-e8f"/>
+                        <segue destination="qaa-Ja-21H" kind="show" identifier="userInfoSegue" id="BYu-OV-1O9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zg9-tR-dAp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4312.8000000000002" y="-882.00899550224892"/>
+            <point key="canvasLocation" x="4332" y="-487"/>
         </scene>
         <!--PaymentVC-->
         <scene sceneID="HX7-vV-72L">
@@ -692,7 +694,7 @@ Price: $1.49 per day</string>
                     <viewLayoutGuide key="safeArea" id="K7Z-l4-N1u"/>
                 </view>
             </objects>
-            <point key="canvasLocation" x="5244" y="-882.00899550224892"/>
+            <point key="canvasLocation" x="5185" y="-487"/>
         </scene>
         <!--Confirm PaymentVC-->
         <scene sceneID="Jiz-vT-hr9">
@@ -811,7 +813,22 @@ Price: $1.49 per day</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ipd-IV-WEk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6165.6000000000004" y="-882.00899550224892"/>
+            <point key="canvasLocation" x="6105" y="-487"/>
+        </scene>
+        <!--User InfoVC-->
+        <scene sceneID="a0g-eE-3Xg">
+            <objects>
+                <viewController id="qaa-Ja-21H" customClass="UserInfoVC" customModule="MyInterpreter" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hOR-N1-Trb">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="H1N-Lq-q5x"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TwY-h9-XNU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6894" y="385"/>
         </scene>
         <!--User DashboardVC-->
         <scene sceneID="hZK-gj-EsY">
@@ -823,10 +840,13 @@ Price: $1.49 per day</string>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="LRI-SP-t3A"/>
                     </view>
+                    <connections>
+                        <segue destination="qaa-Ja-21H" kind="show" identifier="userInfoSegue" id="OHD-fK-jgn"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X2x-UL-UMT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7002" y="-882"/>
+            <point key="canvasLocation" x="6894" y="-1269"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Lik-AX-gMp">
@@ -961,9 +981,11 @@ Price: $1.49 per day</string>
     </scenes>
     <resources>
         <image name="Credit-Card-Logos" width="2364" height="360"/>
-        <image name="userIcon" width="16" height="16"/>
+        <image name="userIcon" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="HIX-ul-aOt"/>
+        <segue reference="7A9-2z-BIR"/>
+        <segue reference="BYu-OV-1O9"/>
+        <segue reference="NIp-pH-V6n"/>
     </inferredMetricsTieBreakers>
 </document>

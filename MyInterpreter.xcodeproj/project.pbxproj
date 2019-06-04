@@ -8,12 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		361BCCCF5037E6A34EC9347E /* Pods_MyInterpreter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D82D9072DBB8F4749C58B0C0 /* Pods_MyInterpreter.framework */; };
-		54023F2022A65D86004D1A1B /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54023F1D22A65D86004D1A1B /* Message.swift */; };
-		54023F2122A65D86004D1A1B /* ChatLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54023F1E22A65D86004D1A1B /* ChatLogController.swift */; };
-		54023F2222A65D86004D1A1B /* ClientsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54023F1F22A65D86004D1A1B /* ClientsController.swift */; };
 		54023F2422A6624E004D1A1B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54023F2322A6624E004D1A1B /* Main.storyboard */; };
 		5405E2432247ECB2001FF399 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5405E2422247ECB2001FF399 /* GoogleService-Info.plist */; };
 		543EF3F6224E7B79009CEAE6 /* SignUpStage2VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543EF3F5224E7B79009CEAE6 /* SignUpStage2VC.swift */; };
+		545079C322A6925A00EFFD2F /* UserInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545079C222A6925A00EFFD2F /* UserInfoVC.swift */; };
 		5466FEE1225255A10071B8FE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5466FEE0225255A10071B8FE /* User.swift */; };
 		548ABB922297D18300A7D9C4 /* ConfirmPaymentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548ABB912297D18300A7D9C4 /* ConfirmPaymentVC.swift */; };
 		54B59CAF224E26FC0026814A /* SignInInterpreterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B59CAE224E26FC0026814A /* SignInInterpreterVC.swift */; };
@@ -22,6 +20,9 @@
 		54B779382273618F001A53B7 /* Interpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B779372273618F001A53B7 /* Interpreter.swift */; };
 		54C719E72270C214001B2BFF /* ListInterpretersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C719E62270C214001B2BFF /* ListInterpretersVC.swift */; };
 		54C719E92270C24B001B2BFF /* ListInterpretersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C719E82270C24B001B2BFF /* ListInterpretersCell.swift */; };
+		54D24FB022A68A85004E2EA7 /* ChatLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D24FAD22A68A85004E2EA7 /* ChatLogController.swift */; };
+		54D24FB122A68A85004E2EA7 /* ClientsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D24FAE22A68A85004E2EA7 /* ClientsController.swift */; };
+		54D24FB222A68A85004E2EA7 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D24FAF22A68A85004E2EA7 /* Message.swift */; };
 		54DBEA7A228802CB00672238 /* PaymentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DBEA79228802CB00672238 /* PaymentVC.swift */; };
 		54E4BAA2229A618C0011C7D0 /* UserDashboardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E4BAA1229A618C0011C7D0 /* UserDashboardVC.swift */; };
 		54E4BAA5229A71410011C7D0 /* ListUsersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E4BAA4229A71410011C7D0 /* ListUsersVC.swift */; };
@@ -54,12 +55,10 @@
 
 /* Begin PBXFileReference section */
 		41CE53F0620311A249F4CAF0 /* Pods-MyInterpreter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyInterpreter.release.xcconfig"; path = "Target Support Files/Pods-MyInterpreter/Pods-MyInterpreter.release.xcconfig"; sourceTree = "<group>"; };
-		54023F1D22A65D86004D1A1B /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
-		54023F1E22A65D86004D1A1B /* ChatLogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatLogController.swift; sourceTree = "<group>"; };
-		54023F1F22A65D86004D1A1B /* ClientsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientsController.swift; sourceTree = "<group>"; };
 		54023F2322A6624E004D1A1B /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		5405E2422247ECB2001FF399 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		543EF3F5224E7B79009CEAE6 /* SignUpStage2VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpStage2VC.swift; sourceTree = "<group>"; };
+		545079C222A6925A00EFFD2F /* UserInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoVC.swift; sourceTree = "<group>"; };
 		5466FEE0225255A10071B8FE /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		548ABB912297D18300A7D9C4 /* ConfirmPaymentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPaymentVC.swift; sourceTree = "<group>"; };
 		54B59CAE224E26FC0026814A /* SignInInterpreterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInInterpreterVC.swift; sourceTree = "<group>"; };
@@ -68,6 +67,9 @@
 		54B779372273618F001A53B7 /* Interpreter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interpreter.swift; sourceTree = "<group>"; };
 		54C719E62270C214001B2BFF /* ListInterpretersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListInterpretersVC.swift; sourceTree = "<group>"; };
 		54C719E82270C24B001B2BFF /* ListInterpretersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListInterpretersCell.swift; sourceTree = "<group>"; };
+		54D24FAD22A68A85004E2EA7 /* ChatLogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatLogController.swift; sourceTree = "<group>"; };
+		54D24FAE22A68A85004E2EA7 /* ClientsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientsController.swift; sourceTree = "<group>"; };
+		54D24FAF22A68A85004E2EA7 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		54DBEA79228802CB00672238 /* PaymentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentVC.swift; sourceTree = "<group>"; };
 		54E4BAA1229A618C0011C7D0 /* UserDashboardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDashboardVC.swift; sourceTree = "<group>"; };
 		54E4BAA4229A71410011C7D0 /* ListUsersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListUsersVC.swift; sourceTree = "<group>"; };
@@ -118,9 +120,9 @@
 		54023F1C22A65D86004D1A1B /* Messenger */ = {
 			isa = PBXGroup;
 			children = (
-				54023F1D22A65D86004D1A1B /* Message.swift */,
-				54023F1E22A65D86004D1A1B /* ChatLogController.swift */,
-				54023F1F22A65D86004D1A1B /* ClientsController.swift */,
+				54D24FAD22A68A85004E2EA7 /* ChatLogController.swift */,
+				54D24FAE22A68A85004E2EA7 /* ClientsController.swift */,
+				54D24FAF22A68A85004E2EA7 /* Message.swift */,
 			);
 			name = Messenger;
 			path = ../../Messenger;
@@ -146,6 +148,7 @@
 				54C719EA2270C256001B2BFF /* ListInterpreters */,
 				54F1B6B522957202009FA286 /* Payment */,
 				54E4BAA1229A618C0011C7D0 /* UserDashboardVC.swift */,
+				545079C222A6925A00EFFD2F /* UserInfoVC.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -443,14 +446,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				54023F2122A65D86004D1A1B /* ChatLogController.swift in Sources */,
+				54D24FB022A68A85004E2EA7 /* ChatLogController.swift in Sources */,
 				548ABB922297D18300A7D9C4 /* ConfirmPaymentVC.swift in Sources */,
 				54C719E92270C24B001B2BFF /* ListInterpretersCell.swift in Sources */,
 				54DBEA7A228802CB00672238 /* PaymentVC.swift in Sources */,
-				54023F2022A65D86004D1A1B /* Message.swift in Sources */,
 				54B59CAF224E26FC0026814A /* SignInInterpreterVC.swift in Sources */,
 				543EF3F6224E7B79009CEAE6 /* SignUpStage2VC.swift in Sources */,
 				54E6B5422245E81B000F82D8 /* MyInterpreter.xcdatamodeld in Sources */,
+				54D24FB122A68A85004E2EA7 /* ClientsController.swift in Sources */,
 				54E4BAA5229A71410011C7D0 /* ListUsersVC.swift in Sources */,
 				54E6B53C2245E81B000F82D8 /* MainVC.swift in Sources */,
 				54B779382273618F001A53B7 /* Interpreter.swift in Sources */,
@@ -458,10 +461,11 @@
 				5466FEE1225255A10071B8FE /* User.swift in Sources */,
 				54E6B53A2245E81B000F82D8 /* AppDelegate.swift in Sources */,
 				54E4BAA7229A71590011C7D0 /* ListUsersCell.swift in Sources */,
-				54023F2222A65D86004D1A1B /* ClientsController.swift in Sources */,
+				54D24FB222A68A85004E2EA7 /* Message.swift in Sources */,
 				54C719E72270C214001B2BFF /* ListInterpretersVC.swift in Sources */,
 				54B59CB7224E37B60026814A /* SignUpStage1VC.swift in Sources */,
 				54B59CB5224E31690026814A /* SignInUserVC.swift in Sources */,
+				545079C322A6925A00EFFD2F /* UserInfoVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
