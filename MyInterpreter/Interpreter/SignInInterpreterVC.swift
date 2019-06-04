@@ -13,7 +13,7 @@ class SignInInterpreterVC: UIViewController
 {
 
     // MARK: UI elements
-    @IBOutlet weak var emailField: UITextField!
+    @IBOutlet weak var idField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var lblError: UILabel!
     
@@ -29,7 +29,7 @@ class SignInInterpreterVC: UIViewController
         
         lblError.isHidden = true
         
-        emailField.delegate = self
+        idField.delegate = self
         passwordField.delegate = self
     }
     
@@ -51,7 +51,7 @@ class SignInInterpreterVC: UIViewController
     @IBAction func handleLogIn(_ sender: UIButton)
     {
         
-        guard let email = emailField.text else
+        guard let email = idField.text else
         {
             return
         }
@@ -102,8 +102,8 @@ extension SignInInterpreterVC: UITextFieldDelegate
     func textFieldShouldReturn(_ textField: UITextField) -> Bool
     {
         switch textField {
-        case emailField:
-            emailField.resignFirstResponder()
+        case idField:
+            idField.resignFirstResponder()
             passwordField.becomeFirstResponder()
             break
         case passwordField:
