@@ -108,18 +108,3 @@ class User
     }
 }
 
-extension String {
-    func getEncodedEmail() -> String {
-        var result = ""
-        
-        result = self.replacingOccurrences(of: "@", with: "-")
-        
-        if let index = result.range(of: ".")?.lowerBound
-        {
-            let substring = result[..<index]
-            result = String(substring)
-        }
-        
-        return result
-        }
-    }

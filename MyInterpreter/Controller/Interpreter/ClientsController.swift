@@ -12,7 +12,7 @@ import Firebase
 class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     var ref: DatabaseReference!
-
+    
     let tableView = UITableView()
     private let cellID = "cellID"
     
@@ -22,7 +22,8 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        navigationItem.title = "Recent"
+        navigationItem.setCustomNavBar(title: "Customers")
+        navigationItem.hidesBackButton = true
         view.addSubview(tableView)
         view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         tableView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
@@ -107,19 +108,7 @@ class MessageCell: BaseCell {
             //get user from database
             Database.database().reference().child("users").child(self.userId!).observeSingleEvent(of: .value, with: { (snapshot) in
                 if let dataChange = snapshot.value as? NSDictionary {
-<<<<<<< HEAD
-                    let enumelator = dataChange.keyEnumerator()
-                    while let key = enumelator.nextObject() {
-                        let info = dataChange.value(forKey: key as! String) as! NSDictionary
-                        let user = User(email: info.value(forKey: "email") as! String, name: info.value(forKey: "name") as! String, motherLanguage: info.value(forKey: "motherLanguage") as! String, secondLanguage: info.value(forKey: "secondLanguage") as! String, profileImageURL: info.value(forKey: "profileImageURL") as! String)
-                        self.nameLabel.text = user.getName()
-                        DispatchQueue.global().async {
-                            let imageURL = URL(string: user.profileImageURL)
-                            let data = NSData(contentsOf: imageURL!)
-                            DispatchQueue.main.async {
-                                self.profileImageView.image = UIImage(data: data! as Data)
-                                self.seenImage.image = UIImage(data: data! as Data)
-=======
+                    
                     let user = User(email: dataChange.value(forKey: "email") as! String, name: dataChange.value(forKey: "name") as! String, motherLanguage: dataChange.value(forKey: "motherLanguage") as! String, secondLanguage: dataChange.value(forKey: "secondLanguage") as! String, profileImageURL: dataChange.value(forKey: "profileImageURL") as! String, booking:  dataChange.value(forKey: "booking") as! String)
                     self.nameLabel.text = user.getName()
                     DispatchQueue.global().async {
@@ -128,7 +117,6 @@ class MessageCell: BaseCell {
                         DispatchQueue.main.async {
                             guard let data = data else {
                                 return
->>>>>>> 2c6f76be31fbd51a2823c08a975a8a35310e53fc
                             }
                             self.profileImageView.image = UIImage(data: data as Data)
                             self.seenImage.image = UIImage(data: data as Data)
@@ -137,8 +125,6 @@ class MessageCell: BaseCell {
                     }
                 }
             })
-            //get messages from database
-            
         }
     }
     
@@ -215,7 +201,7 @@ class MessageCell: BaseCell {
         nameLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 0).isActive = true
         nameLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: containerView.leadingAnchor, multiplier: 1).isActive = true
         nameLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -40).isActive = true
-
+        
         containerView.addSubview(timeLabel)
         timeLabel.translatesAutoresizingMaskIntoConstraints = false
         
