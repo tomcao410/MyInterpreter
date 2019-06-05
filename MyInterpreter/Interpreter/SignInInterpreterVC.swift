@@ -25,16 +25,22 @@ class SignInInterpreterVC: UIViewController
     {
         super.viewDidLoad()
 
+        setUI()
+       
+    }
+    
+    // MARK: Work place
+    private func setUI()
+    {
         hideKeyboard() // hide keyboard when tap anywhere outside the textfield
         
         lblError.isHidden = true
         
+        navigationItem.setCustomNavBar(title: "Sign In")
+        
         idField.delegate = self
         passwordField.delegate = self
     }
-    
-    // MARK: Work place
-
     // MARK: --------KEYBOARD--------
     func hideKeyboard()
     {

@@ -11,18 +11,12 @@ import Firebase
 
 class MainVC: UIViewController {
 
-    // MARK: UI elements
-    @IBOutlet weak var userButton: UIButton!
-    @IBOutlet weak var interpreterButton: UIButton!
-    
-
-
-    static var isInterpreter: Bool = false;
-    static var isUser: Bool = false;
     
     // MARK: To do
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setUI()
         
         if Auth.auth().currentUser != nil
         {
@@ -31,13 +25,18 @@ class MainVC: UIViewController {
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-
+    // MARK: Work place
+    private func setUI()
+    {
+        navigationItem.setCustomNavBar(title: "MyInterpreter")
     }
-    
-
-
 }
 
+extension UINavigationItem
+{
+    func setCustomNavBar(title: String)
+    {
+        self.title = title
+        self.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+    }
+}

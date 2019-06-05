@@ -55,6 +55,8 @@ class PaymentVC: UIViewController {
         paymenMethods.append(method1)
         paymenMethods.append(method2)
         
+        navigationItem.setCustomNavBar(title: "Payment")
+        
         txtFieldNumberOfDays.isEnabled = false
         lblNumberOfDays.textColor = .gray
         lblPricePerDay.textColor = .gray

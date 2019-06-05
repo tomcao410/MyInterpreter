@@ -25,14 +25,15 @@ class UserInfoVC: UIViewController {
         let logOutButton = UIBarButtonItem(title: "Log Out", style: .plain, target: self, action: #selector(logOutButtonClicked))
         
         navigationItem.rightBarButtonItem = logOutButton
+        navigationItem.setCustomNavBar(title: "Profile")
     }
     
     @objc func logOutButtonClicked()
     {
         try! Auth.auth().signOut()
         
-        navigationController?.popToRootViewController(animated: true)
         dismiss(animated: true, completion: nil)
+        navigationController?.popToRootViewController(animated: true)
     }
 
   

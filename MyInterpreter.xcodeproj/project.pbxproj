@@ -147,8 +147,8 @@
 				543EF3F5224E7B79009CEAE6 /* SignUpStage2VC.swift */,
 				54C719EA2270C256001B2BFF /* ListInterpreters */,
 				54F1B6B522957202009FA286 /* Payment */,
-				54E4BAA1229A618C0011C7D0 /* UserDashboardVC.swift */,
 				545079C222A6925A00EFFD2F /* UserInfoVC.swift */,
+				54E4BAA1229A618C0011C7D0 /* UserDashboardVC.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -196,6 +196,9 @@
 		54E6B5382245E81B000F82D8 /* MyInterpreter */ = {
 			isa = PBXGroup;
 			children = (
+				54E8529F22A7C7C400C5A394 /* Model */,
+				54E8529E22A7C7B500C5A394 /* Controller */,
+				54E8529D22A7C7A800C5A394 /* View */,
 				54E6B5392245E81B000F82D8 /* AppDelegate.swift */,
 				54E6B53B2245E81B000F82D8 /* MainVC.swift */,
 				54B59CB1224E27A20026814A /* User */,
@@ -227,6 +230,27 @@
 				54E6B55E2245E81C000F82D8 /* Info.plist */,
 			);
 			path = MyInterpreterUITests;
+			sourceTree = "<group>";
+		};
+		54E8529D22A7C7A800C5A394 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		54E8529E22A7C7B500C5A394 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		54E8529F22A7C7C400C5A394 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		54F1B6B522957202009FA286 /* Payment */ = {

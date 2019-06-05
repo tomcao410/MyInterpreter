@@ -37,6 +37,8 @@ class SignUpStage2VC: UIViewController {
         keyboardEvents()
         hideKeyboard() // hide keyboard when tap anywhere outside the textfield
         
+        navigationItem.setCustomNavBar(title: "Register")
+        
         lblError.isHidden = true // Error UI
         
         // Profile Image UI

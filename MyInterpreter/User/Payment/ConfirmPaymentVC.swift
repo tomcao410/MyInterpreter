@@ -50,6 +50,8 @@ class ConfirmPaymentVC: UIViewController {
         nameLbl.text = ListInterpretersVC.selectedInterpreter.getName()
         priceLbl.text = "$\(Float(PaymentVC.price) / 100)"
         
+        navigationItem.setCustomNavBar(title: "Confirm")
+        
         expDateTxtField.delegate = self
         cvcTxtField.delegate = self
         

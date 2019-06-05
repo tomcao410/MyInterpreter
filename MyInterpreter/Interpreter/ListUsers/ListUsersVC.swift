@@ -19,6 +19,21 @@ class ListUsersVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setUI()
+    }
+    
+    // MARK: Work place
+    private func setUI()
+    {
+        let userButton = UIBarButtonItem(image: #imageLiteral(resourceName: "userIcon"), style: .plain, target: self, action: #selector(profileButtonClicked))
+        
+        navigationItem.rightBarButtonItem = userButton
+        navigationItem.setCustomNavBar(title: "Recommended")
+        navigationItem.hidesBackButton = true
+    }
+    
+    @objc func profileButtonClicked()
+    {
         
     }
 

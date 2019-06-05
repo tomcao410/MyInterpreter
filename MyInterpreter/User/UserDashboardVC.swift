@@ -21,12 +21,15 @@ class UserDashboardVC: UIViewController {
     // MARK: Work place
     private func setUI()
     {
-        let userButton = UIBarButtonItem(image: #imageLiteral(resourceName: "userIcon"), style: .plain, target: self, action: #selector(userButtonClicked))
+        let userButton = UIBarButtonItem(image: #imageLiteral(resourceName: "userIcon"), style: .plain, target: self, action: #selector(profileButtonClicked))
         
         navigationItem.rightBarButtonItem = userButton
+        navigationItem.setCustomNavBar(title: "Your Interpreter")
+        navigationItem.hidesBackButton = true
+        
     }
     
-    @objc func userButtonClicked()
+    @objc func profileButtonClicked()
     {
         performSegue(withIdentifier: "userInfoSegue", sender: nil)
     }

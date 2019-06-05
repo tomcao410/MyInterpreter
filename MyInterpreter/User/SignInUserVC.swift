@@ -24,6 +24,13 @@ class SignInUserVC: UIViewController
         setUI()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        
+    }
+    
     // MARK: Work place
     private func setUI()
     {
@@ -31,6 +38,8 @@ class SignInUserVC: UIViewController
         hideKeyboard() // hide keyboard when tap anywhere outside the text field
         
         lblError.isHidden = true
+        
+        navigationItem.setCustomNavBar(title: "Sign In")
         
         emailField.delegate = self
         passwordField.delegate = self

@@ -42,10 +42,6 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="MyInterpreter" id="YXm-dW-xCF"/>
-                    <connections>
-                        <outlet property="interpreterButton" destination="1Ko-XM-Hjh" id="MBf-JL-XQV"/>
-                        <outlet property="userButton" destination="AxL-6l-sAM" id="D7b-aS-V6p"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -211,10 +207,10 @@
             </objects>
             <point key="canvasLocation" x="2692" y="384.55772113943033"/>
         </scene>
-        <!--View Controller-->
+        <!--User-->
         <scene sceneID="Fyz-Dk-iih">
             <objects>
-                <viewController id="ChC-xa-tbo" sceneMemberID="viewController">
+                <viewController title="User" id="ChC-xa-tbo" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="txq-j3-RFN">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

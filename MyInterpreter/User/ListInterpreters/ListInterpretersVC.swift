@@ -34,15 +34,17 @@ class ListInterpretersVC: UIViewController {
     // MARK: Work place
     private func setUI()
     {
-        let userButton = UIBarButtonItem(image: #imageLiteral(resourceName: "userIcon"), style: .plain, target: self, action: #selector(userButtonClicked))
+        let userButton = UIBarButtonItem(image: #imageLiteral(resourceName: "userIcon"), style: .plain, target: self, action: #selector(profileButtonClicked))
         
         navigationItem.rightBarButtonItem = userButton
+        navigationItem.setCustomNavBar(title: "Recommended")
+        navigationItem.hidesBackButton = true
         
         listInterpretersTableView.delegate = self
         listInterpretersTableView.dataSource = self
     }
     
-    @objc func userButtonClicked()
+    @objc func profileButtonClicked()
     {
         performSegue(withIdentifier: "userInfoSegue", sender: nil)
     }
