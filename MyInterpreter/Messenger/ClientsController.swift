@@ -90,17 +90,33 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
 //                    popUpView.heightAnchor.constraint(equalToConstant: self.view.frame.height / 3).isActive = true
 //                    popUpView.widthAnchor.constraint(equalToConstant: self.view.frame.width / 2).isActive = true
                     
-                    
-                    Database.database().reference().child("users").child(item).observeSingleEvent(of: .value, with: { (snapshot) in
+                    let newUserRef = Database.database().reference().child("users").child(item)
+                    newUserRef.observeSingleEvent(of: .value, with: { (snapshot) in
                         if let dataChange = snapshot.value as? NSDictionary {
                             let user = User(email: dataChange.value(forKey: "email") as! String, name: dataChange.value(forKey: "name") as! String, motherLanguage: dataChange.value(forKey: "motherLanguage") as! String, secondLanguage: dataChange.value(forKey: "secondLanguage") as! String, profileImageURL: dataChange.value(forKey: "profileImageURL") as! String, booking:  dataChange.value(forKey: "booking") as! String)
                             DispatchQueue.main.async {
                                 let alert = UIAlertController(title: "New booking to you", message: user.email, preferredStyle: UIAlertController.Style.alert)
-                                alert.addAction(UIAlertAction(title: "Confirm", style: UIAlertAction.Style.default, handler: nil))
+                                alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { action in
+                                    switch action.style{
+                                    case .default:
+                                        self.usersId.append(item)
+                                        newUserRef.updateChildValues(["confirm": true])
+                                        visualEffectView.isHidden = true
+                                        self.tableView.reloadData()
+                                        break;
+                                        
+                                    case .cancel:
+                                        print("cancel")
+                                        visualEffectView.isHidden = true
+                                        break;
+                                    case .destructive:
+                                        print("no")
+                                    }}))
                                 alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
                                     switch action.style{
                                     case .default:
                                         self.usersId.append(item)
+                                        newUserRef.updateChildValues(["confirm": true])
                                         visualEffectView.isHidden = true
                                         self.tableView.reloadData()
                                         break;
