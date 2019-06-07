@@ -16,7 +16,11 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
     let tableView = UITableView()
     private let cellID = "cellID"
     
-    var usersId: [String] = []
+    var usersId: [String] = [] {
+        didSet {
+            
+        }
+    }
     var interpreterEmail: String = ""
     
     override func viewDidLoad() {
@@ -29,6 +33,8 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
         tableView.delegate = self
         tableView.dataSource = self
         
+        observeUserChange()
+        
         if #available(iOS 11, *) {
             let guide = view.safeAreaLayoutGuide
             tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -38,7 +44,10 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
             tableView.bottomAnchor.constraint(equalTo: guide.bottomAnchor).isActive = true
         }
         tableView.register(MessageCell.self, forCellReuseIdentifier: cellID)
-        
+        //        setupData()
+    }
+    
+    func observeUserChange() {
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -107,133 +116,182 @@ class MessageCell: BaseCell {
             //get user from database
             Database.database().reference().child("users").child(self.userId!).observeSingleEvent(of: .value, with: { (snapshot) in
                 if let dataChange = snapshot.value as? NSDictionary {
-                                let user = User(email: dataChange.value(forKey: "email") as! String, name: dataChange.value(forKey: "name") as! String, motherLanguage: dataChange.value(forKey: "motherLanguage") as! String, secondLanguage: dataChange.value(forKey: "secondLanguage") as! String, profileImageURL: dataChange.value(forKey: "profileImageURL") as! String, booking:  dataChange.value(forKey: "booking") as! String)
-                                self.nameLabel.text = user.getName()
-                                DispatchQueue.global().async {
-                                    let imageURL = URL(string: user.profileImageURL)
-                                    let data = NSData(contentsOf: imageURL!)
-                                    DispatchQueue.main.async {
-                                        guard let data = data else {
-                                            return
-                                        }
-                                        self.profileImageView.image = UIImage(data: data as Data)
-                                        self.seenImage.image = UIImage(data: data as Data)
-                                    }
-                                    
-                                }
+                    let user = User(email: dataChange.value(forKey: "email") as! String, name: dataChange.value(forKey: "name") as! String, motherLanguage: dataChange.value(forKey: "motherLanguage") as! String, secondLanguage: dataChange.value(forKey: "secondLanguage") as! String, profileImageURL: dataChange.value(forKey: "profileImageURL") as! String, booking:  dataChange.value(forKey: "booking") as! String)
+                    self.nameLabel.text = user.getName()
+                    DispatchQueue.global().async {
+                        let imageURL = URL(string: user.profileImageURL)
+                        let data = NSData(contentsOf: imageURL!)
+                        DispatchQueue.main.async {
+                            guard let data = data else {
+                                return
                             }
-                        })
-                        //get messages from database
+                            self.profileImageView.image = UIImage(data: data as Data)
+                            self.seenImage.image = UIImage(data: data as Data)
+                        }
                         
                     }
                 }
-                
-                
-                let profileImageView: UIImageView = {
-                    let imageView = UIImageView()
-                    imageView.contentMode = .scaleAspectFill
-                    imageView.layer.cornerRadius = 34
-                    imageView.layer.masksToBounds = true
-                    return imageView
-                }()
-                
-                let nameLabel: UILabel = {
-                    let label = UILabel()
-                    label.font = .systemFont(ofSize: 18)
-                    return label
-                }()
-                
-                let messageLabel: UILabel = {
-                    let label = UILabel()
-                    label.font = .systemFont(ofSize: 14)
-                    label.textColor = .darkGray
-                    return label
-                }()
-                
-                let timeLabel: UILabel = {
-                    let label = UILabel()
-                    label.font = .systemFont(ofSize: 16)
-                    label.textAlignment = .right
-                    return label
-                }()
-                
-                let seenImage: UIImageView = {
-                    let imageView = UIImageView()
-                    imageView.contentMode = .scaleAspectFill
-                    imageView.layer.cornerRadius = 10
-                    imageView.layer.masksToBounds = true
-                    return imageView
-                }()
-                
-                override func setupViews() {
-                    
-                    addSubview(profileImageView)
-                    profileImageView.translatesAutoresizingMaskIntoConstraints = false
-                    
-                    profileImageView.heightAnchor.constraint(equalToConstant: 68).isActive = true
-                    profileImageView.widthAnchor.constraint(equalToConstant: 68).isActive = true
-                    profileImageView.centerYAnchor.constraint(equalToSystemSpacingBelow: self.centerYAnchor, multiplier: 1).isActive = true
-                    profileImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: (90-68)/2).isActive = true
-                    
-                    setupContainerView()
-                }
-                private func setupContainerView() {
-                    let containerView = UIView()
-                    addSubview(containerView)
-                    containerView.translatesAutoresizingMaskIntoConstraints = false
-                    
-                    containerView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 90).isActive = true
-                    containerView.heightAnchor.constraint(equalToConstant: 60).isActive = true
-                    containerView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-                    containerView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-                    
-                    containerView.addSubview(messageLabel)
-                    containerView.addSubview(nameLabel)
-                    messageLabel.translatesAutoresizingMaskIntoConstraints = false
-                    nameLabel.translatesAutoresizingMaskIntoConstraints = false
-                    
-                    messageLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: containerView.leadingAnchor, multiplier: 1).isActive = true
-                    messageLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -40).isActive = true
-                    messageLabel.heightAnchor.constraint(equalToConstant: 60/2).isActive = true
-                    messageLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 0).isActive = true
-                    
-                    nameLabel.heightAnchor.constraint(equalToConstant: 60/2).isActive = true
-                    nameLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 0).isActive = true
-                    nameLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: containerView.leadingAnchor, multiplier: 1).isActive = true
-                    nameLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -40).isActive = true
-                    
-                    containerView.addSubview(timeLabel)
-                    timeLabel.translatesAutoresizingMaskIntoConstraints = false
-                    
-                    timeLabel.heightAnchor.constraint(equalTo: nameLabel.heightAnchor, multiplier: 1).isActive = true
-                    timeLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16).isActive = true
-                    timeLabel.centerYAnchor.constraint(equalToSystemSpacingBelow: nameLabel.centerYAnchor, multiplier: 1).isActive = true
-                    timeLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
-                    
-                    containerView.addSubview(seenImage)
-                    seenImage.translatesAutoresizingMaskIntoConstraints = false
-                    
-                    seenImage.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16).isActive = true
-                    seenImage.heightAnchor.constraint(equalToConstant: 20).isActive = true
-                    seenImage.widthAnchor.constraint(equalToConstant: 20).isActive = true
-                    seenImage.centerYAnchor.constraint(equalToSystemSpacingBelow: messageLabel.centerYAnchor, multiplier: 1).isActive = true
-                    
-                }
-            }
+            })
+            //get messages from database
             
-            
-            class BaseCell: UITableViewCell{
-                
-                override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-                    super.init(style: style, reuseIdentifier: reuseIdentifier)
-                    setupViews()
-                }
-                
-                required init?(coder aDecoder: NSCoder) {
-                    fatalError("init(coder:) has not been implemented")
-                }
-                
-                func setupViews() {
-                    
-                }
+        }
+    }
+    
+    //    var message: Message? {
+    //        didSet {
+    //            nameLabel.text = self.message?.friend?.name
+    //            if let imageName = self.message?.friend?.profileImageName {
+    //                profileImageView.image = UIImage(named: imageName)
+    //                seenImage.image = UIImage(named: imageName)
+    //            }
+    //
+    //            messageLabel.text = self.message?.text
+    //
+    //            if let date = message?.date {
+    //                let dateFormatter = DateFormatter()
+    //                dateFormatter.dateFormat = "h:mm a"
+    //
+    //                let elapsedTimeInSeconds = NSDate().timeIntervalSince(date as Date)
+    //                let secondsInDay: TimeInterval = 60 * 60 * 24
+    //
+    //                if elapsedTimeInSeconds > secondsInDay {
+    //                    dateFormatter.dateFormat = "EEE"
+    //                }
+    //
+    //                if elapsedTimeInSeconds > 7 * secondsInDay {
+    //                    dateFormatter.dateFormat = "MM/dd/YY"
+    //                }
+    //
+    //                timeLabel.text = dateFormatter.string(from: date as Date)
+    //            }
+    //        }
+    //    }
+    
+    let profileImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 34
+        imageView.layer.masksToBounds = true
+        return imageView
+    }()
+    
+    let nameLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 18)
+        return label
+    }()
+    
+    let messageLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 14)
+        label.textColor = .darkGray
+        return label
+    }()
+    
+    let timeLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 16)
+        label.textAlignment = .right
+        return label
+    }()
+    
+    let seenImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 10
+        imageView.layer.masksToBounds = true
+        return imageView
+    }()
+    
+    override func setupViews() {
+        
+        addSubview(profileImageView)
+        profileImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        profileImageView.heightAnchor.constraint(equalToConstant: 68).isActive = true
+        profileImageView.widthAnchor.constraint(equalToConstant: 68).isActive = true
+        profileImageView.centerYAnchor.constraint(equalToSystemSpacingBelow: self.centerYAnchor, multiplier: 1).isActive = true
+        profileImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: (90-68)/2).isActive = true
+        
+        setupContainerView()
+    }
+    private func setupContainerView() {
+        let containerView = UIView()
+        addSubview(containerView)
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        containerView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 90).isActive = true
+        containerView.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        containerView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        containerView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        
+        containerView.addSubview(messageLabel)
+        containerView.addSubview(nameLabel)
+        messageLabel.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        messageLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: containerView.leadingAnchor, multiplier: 1).isActive = true
+        messageLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -40).isActive = true
+        messageLabel.heightAnchor.constraint(equalToConstant: 60/2).isActive = true
+        messageLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 0).isActive = true
+        
+        nameLabel.heightAnchor.constraint(equalToConstant: 60/2).isActive = true
+        nameLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 0).isActive = true
+        nameLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: containerView.leadingAnchor, multiplier: 1).isActive = true
+        nameLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -40).isActive = true
+        
+        containerView.addSubview(timeLabel)
+        timeLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        timeLabel.heightAnchor.constraint(equalTo: nameLabel.heightAnchor, multiplier: 1).isActive = true
+        timeLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16).isActive = true
+        timeLabel.centerYAnchor.constraint(equalToSystemSpacingBelow: nameLabel.centerYAnchor, multiplier: 1).isActive = true
+        timeLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        
+        containerView.addSubview(seenImage)
+        seenImage.translatesAutoresizingMaskIntoConstraints = false
+        
+        seenImage.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16).isActive = true
+        seenImage.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        seenImage.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        seenImage.centerYAnchor.constraint(equalToSystemSpacingBelow: messageLabel.centerYAnchor, multiplier: 1).isActive = true
+        
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class BaseCell: UITableViewCell{
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupViews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setupViews() {
+        
+    }
 }

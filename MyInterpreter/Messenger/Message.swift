@@ -16,6 +16,7 @@ class Message {
         interpreter = ""
         time = Date()
     }
+    
     init(sender: String, text: String, user: String, interpreter: String, time: String) {
         self.sender = sender
         self.text = text
@@ -29,6 +30,7 @@ class Message {
         }
         self.time = date
     }
+    
     var sender: String
     var text: String
     var user: String

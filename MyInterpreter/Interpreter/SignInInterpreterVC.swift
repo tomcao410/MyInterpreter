@@ -65,7 +65,6 @@ class SignInInterpreterVC: UIViewController
             {
                 let clientsController = ClientsController()
                 clientsController.interpreterEmail = email
-                
                 self.ref = Database.database().reference()
                 
                 self.ref.child("bookings").observe(.value, with: { (snapshot) in
