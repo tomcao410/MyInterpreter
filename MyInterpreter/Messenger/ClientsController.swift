@@ -16,11 +16,7 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
     let tableView = UITableView()
     private let cellID = "cellID"
     
-    var usersId: [String] = [] {
-        didSet {
-            
-        }
-    }
+    var usersId: [String] = []
     var interpreterEmail: String = ""
     
     override func viewDidLoad() {
@@ -33,7 +29,8 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
         tableView.delegate = self
         tableView.dataSource = self
         
-        observeUserChange()
+        loadUsers()
+//        observeUserChange()
         
         if #available(iOS 11, *) {
             let guide = view.safeAreaLayoutGuide
@@ -47,7 +44,83 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
         //        setupData()
     }
     
-    func observeUserChange() {
+//    func observeUserChange() {
+//        Database.database().reference().child("")
+//    }
+    func loadUsers() {
+        Database.database().reference().child("bookings").observe(.value, with: { (snapshot) in
+            let enumerator = snapshot.children
+            var newUsersID = [String]()
+            while let rest = enumerator.nextObject() as? DataSnapshot {
+                if let dataChange = rest.value as? [String:AnyObject] {
+                    let encodedEmail = self.interpreterEmail.getEncodedEmail()
+                    let date = Date()
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                    dateFormatter.timeZone = TimeZone(abbreviation: "GMT+7:00")
+                    let stringDate = dateFormatter.string(from: date)
+                    if ((dataChange["interpreter"] as! String) == encodedEmail && (dataChange["timeEnd"] as! String) > stringDate && (dataChange["timeStart"] as! String) < stringDate) {
+                        if (dataChange["confirm"] as! Bool == true) {
+                            self.usersId.append(dataChange["user"] as! String)
+                        } else {
+                            newUsersID.append(dataChange["user"] as! String)
+                        }
+                    }
+                }
+            }
+            DispatchQueue.main.async {
+                for item in newUsersID {
+                    let blurEffect = UIBlurEffect(style: .dark)
+                    let visualEffectView = UIVisualEffectView(effect: blurEffect)
+                    self.view.addSubview(visualEffectView)
+                    visualEffectView.translatesAutoresizingMaskIntoConstraints = false
+                    
+                    visualEffectView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+                    visualEffectView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+                    visualEffectView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+                    visualEffectView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+                    
+//                    let popUpView = UIView()
+//                    self.view.addSubview(popUpView)
+//                    popUpView.backgroundColor = .white
+//                    popUpView.translatesAutoresizingMaskIntoConstraints = false
+//
+//                    popUpView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+//                    popUpView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+//                    popUpView.heightAnchor.constraint(equalToConstant: self.view.frame.height / 3).isActive = true
+//                    popUpView.widthAnchor.constraint(equalToConstant: self.view.frame.width / 2).isActive = true
+                    
+                    
+                    Database.database().reference().child("users").child(item).observeSingleEvent(of: .value, with: { (snapshot) in
+                        if let dataChange = snapshot.value as? NSDictionary {
+                            let user = User(email: dataChange.value(forKey: "email") as! String, name: dataChange.value(forKey: "name") as! String, motherLanguage: dataChange.value(forKey: "motherLanguage") as! String, secondLanguage: dataChange.value(forKey: "secondLanguage") as! String, profileImageURL: dataChange.value(forKey: "profileImageURL") as! String, booking:  dataChange.value(forKey: "booking") as! String)
+                            DispatchQueue.main.async {
+                                let alert = UIAlertController(title: "New booking to you", message: user.email, preferredStyle: UIAlertController.Style.alert)
+                                alert.addAction(UIAlertAction(title: "Confirm", style: UIAlertAction.Style.default, handler: nil))
+                                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
+                                    switch action.style{
+                                    case .default:
+                                        self.usersId.append(item)
+                                        visualEffectView.isHidden = true
+                                        self.tableView.reloadData()
+                                        break;
+                                        
+                                    case .cancel:
+                                        print("cancel")
+                                        visualEffectView.isHidden = true
+                                        break;
+                                    case .destructive:
+                                        print("no")
+                                    }}))
+                                self.present(alert, animated: true, completion: nil)
+                            }
+                        }
+                    })
+                }
+            }
+        }) { (error) in
+            print(error.localizedDescription)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -118,6 +191,24 @@ class MessageCell: BaseCell {
                 if let dataChange = snapshot.value as? NSDictionary {
                     let user = User(email: dataChange.value(forKey: "email") as! String, name: dataChange.value(forKey: "name") as! String, motherLanguage: dataChange.value(forKey: "motherLanguage") as! String, secondLanguage: dataChange.value(forKey: "secondLanguage") as! String, profileImageURL: dataChange.value(forKey: "profileImageURL") as! String, booking:  dataChange.value(forKey: "booking") as! String)
                     self.nameLabel.text = user.getName()
+                    self.messageLabel.text = "Hello"
+                    let date = Date()
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "h:mm a"
+                    
+                    let elapsedTimeInSeconds = NSDate().timeIntervalSince(date as Date)
+                    let secondsInDay: TimeInterval = 60 * 60 * 24
+                    
+                    if elapsedTimeInSeconds > secondsInDay {
+                        dateFormatter.dateFormat = "EEE"
+                    }
+                    
+                    if elapsedTimeInSeconds > 7 * secondsInDay {
+                        dateFormatter.dateFormat = "MM/dd/YY"
+                    }
+                    
+                    self.timeLabel.text = dateFormatter.string(from: date as Date)
+
                     DispatchQueue.global().async {
                         let imageURL = URL(string: user.profileImageURL)
                         let data = NSData(contentsOf: imageURL!)
@@ -145,25 +236,7 @@ class MessageCell: BaseCell {
     //                seenImage.image = UIImage(named: imageName)
     //            }
     //
-    //            messageLabel.text = self.message?.text
     //
-    //            if let date = message?.date {
-    //                let dateFormatter = DateFormatter()
-    //                dateFormatter.dateFormat = "h:mm a"
-    //
-    //                let elapsedTimeInSeconds = NSDate().timeIntervalSince(date as Date)
-    //                let secondsInDay: TimeInterval = 60 * 60 * 24
-    //
-    //                if elapsedTimeInSeconds > secondsInDay {
-    //                    dateFormatter.dateFormat = "EEE"
-    //                }
-    //
-    //                if elapsedTimeInSeconds > 7 * secondsInDay {
-    //                    dateFormatter.dateFormat = "MM/dd/YY"
-    //                }
-    //
-    //                timeLabel.text = dateFormatter.string(from: date as Date)
-    //            }
     //        }
     //    }
     
