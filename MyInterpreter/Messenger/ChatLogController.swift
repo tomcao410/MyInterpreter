@@ -172,6 +172,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     private func setUpInputComponent() {
         messageInputContainerView.addSubview(inputTextField)
         messageInputContainerView.addSubview(sendButton)
+        
         inputTextField.translatesAutoresizingMaskIntoConstraints = false
         sendButton.translatesAutoresizingMaskIntoConstraints = false
         

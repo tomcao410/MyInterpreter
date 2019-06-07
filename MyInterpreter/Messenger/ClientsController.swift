@@ -16,7 +16,11 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
     let tableView = UITableView()
     private let cellID = "cellID"
     
-    var usersId: [String] = []
+    var usersId: [String] = [] {
+        didSet {
+            self.tableView.reloadData()
+        }
+    }
     var interpreterEmail: String = ""
     
     override func viewDidLoad() {
@@ -48,11 +52,12 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
 //        Database.database().reference().child("")
 //    }
     func loadUsers() {
+        var newUsersAndBookingID = [String]()
         Database.database().reference().child("bookings").observe(.value, with: { (snapshot) in
+            self.usersId = []
             let enumerator = snapshot.children
-            var newUsersID = [String]()
             while let rest = enumerator.nextObject() as? DataSnapshot {
-                if let dataChange = rest.value as? [String:AnyObject] {
+                if let dataChange = rest.value as? NSDictionary {
                     let encodedEmail = self.interpreterEmail.getEncodedEmail()
                     let date = Date()
                     let dateFormatter = DateFormatter()
@@ -61,15 +66,22 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
                     let stringDate = dateFormatter.string(from: date)
                     if ((dataChange["interpreter"] as! String) == encodedEmail && (dataChange["timeEnd"] as! String) > stringDate && (dataChange["timeStart"] as! String) < stringDate) {
                         if (dataChange["confirm"] as! Bool == true) {
-                            self.usersId.append(dataChange["user"] as! String)
+                            DispatchQueue.main.async {
+                                self.usersId.append(dataChange["user"] as! String)
+                            }
                         } else {
-                            newUsersID.append(dataChange["user"] as! String)
+                            DispatchQueue.main.async {
+                                newUsersAndBookingID.append(dataChange["user"] as! String + " " + rest.key)
+                            }
                         }
                     }
                 }
             }
             DispatchQueue.main.async {
-                for item in newUsersID {
+                for item in newUsersAndBookingID {
+                    var arr = item.split(separator: " ")
+                    let newUser: String = String(arr[0])
+                    let newBooking: String? = arr.count > 1 ? String(arr[1]) : nil
                     let blurEffect = UIBlurEffect(style: .dark)
                     let visualEffectView = UIVisualEffectView(effect: blurEffect)
                     self.view.addSubview(visualEffectView)
@@ -79,55 +91,21 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
                     visualEffectView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
                     visualEffectView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
                     visualEffectView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-                    
-//                    let popUpView = UIView()
-//                    self.view.addSubview(popUpView)
-//                    popUpView.backgroundColor = .white
-//                    popUpView.translatesAutoresizingMaskIntoConstraints = false
-//
-//                    popUpView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
-//                    popUpView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-//                    popUpView.heightAnchor.constraint(equalToConstant: self.view.frame.height / 3).isActive = true
-//                    popUpView.widthAnchor.constraint(equalToConstant: self.view.frame.width / 2).isActive = true
-                    
-                    let newUserRef = Database.database().reference().child("users").child(item)
+
+                    let newUserRef = Database.database().reference().child("users").child(newUser)
                     newUserRef.observeSingleEvent(of: .value, with: { (snapshot) in
                         if let dataChange = snapshot.value as? NSDictionary {
                             let user = User(email: dataChange.value(forKey: "email") as! String, name: dataChange.value(forKey: "name") as! String, motherLanguage: dataChange.value(forKey: "motherLanguage") as! String, secondLanguage: dataChange.value(forKey: "secondLanguage") as! String, profileImageURL: dataChange.value(forKey: "profileImageURL") as! String, booking:  dataChange.value(forKey: "booking") as! String)
                             DispatchQueue.main.async {
                                 let alert = UIAlertController(title: "New booking to you", message: user.email, preferredStyle: UIAlertController.Style.alert)
-                                alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { action in
-                                    switch action.style{
-                                    case .default:
-                                        self.usersId.append(item)
-                                        newUserRef.updateChildValues(["confirm": true])
-                                        visualEffectView.isHidden = true
-                                        self.tableView.reloadData()
-                                        break;
-                                        
-                                    case .cancel:
-                                        print("cancel")
-                                        visualEffectView.isHidden = true
-                                        break;
-                                    case .destructive:
-                                        print("no")
-                                    }}))
-                                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
-                                    switch action.style{
-                                    case .default:
-                                        self.usersId.append(item)
-                                        newUserRef.updateChildValues(["confirm": true])
-                                        visualEffectView.isHidden = true
-                                        self.tableView.reloadData()
-                                        break;
-                                        
-                                    case .cancel:
-                                        print("cancel")
-                                        visualEffectView.isHidden = true
-                                        break;
-                                    case .destructive:
-                                        print("no")
-                                    }}))
+                                alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { _ in
+                                    Database.database().reference().child("bookings").child(newBooking!).updateChildValues(["confirm": true])
+                                    visualEffectView.isHidden = true
+                                    }))
+
+                                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in                  print("cancel")
+                                    visualEffectView.isHidden = true
+                                    }))
                                 self.present(alert, animated: true, completion: nil)
                             }
                         }
