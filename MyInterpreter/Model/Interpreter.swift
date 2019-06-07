@@ -88,3 +88,4 @@ class Interpreter
         self.secondLanguage = secondLanguage
     }
 }
+

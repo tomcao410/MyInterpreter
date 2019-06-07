@@ -29,7 +29,7 @@ class PaymentVC: UIViewController {
     var method2: String = "Period prepaid"
     
     static var price: Int = 0
-    
+    static var numberOfDays: Int = 1
     // MARK: Views
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +37,6 @@ class PaymentVC: UIViewController {
         // UI
         setUI()
         
-        hideKeyboard() // hide keyboard when tap anywhere outside the text field
         
         pickerPaymentMethod.delegate = self
     }
@@ -46,6 +45,8 @@ class PaymentVC: UIViewController {
     // MARK: --------Functions--------
     func setUI()
     {
+        hideKeyboard() // hide keyboard when tap anywhere outside the text field
+        
         effect = visualEffectView.effect
         visualEffectView.effect = nil
         visualEffectView.isHidden = true
@@ -96,18 +97,6 @@ class PaymentVC: UIViewController {
         
     }
     
-    // MARK: --------KEYBOARD--------
-    func hideKeyboard()
-    {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector (dissmissKeyboard))
-        view.addGestureRecognizer(tap)
-    }
-    
-    @objc func dissmissKeyboard()
-    {
-        view.endEditing(true)
-    }
-    
     // MARK: --------TEXT FIELD--------
     @IBAction func numberOfDaysChanged(_ sender: Any) {
         var price = Double(self.txtFieldNumberOfDays.text!)
@@ -144,7 +133,10 @@ class PaymentVC: UIViewController {
         {
             // MARKK: payment invoice processsing.... STRIPE!!!!!!!
             PaymentVC.price = Int((lblPrice.text! as NSString).floatValue * 100)
-
+            if (txtFieldNumberOfDays.text != "")
+            {
+                PaymentVC.numberOfDays = Int(txtFieldNumberOfDays.text!)!
+            }
             performSegue(withIdentifier: "confirmPaymentSegue", sender: nil)
         }
     }

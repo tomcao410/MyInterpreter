@@ -49,7 +49,7 @@ class SignUpStage2VC: UIViewController {
     private func saveUserInfo(user: User)
     {
         // STORAGE
-        let storageRef = Storage.storage().reference().child("users_profile_images").child("\(user.getEncodedEmail()).png") // Upload file to storage need a name for that file
+        let storageRef = Storage.storage().reference().child("users_profile_images").child("\(user.email.getEncodedEmail()).png") // Upload file to storage need a name for that file
         
         if let uploadData = self.userImage.image!.pngData()
         {
@@ -72,12 +72,12 @@ class SignUpStage2VC: UIViewController {
                             
                             let databaseRef = Database.database().reference()
                             
-                            let childPath = "users/" + user.getEncodedEmail()
+                            let childPath = "users/" + user.email.getEncodedEmail()
                             
                             databaseRef.child(childPath).setValue(["email": user.email, "name": user.name, "motherLanguage": user.motherLanguage, "secondLanguage": user.secondLanguage, "profileImageURL": user.profileImageURL])
                             
                             // Update users booking status (default: "interpreter0" - means the user hasn't booked anyone yet)
-                            databaseRef.child("users/\(user.getEncodedEmail())/booking").setValue("interpreter0")
+                            databaseRef.child("users/\(user.email.getEncodedEmail())/booking").setValue("interpreter0")
                         }
                     })
                 }
@@ -125,17 +125,6 @@ class SignUpStage2VC: UIViewController {
         {
             view.frame.origin.y = 0
         }
-    }
-    
-    func hideKeyboard()
-    {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector (dissmissKeyboard))
-        view.addGestureRecognizer(tap)
-    }
-    
-    @objc func dissmissKeyboard()
-    {
-        view.endEditing(true)
     }
     
     // MARK: --------BUTTON--------

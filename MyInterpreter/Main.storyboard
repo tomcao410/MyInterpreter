@@ -18,16 +18,44 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Ko-XM-Hjh">
-                                <rect key="frame" x="151" y="537" width="73" height="30"/>
-                                <state key="normal" title="Interpreter"/>
+                                <rect key="frame" x="72.5" y="517" width="230" height="50"/>
+                                <color key="backgroundColor" red="0.76078431369999999" green="0.76078431369999999" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="230" id="byh-cr-Pe0"/>
+                                    <constraint firstAttribute="height" constant="50" id="kZw-K3-dt8"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="Interpreter">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <integer key="value" value="15"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
+                                    <action selector="interpreterButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="yK2-6Z-yyW"/>
                                     <segue destination="Fay-yH-e3y" kind="show" id="uZB-hw-aab"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AxL-6l-sAM">
-                                <rect key="frame" x="171" y="487" width="33" height="30"/>
-                                <state key="normal" title="User"/>
+                                <rect key="frame" x="72.5" y="447" width="230" height="50"/>
+                                <color key="backgroundColor" red="0.76078431372549016" green="0.76078431372549016" blue="0.79607843137254897" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="230" id="7lK-7J-8rW"/>
+                                    <constraint firstAttribute="height" constant="50" id="m6l-st-IuS"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="User">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <integer key="value" value="15"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
+                                    <action selector="userButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8cg-W3-SIr"/>
                                     <segue destination="ChC-xa-tbo" kind="show" id="L9k-Y3-HZK"/>
                                 </connections>
                             </button>
@@ -42,10 +70,6 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="MyInterpreter" id="YXm-dW-xCF"/>
-                    <connections>
-                        <outlet property="interpreterButton" destination="1Ko-XM-Hjh" id="MBf-JL-XQV"/>
-                        <outlet property="userButton" destination="AxL-6l-sAM" id="D7b-aS-V6p"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -752,7 +776,7 @@ Price: $1.49 per day</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next"/>
                                     </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Expiry Date (MM/YY)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="J77-Ds-fwl">
+                                    <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Expiry Date (MM/YYYY)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="J77-Ds-fwl">
                                         <rect key="frame" x="0.0" y="83" width="271" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <nil key="textColor"/>
@@ -984,7 +1008,7 @@ Price: $1.49 per day</string>
         <image name="userIcon" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="7A9-2z-BIR"/>
+        <segue reference="swn-Pe-bnL"/>
         <segue reference="BYu-OV-1O9"/>
         <segue reference="NIp-pH-V6n"/>
     </inferredMetricsTieBreakers>

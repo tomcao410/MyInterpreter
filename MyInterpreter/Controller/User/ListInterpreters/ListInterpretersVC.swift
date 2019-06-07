@@ -17,6 +17,12 @@ class ListInterpretersVC: UIViewController {
     // MARK: Parameters
     var totalInterpreters = Int()
     var listInterpreters = [Interpreter]()
+    {
+        didSet
+        {
+            listInterpretersTableView.reloadData()
+        }
+    }
     
     static var selectedInterpreter = Interpreter()
     
@@ -37,6 +43,8 @@ class ListInterpretersVC: UIViewController {
         let userButton = UIBarButtonItem(image: #imageLiteral(resourceName: "userIcon"), style: .plain, target: self, action: #selector(userButtonClicked))
         
         navigationItem.rightBarButtonItem = userButton
+        
+        listInterpretersTableView.tableFooterView = UIView()
         
         listInterpretersTableView.delegate = self
         listInterpretersTableView.dataSource = self
@@ -76,10 +84,7 @@ class ListInterpretersVC: UIViewController {
                         let artist = Interpreter(email: email as! String, name: name as! String, motherLanguage: motherLanguage as! String, secondLanguage: secondLanguage as! String, profileImageURL: imageURL as! String)
                         
                         self.listInterpreters.append(artist)
-                        
-                        DispatchQueue.main.async {
-                            self.listInterpretersTableView.reloadData()
-                        }
+
                     }
                     
                 }
