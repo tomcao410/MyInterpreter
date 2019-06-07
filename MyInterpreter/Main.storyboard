@@ -416,6 +416,20 @@
                                     <constraint firstItem="C9M-iF-4GS" firstAttribute="leading" secondItem="wGF-IT-BvE" secondAttribute="leading" id="w2b-2I-hOo"/>
                                 </constraints>
                             </stackView>
+                            <activityIndicatorView hidden="YES" opaque="NO" clipsSubviews="YES" alpha="0.5" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="7mf-BH-gVm">
+                                <rect key="frame" x="167.5" y="468" width="40" height="40"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="ehX-6t-lud"/>
+                                    <constraint firstAttribute="width" constant="40" id="iWo-DI-3kf"/>
+                                </constraints>
+                                <color key="color" red="0.76078431369999999" green="0.76078431369999999" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </activityIndicatorView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9N2-bR-mtl">
                                 <rect key="frame" x="166.5" y="473" width="42" height="30"/>
                                 <state key="normal" title="Log In"/>
@@ -428,8 +442,10 @@
                         <constraints>
                             <constraint firstItem="wGF-IT-BvE" firstAttribute="leading" secondItem="CMC-92-RZM" secondAttribute="leading" constant="20" id="32H-Xs-eMH"/>
                             <constraint firstItem="CMC-92-RZM" firstAttribute="trailing" secondItem="wGF-IT-BvE" secondAttribute="trailing" constant="20" id="GnL-8W-ppE"/>
+                            <constraint firstItem="7mf-BH-gVm" firstAttribute="top" secondItem="wGF-IT-BvE" secondAttribute="bottom" constant="45" id="bRw-5j-iI7"/>
                             <constraint firstItem="wGF-IT-BvE" firstAttribute="centerY" secondItem="ALH-Fu-B6o" secondAttribute="centerY" id="c66-Kx-tzn"/>
                             <constraint firstItem="9N2-bR-mtl" firstAttribute="top" secondItem="wGF-IT-BvE" secondAttribute="bottom" constant="50" id="cnh-9n-PQB"/>
+                            <constraint firstItem="7mf-BH-gVm" firstAttribute="centerX" secondItem="ALH-Fu-B6o" secondAttribute="centerX" id="kP3-fa-Y7K"/>
                             <constraint firstItem="wGF-IT-BvE" firstAttribute="centerX" secondItem="ALH-Fu-B6o" secondAttribute="centerX" id="kwo-B3-29t"/>
                             <constraint firstItem="9N2-bR-mtl" firstAttribute="centerX" secondItem="ALH-Fu-B6o" secondAttribute="centerX" id="tNO-CZ-kzI"/>
                         </constraints>
@@ -438,7 +454,9 @@
                     <connections>
                         <outlet property="emailField" destination="C9M-iF-4GS" id="cXF-c5-B6b"/>
                         <outlet property="lblError" destination="fOY-Wz-tGa" id="f76-P1-vgF"/>
+                        <outlet property="loginButton" destination="9N2-bR-mtl" id="k66-1X-uzY"/>
                         <outlet property="passwordField" destination="mv7-ch-ivG" id="ZKd-Qq-nDc"/>
+                        <outlet property="spinner" destination="7mf-BH-gVm" id="BLb-mW-PY3"/>
                         <segue destination="5ie-he-HVt" kind="show" identifier="userLogInSegue" id="NIp-pH-V6n"/>
                         <segue destination="k7P-0h-k7g" kind="show" identifier="userDashboardSegue" id="7A9-2z-BIR"/>
                     </connections>
@@ -459,11 +477,11 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="interpreterCell" rowHeight="120" id="tfY-6g-ygL" customClass="ListInterpretersCell" customModule="MyInterpreter" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="120"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="interpreterCell" rowHeight="115" id="tfY-6g-ygL" customClass="ListInterpretersCell" customModule="MyInterpreter" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="115"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="tfY-6g-ygL" id="VSn-wS-bDc">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="119.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="114.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="userIcon" translatesAutoresizingMaskIntoConstraints="NO" id="C6F-5k-dgf">
@@ -491,10 +509,26 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <activityIndicatorView hidden="YES" opaque="NO" clipsSubviews="YES" alpha="0.5" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="ht7-J1-BhM">
+                                                    <rect key="frame" x="167.5" y="45.5" width="40" height="40"/>
+                                                    <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="40" id="4X2-lz-oVS"/>
+                                                        <constraint firstAttribute="width" constant="40" id="bDc-Gx-la4"/>
+                                                    </constraints>
+                                                    <color key="color" red="0.76078431369999999" green="0.76078431369999999" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="10"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </activityIndicatorView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="ht7-J1-BhM" firstAttribute="centerX" secondItem="VSn-wS-bDc" secondAttribute="centerX" id="4sD-rj-oj7"/>
                                                 <constraint firstItem="o1T-tm-lsR" firstAttribute="leading" secondItem="C6F-5k-dgf" secondAttribute="trailing" constant="10" id="7cn-56-VYs"/>
                                                 <constraint firstItem="o1T-tm-lsR" firstAttribute="top" secondItem="VSn-wS-bDc" secondAttribute="top" constant="30" id="7of-8R-l4V"/>
+                                                <constraint firstItem="ht7-J1-BhM" firstAttribute="top" secondItem="VSn-wS-bDc" secondAttribute="top" constant="45" id="9Ph-sQ-XM2"/>
                                                 <constraint firstItem="X7S-do-Upg" firstAttribute="top" secondItem="o1T-tm-lsR" secondAttribute="bottom" constant="20" id="P7C-P0-Ofg"/>
                                                 <constraint firstItem="C6F-5k-dgf" firstAttribute="leading" secondItem="VSn-wS-bDc" secondAttribute="leading" constant="20" id="UuW-Hc-WgA"/>
                                                 <constraint firstAttribute="trailing" secondItem="X7S-do-Upg" secondAttribute="trailing" constant="20" id="VMJ-qG-fCe"/>
@@ -508,6 +542,7 @@
                                             <outlet property="interpreterImage" destination="C6F-5k-dgf" id="p2G-ii-I4m"/>
                                             <outlet property="languagesLbl" destination="X7S-do-Upg" id="shN-sD-apz"/>
                                             <outlet property="nameLbl" destination="o1T-tm-lsR" id="hcU-PJ-SUP"/>
+                                            <outlet property="spinner" destination="ht7-J1-BhM" id="Sr5-Ow-oGe"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -797,6 +832,20 @@ Price: $1.49 per day</string>
                                     <constraint firstAttribute="height" constant="120" id="Vsi-Hd-CYE"/>
                                 </constraints>
                             </view>
+                            <activityIndicatorView hidden="YES" opaque="NO" clipsSubviews="YES" alpha="0.5" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="44s-8k-iAt">
+                                <rect key="frame" x="167.5" y="501" width="40" height="40"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="F5u-Rk-fvB"/>
+                                    <constraint firstAttribute="height" constant="40" id="rTY-qR-kaK"/>
+                                </constraints>
+                                <color key="color" red="0.76078431372549016" green="0.76078431372549016" blue="0.792156862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </activityIndicatorView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hxi-Yb-wYY">
                                 <rect key="frame" x="170" y="506" width="35" height="30"/>
                                 <state key="normal" title="Book"/>
@@ -807,6 +856,7 @@ Price: $1.49 per day</string>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="44s-8k-iAt" firstAttribute="centerX" secondItem="edB-1B-PPf" secondAttribute="centerX" id="1oB-o4-fop"/>
                             <constraint firstItem="EUC-Bx-cU1" firstAttribute="top" secondItem="WBN-9V-qLv" secondAttribute="top" constant="30" id="2r5-kv-kP2"/>
                             <constraint firstItem="jfc-k2-aaO" firstAttribute="top" secondItem="EUC-Bx-cU1" secondAttribute="bottom" constant="10" id="6ux-vw-8lE"/>
                             <constraint firstItem="Hxi-Yb-wYY" firstAttribute="top" secondItem="p5X-BM-SJx" secondAttribute="bottom" constant="30" id="73H-Zq-WXX"/>
@@ -817,6 +867,7 @@ Price: $1.49 per day</string>
                             <constraint firstItem="Sy9-rA-1pr" firstAttribute="top" secondItem="jfc-k2-aaO" secondAttribute="bottom" constant="10" id="Zfg-D1-VdP"/>
                             <constraint firstItem="Hxi-Yb-wYY" firstAttribute="centerX" secondItem="edB-1B-PPf" secondAttribute="centerX" id="bI5-ca-7jB"/>
                             <constraint firstItem="Sy9-rA-1pr" firstAttribute="leading" secondItem="nhf-fk-y1u" secondAttribute="trailing" constant="50" id="gBL-4O-PAf"/>
+                            <constraint firstItem="44s-8k-iAt" firstAttribute="top" secondItem="p5X-BM-SJx" secondAttribute="bottom" constant="25" id="lwa-HL-22e"/>
                             <constraint firstItem="p5X-BM-SJx" firstAttribute="top" secondItem="nhf-fk-y1u" secondAttribute="bottom" constant="50" id="nk3-PN-dbs"/>
                             <constraint firstItem="EUC-Bx-cU1" firstAttribute="centerX" secondItem="edB-1B-PPf" secondAttribute="centerX" id="uXp-7t-LmG"/>
                             <constraint firstItem="jfc-k2-aaO" firstAttribute="centerX" secondItem="edB-1B-PPf" secondAttribute="centerX" id="w7R-PS-WOd"/>
@@ -826,12 +877,14 @@ Price: $1.49 per day</string>
                         <viewLayoutGuide key="safeArea" id="WBN-9V-qLv"/>
                     </view>
                     <connections>
+                        <outlet property="bookButton" destination="Hxi-Yb-wYY" id="X7d-QD-v7d"/>
                         <outlet property="cardNumberTxtFlield" destination="Vqs-5w-9ip" id="4vK-ua-ZeB"/>
                         <outlet property="cvcTxtField" destination="Jwi-Bx-kK0" id="bqY-GE-WH1"/>
                         <outlet property="expDateTxtField" destination="J77-Ds-fwl" id="Dwd-Ag-9yv"/>
                         <outlet property="interpreterImage" destination="EUC-Bx-cU1" id="tnl-H2-ruU"/>
                         <outlet property="nameLbl" destination="jfc-k2-aaO" id="dK4-dY-3FQ"/>
                         <outlet property="priceLbl" destination="Sy9-rA-1pr" id="Q0H-3X-La9"/>
+                        <outlet property="spinner" destination="44s-8k-iAt" id="YRH-JS-zzD"/>
                         <segue destination="k7P-0h-k7g" kind="show" identifier="userDashboardSegue" id="swn-Pe-bnL"/>
                     </connections>
                 </viewController>
@@ -955,13 +1008,6 @@ Price: $1.49 per day</string>
                                     </label>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wkb-d0-06v">
-                                <rect key="frame" x="164.5" y="576.5" width="46" height="30"/>
-                                <state key="normal" title="Create"/>
-                                <connections>
-                                    <action selector="handleCreate:" destination="ImR-5R-XqO" eventType="touchUpInside" id="z15-Qq-GHq"/>
-                                </connections>
-                            </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="userIcon" translatesAutoresizingMaskIntoConstraints="NO" id="pmU-HQ-ZO5">
                                 <rect key="frame" x="112.5" y="80" width="150" height="150"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -975,25 +1021,50 @@ Price: $1.49 per day</string>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </imageView>
+                            <activityIndicatorView hidden="YES" opaque="NO" clipsSubviews="YES" alpha="0.5" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="5eh-kf-nhI">
+                                <rect key="frame" x="167.5" y="571.5" width="40" height="40"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="06g-79-4cJ"/>
+                                    <constraint firstAttribute="width" constant="40" id="3jW-3u-hco"/>
+                                </constraints>
+                                <color key="color" red="0.76078431372549016" green="0.76078431372549016" blue="0.792156862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </activityIndicatorView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wkb-d0-06v">
+                                <rect key="frame" x="164.5" y="576.5" width="46" height="30"/>
+                                <state key="normal" title="Create"/>
+                                <connections>
+                                    <action selector="handleCreate:" destination="ImR-5R-XqO" eventType="touchUpInside" id="z15-Qq-GHq"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="wkb-d0-06v" firstAttribute="top" secondItem="qVi-si-hUC" secondAttribute="bottom" constant="50" id="CGa-Vw-oxZ"/>
                             <constraint firstItem="qVi-si-hUC" firstAttribute="leading" secondItem="rTi-zD-fsT" secondAttribute="leading" constant="20" id="ECT-Ap-HXh"/>
+                            <constraint firstItem="5eh-kf-nhI" firstAttribute="top" secondItem="qVi-si-hUC" secondAttribute="bottom" constant="45" id="NSS-8u-EXI"/>
                             <constraint firstItem="qVi-si-hUC" firstAttribute="centerX" secondItem="mz0-As-lWm" secondAttribute="centerX" id="SyQ-QJ-Vyb"/>
                             <constraint firstItem="qVi-si-hUC" firstAttribute="top" secondItem="pmU-HQ-ZO5" secondAttribute="bottom" constant="16" id="U2b-WG-f6E"/>
                             <constraint firstItem="pmU-HQ-ZO5" firstAttribute="top" secondItem="rTi-zD-fsT" secondAttribute="top" constant="16" id="hDm-Wj-btk"/>
                             <constraint firstItem="rTi-zD-fsT" firstAttribute="trailing" secondItem="qVi-si-hUC" secondAttribute="trailing" constant="20" id="pvZ-6a-ssg"/>
                             <constraint firstItem="wkb-d0-06v" firstAttribute="centerX" secondItem="mz0-As-lWm" secondAttribute="centerX" id="veu-R8-mEF"/>
                             <constraint firstItem="pmU-HQ-ZO5" firstAttribute="centerX" secondItem="mz0-As-lWm" secondAttribute="centerX" id="zbj-ph-aJF"/>
+                            <constraint firstItem="5eh-kf-nhI" firstAttribute="centerX" secondItem="mz0-As-lWm" secondAttribute="centerX" id="zxX-R8-vbs"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="rTi-zD-fsT"/>
                     </view>
                     <connections>
                         <outlet property="confirmPWField" destination="GCi-XN-dRO" id="MDE-jr-o2v"/>
+                        <outlet property="createButton" destination="wkb-d0-06v" id="OCG-4J-Sj7"/>
                         <outlet property="emailField" destination="aBt-iq-kKH" id="ltw-DN-1JD"/>
                         <outlet property="lblError" destination="okP-5c-t2u" id="O48-Zx-ieo"/>
                         <outlet property="passwordField" destination="th2-0i-ODc" id="ebr-RB-WMg"/>
+                        <outlet property="spinner" destination="5eh-kf-nhI" id="H7I-rM-p1f"/>
                         <outlet property="userImage" destination="pmU-HQ-ZO5" id="jQa-PN-0Tq"/>
                         <segue destination="5ie-he-HVt" kind="show" identifier="userRegisterSegue2" id="HIX-ul-aOt"/>
                     </connections>
@@ -1008,8 +1079,8 @@ Price: $1.49 per day</string>
         <image name="userIcon" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="7A9-2z-BIR"/>
+        <segue reference="swn-Pe-bnL"/>
         <segue reference="BYu-OV-1O9"/>
-        <segue reference="NIp-pH-V6n"/>
+        <segue reference="HIX-ul-aOt"/>
     </inferredMetricsTieBreakers>
 </document>

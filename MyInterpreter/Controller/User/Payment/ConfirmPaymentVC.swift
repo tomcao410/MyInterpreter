@@ -21,6 +21,8 @@ class ConfirmPaymentVC: UIViewController {
     @IBOutlet weak var interpreterImage: UIImageView!
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var priceLbl: UILabel!
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
+    @IBOutlet weak var bookButton: UIButton!
     
     // Remember to add "/charge"
     let backendBaseURL: String = "https://my-interpreter.herokuapp.com/charge"
@@ -200,6 +202,10 @@ class ConfirmPaymentVC: UIViewController {
     // MARK: --------BUTTON--------
     @IBAction func bookBtnClicked(_ sender: Any)
     {
+        hideKeyboard()
+        spinner.startAnimating()
+        bookButton.status(enable: false, hidden: true)
+        
         if (expDateTxtField.text?.isEmpty)!
             && (cardNumberTxtFlield.text?.isEmpty)!
             && (cvcTxtField.text?.isEmpty)!
@@ -221,6 +227,9 @@ class ConfirmPaymentVC: UIViewController {
             
             if token == nil
             {
+                self.spinner.stopAnimating()
+                self.bookButton.status(enable: true, hidden: false)
+                
                 self.alertAction(title: "Incorrect", message: "Your card is invalid! Please check again!")
                 return
             }
@@ -251,10 +260,16 @@ class ConfirmPaymentVC: UIViewController {
                     // Update users booking status (default: "interpreter0" - means the user hasn't booked anyone yet)
                     databaseRef.child("users/\(Auth.auth().currentUser!.email!.getEncodedEmail())/booking").setValue(ListInterpretersVC.selectedInterpreter.email.getEncodedEmail())
                     
+                    self.spinner.stopAnimating()
+                    self.bookButton.status(enable: true, hidden: false)
+                    
                     self.performSegue(withIdentifier: "userDashboardSegue", sender: nil)
                 }
                 else
                 {
+                    self.spinner.stopAnimating()
+                    self.bookButton.status(enable: true, hidden: false)
+                    
                     self.alertAction(title: "Error", message: "Something happened to the web server! (code = \(code))")
                 }
             }

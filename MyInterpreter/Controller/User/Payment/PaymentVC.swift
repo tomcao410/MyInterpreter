@@ -128,6 +128,8 @@ class PaymentVC: UIViewController {
     
     @IBAction func btnNextClicked(_ sender: Any)
     {
+        hideKeyboard()
+        
         if (lblPrice.text == "0.0")
         {
             alertInputNumberOfDays()

@@ -10,6 +10,12 @@ import UIKit
 
 extension UIButton
 {
+    func status(enable: Bool, hidden: Bool)
+    {
+        self.isEnabled = enable
+        self.isHidden = hidden
+    }
+    
     func pulsate() {
         
         let pulse = CASpringAnimation(keyPath: "transform.scale")

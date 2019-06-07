@@ -16,6 +16,8 @@ class SignInUserVC: UIViewController
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var lblError: UILabel!
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
+    @IBOutlet weak var loginButton: UIButton!
     
     // MARK: views
     override func viewDidLoad() {
@@ -73,18 +75,28 @@ class SignInUserVC: UIViewController
     // MARK: --------BUTTON--------
     @IBAction func handleLogIn(_ sender: UIButton)
     {
+        hideKeyboard()
+        spinner.startAnimating()
+        loginButton.status(enable: false, hidden: true)
+        
         guard let email = emailField.text else {return}
         guard let pass = passwordField.text else {return}
         
         Auth.auth().signIn(withEmail: email, password: pass) { (user: AuthDataResult?, error: Error?) in
             if user != nil
             {
+                self.loginButton.status(enable: true, hidden: false)
+                self.spinner.stopAnimating()
+                
                 self.performSegue(withIdentifier: "userLogInSegue", sender: self)
             }
             else
             {
                 self.lblError.isHidden = false
                 self.lblError.text = error!.localizedDescription
+                
+                self.loginButton.status(enable: true, hidden: false)
+                self.spinner.stopAnimating()
             }
         }
     }

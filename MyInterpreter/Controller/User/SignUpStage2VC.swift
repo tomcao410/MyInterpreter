@@ -17,6 +17,8 @@ class SignUpStage2VC: UIViewController {
     @IBOutlet weak var confirmPWField: UITextField!
     @IBOutlet weak var lblError: UILabel!
     @IBOutlet weak var userImage: UIImageView!
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
+    @IBOutlet weak var createButton: UIButton!
     
     // MARK: views
     override func viewDidLoad() {
@@ -131,6 +133,10 @@ class SignUpStage2VC: UIViewController {
     // MARK: --------BUTTON--------
     @IBAction func handleCreate(_ sender: UIButton)
     {
+        hideKeyboard()
+        spinner.startAnimating()
+        createButton.status(enable: false, hidden: true)
+        
         guard let email = emailField.text else {return}
         guard let pass = passwordField.text else {return}
         guard let confirm = confirmPWField.text else {return}
@@ -143,12 +149,19 @@ class SignUpStage2VC: UIViewController {
                 {
                     SignUpStage1VC.user.setEmail(email: email)
                     self.saveUserInfo(user: SignUpStage1VC.user)
+                    
+                    self.spinner.stopAnimating()
+                    self.createButton.status(enable: true, hidden: false)
+                    
                     self.performSegue(withIdentifier: "userRegisterSegue2", sender: self)
                 }
                 else
                 {
                     self.lblError.isHidden = false
                     self.lblError.text = error!.localizedDescription
+                    
+                    self.spinner.stopAnimating()
+                    self.createButton.status(enable: true, hidden: false)
                 }
             }
         }
@@ -157,6 +170,9 @@ class SignUpStage2VC: UIViewController {
             // MARK: Password and Confirm aren't match
             lblError.isHidden = false
             lblError.text = "Password and Confirm aren't match"
+            
+            self.spinner.stopAnimating()
+            self.createButton.status(enable: true, hidden: false)
         }
     }
     

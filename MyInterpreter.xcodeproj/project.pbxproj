@@ -253,8 +253,8 @@
 			children = (
 				54E6B5392245E81B000F82D8 /* AppDelegate.swift */,
 				54C8AAA522AA12FA00696C15 /* Model */,
-				54C8AAA722AA130A00696C15 /* Controller */,
 				54C8AAA622AA130400696C15 /* View */,
+				54C8AAA722AA130A00696C15 /* Controller */,
 				5418814B22A98E7D004F1FBA /* Extension */,
 				54E6B5432245E81C000F82D8 /* Assets.xcassets */,
 				54023F2322A6624E004D1A1B /* Main.storyboard */,

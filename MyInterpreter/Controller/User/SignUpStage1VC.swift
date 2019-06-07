@@ -54,6 +54,8 @@ class SignUpStage1VC: UIViewController {
     // MARK: --------BUTTON--------
     @IBAction func nextButtonClicked(_ sender: Any)
     {
+        hideKeyboard()
+        
         if (nameField.text?.isEmpty)!
         {
             lblError.isHidden = false
