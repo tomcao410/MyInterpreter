@@ -35,7 +35,7 @@ class SignInUserVC: UIViewController
     private func setUI()
     {
         keyboardEvents()
-        hideKeyboard() // hide keyboard when tap anywhere outside the text field
+        hideKeyboard()
         
         lblError.isHidden = true
         
@@ -75,17 +75,6 @@ class SignInUserVC: UIViewController
         {
             view.frame.origin.y = 0
         }
-    }
-    
-    func hideKeyboard()
-    {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector (dissmissKeyboard))
-        view.addGestureRecognizer(tap)
-    }
-    
-    @objc func dissmissKeyboard()
-    {
-        view.endEditing(true)
     }
     
     // MARK: --------BUTTON--------

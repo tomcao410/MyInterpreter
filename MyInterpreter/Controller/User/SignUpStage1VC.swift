@@ -51,18 +51,6 @@ class SignUpStage1VC: UIViewController {
         lblError.isHidden = true
     }
     
-    // MARK: --------KEYBOARD--------
-    func hideKeyboard()
-    {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector (dissmissKeyboard))
-        view.addGestureRecognizer(tap)
-    }
-    
-    @objc func dissmissKeyboard()
-    {
-        view.endEditing(true)
-    }
-    
     // MARK: --------BUTTON--------
     @IBAction func nextButtonClicked(_ sender: Any)
     {
