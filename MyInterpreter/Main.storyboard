@@ -235,10 +235,10 @@
             </objects>
             <point key="canvasLocation" x="2692" y="384.55772113943033"/>
         </scene>
-        <!--View Controller-->
+        <!--MainVC2-->
         <scene sceneID="Fyz-Dk-iih">
             <objects>
-                <viewController id="ChC-xa-tbo" sceneMemberID="viewController">
+                <viewController id="ChC-xa-tbo" customClass="MainVC_2" customModule="MyInterpreter" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="txq-j3-RFN">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1008,7 +1008,7 @@ Price: $1.49 per day</string>
         <image name="userIcon" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="swn-Pe-bnL"/>
+        <segue reference="7A9-2z-BIR"/>
         <segue reference="BYu-OV-1O9"/>
         <segue reference="NIp-pH-V6n"/>
     </inferredMetricsTieBreakers>

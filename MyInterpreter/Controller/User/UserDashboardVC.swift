@@ -23,7 +23,9 @@ class UserDashboardVC: UIViewController {
     {
         let userButton = UIBarButtonItem(image: #imageLiteral(resourceName: "userIcon"), style: .plain, target: self, action: #selector(userButtonClicked))
         
+        navigationItem.setCustomNavBar(title: "Dashboard")
         navigationItem.rightBarButtonItem = userButton
+        navigationItem.hidesBackButton = true
     }
     
     @objc func userButtonClicked()

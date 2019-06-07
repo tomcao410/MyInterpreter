@@ -46,6 +46,8 @@ class SignUpStage1VC: UIViewController {
     {
         hideKeyboard() // hide keyboard when tap anywhere outside the text field
         
+        navigationItem.setCustomNavBar(title: "Register")
+        
         lblError.isHidden = true
     }
     

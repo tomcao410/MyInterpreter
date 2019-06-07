@@ -47,16 +47,19 @@ class PaymentVC: UIViewController {
     {
         hideKeyboard() // hide keyboard when tap anywhere outside the text field
         
+        navigationItem.setCustomNavBar(title: "Payment")
+        
         effect = visualEffectView.effect
         visualEffectView.effect = nil
         visualEffectView.isHidden = true
         
         modalPaymentMethod.layer.cornerRadius = 10
-        
         paymenMethods.append(method1)
         paymenMethods.append(method2)
         
         txtFieldNumberOfDays.isEnabled = false
+        txtFieldNumberOfDays.addDoneCancelToolbar()
+        
         lblNumberOfDays.textColor = .gray
         lblPricePerDay.textColor = .gray
     }

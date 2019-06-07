@@ -48,6 +48,8 @@ class ConfirmPaymentVC: UIViewController {
         keyboardEvents()
         hideKeyboard()
         
+        navigationItem.setCustomNavBar(title: "Payment")
+        
         nameLbl.text = ListInterpretersVC.selectedInterpreter.getName()
         priceLbl.text = "$\(Float(PaymentVC.price) / 100)"
         

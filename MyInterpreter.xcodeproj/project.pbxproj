@@ -23,6 +23,8 @@
 		54B59CB7224E37B60026814A /* SignUpStage1VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B59CB6224E37B60026814A /* SignUpStage1VC.swift */; };
 		54B779382273618F001A53B7 /* Interpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B779372273618F001A53B7 /* Interpreter.swift */; };
 		54BBEFBB22AAA5F600D86C17 /* TextField-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BBEFBA22AAA5F600D86C17 /* TextField-Extension.swift */; };
+		54BBEFBF22AAB33F00D86C17 /* NavigationBar-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BBEFBE22AAB33F00D86C17 /* NavigationBar-Extension.swift */; };
+		54BBEFC122AAB42300D86C17 /* MainVC-2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BBEFC022AAB42300D86C17 /* MainVC-2.swift */; };
 		54C719E72270C214001B2BFF /* ListInterpretersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C719E62270C214001B2BFF /* ListInterpretersVC.swift */; };
 		54C719E92270C24B001B2BFF /* ListInterpretersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C719E82270C24B001B2BFF /* ListInterpretersCell.swift */; };
 		54C8AAA922AA146500696C15 /* Booking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C8AAA822AA146500696C15 /* Booking.swift */; };
@@ -76,6 +78,8 @@
 		54B59CB6224E37B60026814A /* SignUpStage1VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpStage1VC.swift; sourceTree = "<group>"; };
 		54B779372273618F001A53B7 /* Interpreter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interpreter.swift; sourceTree = "<group>"; };
 		54BBEFBA22AAA5F600D86C17 /* TextField-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextField-Extension.swift"; sourceTree = "<group>"; };
+		54BBEFBE22AAB33F00D86C17 /* NavigationBar-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationBar-Extension.swift"; sourceTree = "<group>"; };
+		54BBEFC022AAB42300D86C17 /* MainVC-2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainVC-2.swift"; sourceTree = "<group>"; };
 		54C719E62270C214001B2BFF /* ListInterpretersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListInterpretersVC.swift; sourceTree = "<group>"; };
 		54C719E82270C24B001B2BFF /* ListInterpretersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListInterpretersCell.swift; sourceTree = "<group>"; };
 		54C8AAA822AA146500696C15 /* Booking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Booking.swift; sourceTree = "<group>"; };
@@ -137,6 +141,7 @@
 				54C8AAAC22AA181E00696C15 /* Data-Extension.swift */,
 				54E8E74C22AA7B3100A08A39 /* ViewController-Extension.swift */,
 				54BBEFBA22AAA5F600D86C17 /* TextField-Extension.swift */,
+				54BBEFBE22AAB33F00D86C17 /* NavigationBar-Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -205,6 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				54E6B53B2245E81B000F82D8 /* MainVC.swift */,
+				54BBEFC022AAB42300D86C17 /* MainVC-2.swift */,
 				54B59CB1224E27A20026814A /* User */,
 				54B59CB0224E27120026814A /* Interpreter */,
 				5449B8CA22A7D93F00250518 /* Messenger */,
@@ -497,6 +503,7 @@
 			files = (
 				5449B8CC22A7D96B00250518 /* ChatLogController.swift in Sources */,
 				54C8AAA922AA146500696C15 /* Booking.swift in Sources */,
+				54BBEFC122AAB42300D86C17 /* MainVC-2.swift in Sources */,
 				5418814D22A98EA2004F1FBA /* Button-Extension.swift in Sources */,
 				548ABB922297D18300A7D9C4 /* ConfirmPaymentVC.swift in Sources */,
 				54C719E92270C24B001B2BFF /* ListInterpretersCell.swift in Sources */,
@@ -505,6 +512,7 @@
 				543EF3F6224E7B79009CEAE6 /* SignUpStage2VC.swift in Sources */,
 				54E6B5422245E81B000F82D8 /* MyInterpreter.xcdatamodeld in Sources */,
 				54C8AAAB22AA171D00696C15 /* String-Extension.swift in Sources */,
+				54BBEFBF22AAB33F00D86C17 /* NavigationBar-Extension.swift in Sources */,
 				5449B8CE22A7D9E500250518 /* Message.swift in Sources */,
 				54C8AAAD22AA181E00696C15 /* Data-Extension.swift in Sources */,
 				5449B8D022A7DA0500250518 /* ClientsController.swift in Sources */,

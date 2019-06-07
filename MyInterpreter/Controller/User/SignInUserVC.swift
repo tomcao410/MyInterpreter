@@ -32,6 +32,8 @@ class SignInUserVC: UIViewController
         
         lblError.isHidden = true
         
+        navigationItem.setCustomNavBar(title: "Sign In")
+        
         emailField.delegate = self
         passwordField.delegate = self
     }

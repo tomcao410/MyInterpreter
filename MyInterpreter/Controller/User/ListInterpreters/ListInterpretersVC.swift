@@ -43,6 +43,8 @@ class ListInterpretersVC: UIViewController {
         let userButton = UIBarButtonItem(image: #imageLiteral(resourceName: "userIcon"), style: .plain, target: self, action: #selector(userButtonClicked))
         
         navigationItem.rightBarButtonItem = userButton
+        navigationItem.hidesBackButton = true
+        navigationItem.setCustomNavBar(title: "Interpreters")
         
         listInterpretersTableView.tableFooterView = UIView()
         

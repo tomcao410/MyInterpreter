@@ -24,6 +24,7 @@ class UserInfoVC: UIViewController {
     {
         let logOutButton = UIBarButtonItem(title: "Log Out", style: .plain, target: self, action: #selector(logOutButtonClicked))
         
+        navigationItem.setCustomNavBar(title: "Profile")
         navigationItem.rightBarButtonItem = logOutButton
     }
     
