@@ -86,7 +86,17 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         let button = UIButton(type: .system)
         button.setTitle("Send", for: .normal)
         button.setTitleColor(#colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1), for: .normal)
+        button.addTarget(self, action: #selector(sendMessage), for: .touchUpInside)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        return button
+    }()
+    
+    let plusButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(named: "plus"), for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        button.imageEdgeInsets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+        button.addTarget(self, action: #selector(plusButtonTouch), for: .touchUpInside)
         return button
     }()
     
@@ -111,7 +121,8 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         tableView.separatorColor = .clear
         tableView.allowsSelection = false
         
-        loadUser()
+        observeMessage()
+        
         
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -139,8 +150,65 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    func loadUser() {
+    func observeMessage() {
+        Database.database().reference().child("messages").queryOrdered(byChild: "user").queryEqual(toValue: userId).observe(.childAdded) { (snapshot) in
+            
+            guard let newMessage = snapshot.value as? NSDictionary else {
+                return
+            }
+            
+            let encodedEmail = self.interpreterEmail.getEncodedEmail()
+            if (newMessage.value(forKey: "interpreter") as! String == encodedEmail) {
+                self.messages.append(Message(sender: newMessage.value(forKey: "sender") as! String, text: newMessage.value(forKey: "text") as! String, user: newMessage.value(forKey: "user") as! String, interpreter: newMessage.value(forKey: "interpreter") as! String, time: newMessage.value(forKey: "time") as! String))
+            }
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    @objc func sendMessage() {
+        if (inputTextField.text != "") {
+            let date = Date()
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            dateFormatter.timeZone = TimeZone(abbreviation: "GMT+7:00")
+            let stringDate = dateFormatter.string(from: date)
+            let messageRef = Database.database().reference().child("messages").childByAutoId()
+            messageRef.updateChildValues(["sender": "interpreter", "text": inputTextField.text!, "user": self.userId, "interpreter": self.interpreterEmail.getEncodedEmail(), "time": stringDate])
+            self.inputTextField.text = ""
+            
+        }
+    }
+    
+    @objc func plusButtonTouch() {
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
+        // Create your actions - take a look at different style attributes
+        let sendImageAction = UIAlertAction(title: "Send Image", style: .default) { (action) in
+            // observe it in the buttons block, what button has been pressed
+            print("didPress send image")
+        }
+        
+        let sendVideo = UIAlertAction(title: "Send Video", style: .default) { (action) in
+            print("didPress send video")
+        }
+        
+        let sendAudio = UIAlertAction(title: "Send Audio", style: .default) { (action) in
+            print("didPress send audio")
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+            print("didPress cancel")
+        }
+        
+        // Add the actions to your actionSheet
+        actionSheet.addAction(sendImageAction)
+        actionSheet.addAction(sendVideo)
+        actionSheet.addAction(sendAudio)
+        actionSheet.addAction(cancelAction)
+        // Present the controller
+        self.present(actionSheet, animated: true, completion: nil)
     }
     
     @objc func hideKeyboard() {
@@ -172,17 +240,24 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     private func setUpInputComponent() {
         messageInputContainerView.addSubview(inputTextField)
         messageInputContainerView.addSubview(sendButton)
+        messageInputContainerView.addSubview(plusButton)
         
         inputTextField.translatesAutoresizingMaskIntoConstraints = false
         sendButton.translatesAutoresizingMaskIntoConstraints = false
+        plusButton.translatesAutoresizingMaskIntoConstraints = false
         
-        inputTextField.leftAnchor.constraint(equalTo: messageInputContainerView.leftAnchor, constant: 8).isActive = true
+        plusButton.leadingAnchor.constraint(equalTo: messageInputContainerView.leadingAnchor).isActive = true
+        plusButton.heightAnchor.constraint(equalTo: messageInputContainerView.heightAnchor).isActive = true
+        plusButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        plusButton.bottomAnchor.constraint(equalTo: messageInputContainerView.bottomAnchor).isActive = true
+        
+        inputTextField.leadingAnchor.constraint(equalTo: plusButton.trailingAnchor).isActive = true
         inputTextField.bottomAnchor.constraint(equalTo: messageInputContainerView.bottomAnchor).isActive = true
         inputTextField.heightAnchor.constraint(equalTo: messageInputContainerView.heightAnchor, multiplier: 1).isActive = true
-        inputTextField.widthAnchor.constraint(equalToConstant: self.view.frame.width - 60).isActive = true
+        inputTextField.widthAnchor.constraint(equalToConstant: self.view.frame.width - 110).isActive = true
         
         sendButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        sendButton.rightAnchor.constraint(equalTo: messageInputContainerView.rightAnchor).isActive = true
+        sendButton.leadingAnchor.constraint(equalTo: inputTextField.trailingAnchor).isActive = true
         sendButton.heightAnchor.constraint(equalTo: messageInputContainerView.heightAnchor).isActive = true
         sendButton.bottomAnchor.constraint(equalTo: messageInputContainerView.bottomAnchor).isActive = true
     }
@@ -213,6 +288,7 @@ class ChatLogMessageCell: BaseCell {
         textView.font = .systemFont(ofSize: 16)
         textView.textAlignment = .left
         textView.backgroundColor = .clear
+        textView.textColor = .white
         return textView
     }()
     

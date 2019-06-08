@@ -14,6 +14,8 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
     var ref: DatabaseReference!
     
     let tableView = UITableView()
+    var visualEffectView = UIVisualEffectView()
+
     private let cellID = "cellID"
     
     var usersId: [String] = [] {
@@ -34,7 +36,6 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
         tableView.dataSource = self
         
         loadUsers()
-//        observeUserChange()
         
         if #available(iOS 11, *) {
             let guide = view.safeAreaLayoutGuide
@@ -45,76 +46,62 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
             tableView.bottomAnchor.constraint(equalTo: guide.bottomAnchor).isActive = true
         }
         tableView.register(MessageCell.self, forCellReuseIdentifier: cellID)
-        //        setupData()
+        setUpViews()
     }
     
-//    func observeUserChange() {
-//        Database.database().reference().child("")
-//    }
     func loadUsers() {
         var newUsersAndBookingID = [String]()
-        Database.database().reference().child("bookings").observe(.value, with: { (snapshot) in
-            self.usersId = []
-            let enumerator = snapshot.children
-            while let rest = enumerator.nextObject() as? DataSnapshot {
-                if let dataChange = rest.value as? NSDictionary {
-                    let encodedEmail = self.interpreterEmail.getEncodedEmail()
-                    let date = Date()
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-                    dateFormatter.timeZone = TimeZone(abbreviation: "GMT+7:00")
-                    let stringDate = dateFormatter.string(from: date)
-                    if ((dataChange["interpreter"] as! String) == encodedEmail && (dataChange["timeEnd"] as! String) > stringDate && (dataChange["timeStart"] as! String) < stringDate) {
-                        if (dataChange["confirm"] as! Bool == true) {
-                            DispatchQueue.main.async {
-                                self.usersId.append(dataChange["user"] as! String)
-                            }
-                        } else {
-                            DispatchQueue.main.async {
-                                newUsersAndBookingID.append(dataChange["user"] as! String + " " + rest.key)
-                            }
-                        }
-                    }
+        Database.database().reference().child("bookings").observe(.childAdded, with: { (snapshot) in
+            
+            guard let newBooking = snapshot.value as? NSDictionary else {
+                return
+            }
+            
+            let encodedEmail = self.interpreterEmail.getEncodedEmail()
+            let date = Date()
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            dateFormatter.timeZone = TimeZone(abbreviation: "GMT+7:00")
+            let stringDate = dateFormatter.string(from: date)
+            if ((newBooking["interpreter"] as! String) == encodedEmail && (newBooking["timeEnd"] as! String) > stringDate && (newBooking["timeStart"] as! String) < stringDate) {
+                if (newBooking["confirm"] as! Bool == true) {
+                    self.usersId.append(newBooking["user"] as! String)
+                } else {
+                    newUsersAndBookingID.append(newBooking["user"] as! String + " " + snapshot.key)
                 }
             }
-            DispatchQueue.main.async {
-                for item in newUsersAndBookingID {
-                    var arr = item.split(separator: " ")
-                    let newUser: String = String(arr[0])
-                    let newBooking: String? = arr.count > 1 ? String(arr[1]) : nil
-                    let blurEffect = UIBlurEffect(style: .dark)
-                    let visualEffectView = UIVisualEffectView(effect: blurEffect)
-                    self.view.addSubview(visualEffectView)
-                    visualEffectView.translatesAutoresizingMaskIntoConstraints = false
+            
+            
+            for item in newUsersAndBookingID {
+                
+                var arr = item.split(separator: " ")
+                let newUserId: String = String(arr[0])
+                let newBookingId: String? = arr.count > 1 ? String(arr[1]) : nil
+                
+                let newUserRef = Database.database().reference().child("users").child(newUserId)
+                newUserRef.observeSingleEvent(of: .value, with: { (snapshot) in
                     
-                    visualEffectView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-                    visualEffectView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-                    visualEffectView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-                    visualEffectView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-
-                    let newUserRef = Database.database().reference().child("users").child(newUser)
-                    newUserRef.observeSingleEvent(of: .value, with: { (snapshot) in
-                        if let dataChange = snapshot.value as? NSDictionary {
-                            let user = User(email: dataChange.value(forKey: "email") as! String, name: dataChange.value(forKey: "name") as! String, motherLanguage: dataChange.value(forKey: "motherLanguage") as! String, secondLanguage: dataChange.value(forKey: "secondLanguage") as! String, profileImageURL: dataChange.value(forKey: "profileImageURL") as! String, booking:  dataChange.value(forKey: "booking") as! String)
-                            DispatchQueue.main.async {
-                                let alert = UIAlertController(title: "New booking to you", message: user.email, preferredStyle: UIAlertController.Style.alert)
-                                alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { _ in
-                                    Database.database().reference().child("bookings").child(newBooking!).updateChildValues(["confirm": true])
-                                    visualEffectView.isHidden = true
-                                    }))
-
-                                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in                  print("cancel")
-                                    visualEffectView.isHidden = true
-                                    }))
-                                self.present(alert, animated: true, completion: nil)
-                            }
-                        }
-                    })
-                }
+                    guard let newUser = snapshot.value as? NSDictionary else {
+                        return
+                    }
+                    
+                    let user = User(email: newUser.value(forKey: "email") as! String, name: newUser.value(forKey: "name") as! String, motherLanguage: newUser.value(forKey: "motherLanguage") as! String, secondLanguage: newUser.value(forKey: "secondLanguage") as! String, profileImageURL: newUser.value(forKey: "profileImageURL") as! String, booking:  newUser.value(forKey: "booking") as! String)
+                    DispatchQueue.main.async {
+                        let alert = UIAlertController(title: "New booking to you", message: user.email, preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { _ in
+                            Database.database().reference().child("bookings").child(newBookingId!).updateChildValues(["confirm": true])
+                            self.usersId.append(newUserId)
+                            self.visualEffectView.isHidden = true
+                        }))
+                        
+                        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in                  print("cancel")
+                            self.visualEffectView.isHidden = true
+                        }))
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                })
             }
-        }) { (error) in
-            print(error.localizedDescription)
-        }
+        })
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -141,21 +128,21 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
         let controller = ChatLogController()
         controller.interpreterEmail = interpreterEmail
         controller.userId = usersId[indexPath.row]
+        self.navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    func setUpViews() {
+        let blurEffect = UIBlurEffect(style: .dark)
+        self.visualEffectView.effect = blurEffect
+        self.view.addSubview(visualEffectView)
+        visualEffectView.translatesAutoresizingMaskIntoConstraints = false
         
-        Database.database().reference().child("messages").queryOrdered(byChild: "user").queryEqual(toValue: usersId[indexPath.row]).observe(.value) { (snapshot) in
-            if let messages = snapshot.value as? NSDictionary {
-                let keyEnumulator = messages.keyEnumerator()
-                while let key = keyEnumulator.nextObject() {
-                    let message = messages.value(forKey: key as! String) as? NSDictionary
-                    let encodedEmail = self.interpreterEmail.getEncodedEmail()
-                    if (message?.value(forKey: "interpreter") as! String == encodedEmail) {
-                        controller.messages.append(Message(sender: message?.value(forKey: "sender") as! String, text: message?.value(forKey: "text") as! String, user: message?.value(forKey: "user") as! String, interpreter: message?.value(forKey: "interpreter") as! String, time: message?.value(forKey: "time") as! String))
-                    }
-                }
-            }
-            controller.messages.sort(by: {$0.time < $1.time})
-            self.navigationController?.pushViewController(controller, animated: true)
-        }
+        visualEffectView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        visualEffectView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        visualEffectView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        visualEffectView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        
+        visualEffectView.isHidden = true
     }
 }
 
@@ -221,18 +208,7 @@ class MessageCell: BaseCell {
             
         }
     }
-    
-    //    var message: Message? {
-    //        didSet {
-    //            nameLabel.text = self.message?.friend?.name
-    //            if let imageName = self.message?.friend?.profileImageName {
-    //                profileImageView.image = UIImage(named: imageName)
-    //                seenImage.image = UIImage(named: imageName)
-    //            }
-    //
-    //
-    //        }
-    //    }
+
     
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
