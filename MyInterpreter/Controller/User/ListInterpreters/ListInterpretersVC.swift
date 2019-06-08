@@ -25,6 +25,7 @@ class ListInterpretersVC: UIViewController {
     }
     
     static var selectedInterpreter = Interpreter()
+    var cache = NSCache<AnyObject, AnyObject>()
     
     // MARK: views
     override func viewDidLoad() {
@@ -73,9 +74,9 @@ class ListInterpretersVC: UIViewController {
                         self.listInterpretersTableView.reloadData()
                     }
                     
-                    for artists in snapshot.children.allObjects as![DataSnapshot]
+                    for object in snapshot.children.allObjects as![DataSnapshot]
                     {
-                        let artistObject = artists.value as? [String: Any]
+                        let artistObject = object.value as? [String: Any]
                         
                         let email = artistObject?["email"]
                         let name = artistObject?["name"]
@@ -119,16 +120,25 @@ extension ListInterpretersVC: UITableViewDataSource, UITableViewDelegate
         cell.nameLbl.text = listInterpreters[indexPath.row].getName()
         cell.languagesLbl.text = listInterpreters[indexPath.row].getMotherLanguage() + " - " + listInterpreters[indexPath.row].getSecondLanguage()
         
-        DispatchQueue.global().async
+        // Save data in cache (prevent from lagging)
+        if let img = cache.object(forKey: self.listInterpreters[indexPath.row] as AnyObject)
+        {
+            cell.interpreterImage.image = img as? UIImage
+        }
+        else
+        {
+            DispatchQueue.global().async
             {
                 let url = URL(string: self.listInterpreters[indexPath.row].getProfileImageURL())
                 let data = NSData(contentsOf: url!)
                 DispatchQueue.main.async
-                    {
-                        cell.interpreterImage.image = UIImage(data: data! as Data)
+                {
+                    cell.interpreterImage.image = UIImage(data: data! as Data)
+                    self.cache.setObject(cell.interpreterImage.image!, forKey: self.listInterpreters[indexPath.row] as AnyObject)
                 }
+            }
         }
-        
+
         return cell
     }
     

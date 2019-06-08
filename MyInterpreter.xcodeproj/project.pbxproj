@@ -21,6 +21,8 @@
 		54B59CAF224E26FC0026814A /* SignInInterpreterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B59CAE224E26FC0026814A /* SignInInterpreterVC.swift */; };
 		54B59CB5224E31690026814A /* SignInUserVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B59CB4224E31690026814A /* SignInUserVC.swift */; };
 		54B59CB7224E37B60026814A /* SignUpStage1VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B59CB6224E37B60026814A /* SignUpStage1VC.swift */; };
+		54B73F0C22AC10F800402EBF /* UserInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B73F0B22AC10F800402EBF /* UserInfoCell.swift */; };
+		54B73F1222AC232200402EBF /* DetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B73F1122AC232200402EBF /* DetailHeaderView.swift */; };
 		54B779382273618F001A53B7 /* Interpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B779372273618F001A53B7 /* Interpreter.swift */; };
 		54BBEFBB22AAA5F600D86C17 /* TextField-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BBEFBA22AAA5F600D86C17 /* TextField-Extension.swift */; };
 		54BBEFBF22AAB33F00D86C17 /* NavigationBar-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BBEFBE22AAB33F00D86C17 /* NavigationBar-Extension.swift */; };
@@ -76,6 +78,8 @@
 		54B59CAE224E26FC0026814A /* SignInInterpreterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInInterpreterVC.swift; sourceTree = "<group>"; };
 		54B59CB4224E31690026814A /* SignInUserVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInUserVC.swift; sourceTree = "<group>"; };
 		54B59CB6224E37B60026814A /* SignUpStage1VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpStage1VC.swift; sourceTree = "<group>"; };
+		54B73F0B22AC10F800402EBF /* UserInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoCell.swift; sourceTree = "<group>"; };
+		54B73F1122AC232200402EBF /* DetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailHeaderView.swift; sourceTree = "<group>"; };
 		54B779372273618F001A53B7 /* Interpreter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interpreter.swift; sourceTree = "<group>"; };
 		54BBEFBA22AAA5F600D86C17 /* TextField-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextField-Extension.swift"; sourceTree = "<group>"; };
 		54BBEFBE22AAB33F00D86C17 /* NavigationBar-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationBar-Extension.swift"; sourceTree = "<group>"; };
@@ -202,6 +206,8 @@
 			children = (
 				54C719E82270C24B001B2BFF /* ListInterpretersCell.swift */,
 				54E4BAA6229A71590011C7D0 /* ListUsersCell.swift */,
+				54B73F0B22AC10F800402EBF /* UserInfoCell.swift */,
+				54B73F1122AC232200402EBF /* DetailHeaderView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -515,6 +521,7 @@
 				54BBEFBF22AAB33F00D86C17 /* NavigationBar-Extension.swift in Sources */,
 				5449B8CE22A7D9E500250518 /* Message.swift in Sources */,
 				54C8AAAD22AA181E00696C15 /* Data-Extension.swift in Sources */,
+				54B73F1222AC232200402EBF /* DetailHeaderView.swift in Sources */,
 				5449B8D022A7DA0500250518 /* ClientsController.swift in Sources */,
 				54E4BAA5229A71410011C7D0 /* ListUsersVC.swift in Sources */,
 				54E8E74D22AA7B3100A08A39 /* ViewController-Extension.swift in Sources */,
@@ -523,6 +530,7 @@
 				54E4BAA2229A618C0011C7D0 /* UserDashboardVC.swift in Sources */,
 				5466FEE1225255A10071B8FE /* User.swift in Sources */,
 				54E6B53A2245E81B000F82D8 /* AppDelegate.swift in Sources */,
+				54B73F0C22AC10F800402EBF /* UserInfoCell.swift in Sources */,
 				54E4BAA7229A71590011C7D0 /* ListUsersCell.swift in Sources */,
 				54C719E72270C214001B2BFF /* ListInterpretersVC.swift in Sources */,
 				54B59CB7224E37B60026814A /* SignUpStage1VC.swift in Sources */,
