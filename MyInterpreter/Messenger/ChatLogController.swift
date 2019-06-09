@@ -8,47 +8,46 @@
 
 import UIKit
 import Firebase
+import AVKit
 
-class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataSource{
+class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     
     var interpreterEmail: String = ""
     var userId: String = ""
     var messages: [Message] = []
+    var userProfileImage: UIImage?
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return messages.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return setUpTextCellViews(indexPath: indexPath)
+    }
+    
+    func setUpTextCellViews(indexPath: IndexPath) -> ChatLogMessageCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! ChatLogMessageCell
         
-        Database.database().reference().child("users").child(self.userId).observeSingleEvent(of: .value, with: { (snapshot) in
-            if let info = snapshot.value as? NSDictionary {
-                let user = User(email: info.value(forKey: "email") as! String, name: info.value(forKey: "name") as! String, motherLanguage: info.value(forKey: "motherLanguage") as! String, secondLanguage: info.value(forKey: "secondLanguage") as! String, profileImageURL: info.value(forKey: "profileImageURL") as! String, booking: info.value(forKey: "booking") as! String)
-                let imageURL = URL(string: user.profileImageURL)
-                do {
-                    let imageData = try Data(contentsOf: imageURL!)
-                    cell.profileImageView.image = UIImage(data: imageData)
-                } catch let error {
-                    print(error)
-                }
-                cell.messageTextView.text = self.messages[indexPath.row].text
-                let sizeToFit = CGSize(width: self.view.frame.width * 2 / 3, height: CGFloat.greatestFiniteMagnitude)
-                let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-                let estimatedFrame = NSString(string: self.messages[indexPath.row].text).boundingRect(with: sizeToFit, options: options, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)], context: nil)
-                if (self.messages[indexPath.row].sender == "user") {
-                    cell.messageTextView.frame = CGRect(x: 48 + 8, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
-                    cell.textBubbleView.frame = CGRect(x: 48 , y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 20)
-                    cell.profileImageView.isHidden = false
-                } else {
-                    cell.messageTextView.frame = CGRect(x: self.view.frame.width - estimatedFrame.width - 16 - 16, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
-                    cell.textBubbleView.frame = CGRect(x: self.view.frame.width - estimatedFrame.width - 16 - 8 - 16, y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 20)
-                    cell.profileImageView.isHidden = true
-                    
-                    cell.textBubbleView.backgroundColor = UIColor(red: 0, green: 137/255, blue: 255/255, alpha: 1)
-                }
-            }
-        })
+        
+        
+        cell.messageTextView.text = self.messages[indexPath.row].text
+        
+        let sizeToFit = CGSize(width: self.view.frame.width * 2 / 3, height: CGFloat.greatestFiniteMagnitude)
+        let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+        let estimatedFrame = NSString(string: self.messages[indexPath.row].text).boundingRect(with: sizeToFit, options: options, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)], context: nil)
+        if (self.messages[indexPath.row].sender == "user") {
+            cell.messageTextView.frame = CGRect(x: 48 + 8, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
+            cell.textBubbleView.frame = CGRect(x: 48 , y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 20)
+            cell.profileImageView.image = userProfileImage
+            cell.messageTextView.textColor = .black
+            cell.profileImageView.isHidden = false
+        } else {
+            cell.messageTextView.frame = CGRect(x: self.view.frame.width - estimatedFrame.width - 16 - 16, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
+            cell.textBubbleView.frame = CGRect(x: self.view.frame.width - estimatedFrame.width - 16 - 8 - 16, y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 20)
+            cell.profileImageView.isHidden = true
+            cell.textBubbleView.backgroundColor = UIColor(red: 0, green: 137/255, blue: 255/255, alpha: 1)
+        }
+        
         return cell
     }
     
@@ -100,6 +99,8 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         return button
     }()
     
+    
+    
     var messageInputBottomAnchor: NSLayoutConstraint?
     var messageInputActivateBottomAnchor: NSLayoutConstraint?
     
@@ -123,14 +124,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         
         observeMessage()
         
-        
-        view.addSubview(tableView)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
         let guide = view.safeAreaLayoutGuide
-        tableView.topAnchor.constraint(equalTo: guide.topAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: guide.bottomAnchor).isActive = true
-        tableView.leftAnchor.constraint(equalTo: guide.leftAnchor).isActive = true
-        tableView.rightAnchor.constraint(equalTo: guide.rightAnchor).isActive = true
         
         view.addSubview(messageInputContainerView)
         messageInputContainerView.translatesAutoresizingMaskIntoConstraints = false
@@ -143,11 +137,27 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         messageInputContainerView.rightAnchor.constraint(equalTo: guide.rightAnchor).isActive = true
         messageInputContainerView.heightAnchor.constraint(equalToConstant: 48).isActive = true
         
+        view.addSubview(tableView)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.topAnchor.constraint(equalTo: guide.topAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: messageInputContainerView.topAnchor).isActive = true
+        tableView.leftAnchor.constraint(equalTo: guide.leftAnchor).isActive = true
+        tableView.rightAnchor.constraint(equalTo: guide.rightAnchor).isActive = true
+        
+        
+        
         setUpInputComponent()
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    func scrollToBottom(){
+        DispatchQueue.main.async {
+            let indexPath = IndexPath(row: self.messages.count-1, section: 0)
+            self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
+        }
     }
     
     func observeMessage() {
@@ -158,11 +168,18 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
             }
             
             let encodedEmail = self.interpreterEmail.getEncodedEmail()
-            if (newMessage.value(forKey: "interpreter") as! String == encodedEmail) {
-                self.messages.append(Message(sender: newMessage.value(forKey: "sender") as! String, text: newMessage.value(forKey: "text") as! String, user: newMessage.value(forKey: "user") as! String, interpreter: newMessage.value(forKey: "interpreter") as! String, time: newMessage.value(forKey: "time") as! String))
+            if (newMessage.value(forKey: "interpreter") as? String == encodedEmail) {
+                if (newMessage.value(forKey: "image") != nil) {
+                    self.messages.append(Message(sender: newMessage.value(forKey: "sender") as! String, imageURL: newMessage.value(forKey: "image") as! String, user: newMessage.value(forKey: "user") as! String, interpreter: newMessage.value(forKey: "interpreter") as! String, time: newMessage.value(forKey: "time") as! String))
+                } else if (newMessage.value(forKey: "text") != nil) {
+                    self.messages.append(Message(sender: newMessage.value(forKey: "sender") as! String, text: newMessage.value(forKey: "text") as! String, user: newMessage.value(forKey: "user") as! String, interpreter: newMessage.value(forKey: "interpreter") as! String, time: newMessage.value(forKey: "time") as! String))
+                } else if (newMessage.value(forKey: "video") != nil) {
+                    self.messages.append(Message(sender: newMessage.value(forKey: "sender") as! String, videoURL: newMessage.value(forKey: "video") as! String, user: newMessage.value(forKey: "user") as! String, interpreter: newMessage.value(forKey: "interpreter") as! String, time: newMessage.value(forKey: "time") as! String))
+                }
             }
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                self.scrollToBottom()
             }
         }
     }
@@ -187,7 +204,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         // Create your actions - take a look at different style attributes
         let sendImageAction = UIAlertAction(title: "Send Image", style: .default) { (action) in
             // observe it in the buttons block, what button has been pressed
-            print("didPress send image")
+            self.sendImageButtonTouched()
         }
         
         let sendVideo = UIAlertAction(title: "Send Video", style: .default) { (action) in
@@ -209,6 +226,85 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         actionSheet.addAction(cancelAction)
         // Present the controller
         self.present(actionSheet, animated: true, completion: nil)
+    }
+    
+    func sendImageButtonTouched() {
+        let imagePickerController = UIImagePickerController()
+        
+        imagePickerController.delegate = self
+        imagePickerController.allowsEditing = true
+        imagePickerController.sourceType = .photoLibrary
+        
+        present(imagePickerController, animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        var selectedImage: UIImage?
+        
+        if let editedImage = info[.editedImage] as? UIImage {
+            selectedImage = editedImage
+        } else if let originalImage = info[.originalImage] as? UIImage {
+            selectedImage = originalImage
+        }
+        
+        guard  let image = selectedImage else {
+            return
+        }
+        
+        uploadMessageToFirebase(using: image)
+    }
+    
+    func uploadMessageToFirebase(using messageImage: UIImage) {
+        let date = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.timeZone = TimeZone(abbreviation: "GMT+7:00")
+        let stringDate = dateFormatter.string(from: date)
+        
+        
+        let storageRef = Storage.storage().reference().child("message_images").child(userId + interpreterEmail.getEncodedEmail() + stringDate + ".png")
+        
+        if let messageImageData = messageImage.pngData()
+        {
+            storageRef.putData(messageImageData, metadata: nil) { (metaData, error) in
+                if error != nil
+                {
+                    self.alertAction(title: "Uploading image failed!", message: String(describing: error))
+                    return
+                }
+                storageRef.downloadURL(completion: { (url: URL?, error: Error?) in
+                    if error != nil
+                    {
+                        self.alertAction(title: "Uploading image failed!", message: String(describing: error))
+                        return
+                    }
+                    let urlString = url?.absoluteString
+                    self.sendImage(with: urlString!)
+                })
+                
+            }
+        }
+    }
+    
+    func sendImage(with urlString: String) {
+        let date = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.timeZone = TimeZone(abbreviation: "GMT+7:00")
+        let stringDate = dateFormatter.string(from: date)
+        let messageRef = Database.database().reference().child("messages").childByAutoId()
+        messageRef.updateChildValues(["sender": "interpreter", "image": urlString, "user": self.userId, "interpreter": self.interpreterEmail.getEncodedEmail(), "time": stringDate])
+    }
+    
+    private func alertAction(title: String, message: String)
+    {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        self.present(alert, animated: true, completion: nil)
     }
     
     @objc func hideKeyboard() {
@@ -266,6 +362,8 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
 
 class ChatLogMessageCell: BaseCell {
     
+    let messageContent: String = ""
+    
     let textBubbleView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(white: 0.95, alpha: 1)
@@ -280,6 +378,15 @@ class ChatLogMessageCell: BaseCell {
         imageView.contentMode = .scaleAspectFit
         imageView.layer.cornerRadius = 15
         imageView.layer.masksToBounds = true
+        
+        return imageView
+    }()
+    
+    let imageContentView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
+        
         return imageView
     }()
     
@@ -297,13 +404,16 @@ class ChatLogMessageCell: BaseCell {
         addSubview(textBubbleView)
         addSubview(messageTextView)
         addSubview(profileImageView)
-        profileImageView.backgroundColor = #colorLiteral(red: 0.1921568662, green: 0.007843137719, blue: 0.09019608051, alpha: 1)
+        addSubview(imageContentView)
+        profileImageView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
         profileImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8).isActive = true
         profileImageView.bottomAnchor.constraint(equalTo: textBubbleView.bottomAnchor).isActive = true
         profileImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
         profileImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
+        
     }
 }
 
