@@ -28,8 +28,6 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     func setUpTextCellViews(indexPath: IndexPath) -> ChatLogMessageCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! ChatLogMessageCell
         
-        
-        
         cell.messageTextView.text = self.messages[indexPath.row].text
         
         let sizeToFit = CGSize(width: self.view.frame.width * 2 / 3, height: CGFloat.greatestFiniteMagnitude)
@@ -47,7 +45,6 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
             cell.profileImageView.isHidden = true
             cell.textBubbleView.backgroundColor = UIColor(red: 0, green: 137/255, blue: 255/255, alpha: 1)
         }
-        
         return cell
     }
     

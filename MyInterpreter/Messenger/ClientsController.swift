@@ -211,10 +211,6 @@ class MessageCell: BaseCell {
         messageLabel.textColor = highlighted ? .white : .darkGray
     }
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        
-    }
-    
     var messages: Array<String>? {
         didSet {
             

@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ClientsController.swift"
-            timestampString = "581755510.9144599"
+            timestampString = "581779567.809175"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "107"
@@ -42,12 +42,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581755510.914536"
+            timestampString = "581779567.814569"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "176"
-            endingLineNumber = "176"
-            landmarkName = "observeMessage()"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
+            landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -58,12 +58,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581755510.914941"
+            timestampString = "581779567.814679"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "234"
-            endingLineNumber = "234"
-            landmarkName = "imagePickerControllerDidCancel(_:)"
+            startingLineNumber = "198"
+            endingLineNumber = "198"
+            landmarkName = "plusButtonTouch()"
             landmarkType = "7">
             <Actions>
                <BreakpointActionProxy
@@ -82,12 +82,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581755510.915238"
+            timestampString = "581779567.814772"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "236"
-            endingLineNumber = "236"
-            landmarkName = "imagePickerControllerDidCancel(_:)"
+            startingLineNumber = "200"
+            endingLineNumber = "200"
+            landmarkName = "plusButtonTouch()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -98,13 +98,45 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581755510.915624"
+            timestampString = "581779567.814849"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "237"
-            endingLineNumber = "237"
-            landmarkName = "ChatLogController"
-            landmarkType = "3">
+            startingLineNumber = "201"
+            endingLineNumber = "201"
+            landmarkName = "plusButtonTouch()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MyInterpreter.ChatLogController.plusButtonTouch() -&gt; ()"
+                  moduleName = "MyInterpreter"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook/Desktop/swift/ThietKeProject/MyInterpreter/Messenger/ChatLogController.swift"
+                  timestampString = "581779574.255698"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "202"
+                  endingLineNumber = "202"
+                  offsetFromSymbolStart = "79">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (__C.UIAlertAction) -&gt; () in MyInterpreter.ChatLogController.plusButtonTouch() -&gt; ()"
+                  moduleName = "MyInterpreter"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook/Desktop/swift/ThietKeProject/MyInterpreter/Messenger/ChatLogController.swift"
+                  timestampString = "581779574.262077"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "204"
+                  endingLineNumber = "204"
+                  offsetFromSymbolStart = "34">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -114,12 +146,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581755510.915926"
+            timestampString = "581779567.814959"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "239"
-            endingLineNumber = "239"
-            landmarkName = "imagePickerController(_:didFinishPickingMediaWithInfo:)"
+            startingLineNumber = "203"
+            endingLineNumber = "203"
+            landmarkName = "plusButtonTouch()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -130,13 +162,45 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581755510.916216"
+            timestampString = "581779567.815134"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "243"
-            endingLineNumber = "243"
-            landmarkName = "imagePickerController(_:didFinishPickingMediaWithInfo:)"
+            startingLineNumber = "207"
+            endingLineNumber = "207"
+            landmarkName = "plusButtonTouch()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MyInterpreter.ChatLogController.plusButtonTouch() -&gt; ()"
+                  moduleName = "MyInterpreter"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook/Desktop/swift/ThietKeProject/MyInterpreter/Messenger/ChatLogController.swift"
+                  timestampString = "581779574.272602"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "207"
+                  endingLineNumber = "207"
+                  offsetFromSymbolStart = "234">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (__C.UIAlertAction) -&gt; () in MyInterpreter.ChatLogController.plusButtonTouch() -&gt; ()"
+                  moduleName = "MyInterpreter"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook/Desktop/swift/ThietKeProject/MyInterpreter/Messenger/ChatLogController.swift"
+                  timestampString = "581779574.2786241"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "208"
+                  endingLineNumber = "208"
+                  offsetFromSymbolStart = "27">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -146,12 +210,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581755510.916483"
+            timestampString = "581779567.815323"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "264"
-            endingLineNumber = "264"
-            landmarkName = "uploadMessageToFirebase(using:)"
+            startingLineNumber = "228"
+            endingLineNumber = "228"
+            landmarkName = "sendImageButtonTouched()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -162,7 +226,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ClientsController.swift"
-            timestampString = "581755510.916748"
+            timestampString = "581779567.815462"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "92"
@@ -178,7 +242,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ClientsController.swift"
-            timestampString = "581755510.916797"
+            timestampString = "581779567.815842"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "91"
@@ -194,7 +258,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ClientsController.swift"
-            timestampString = "581755510.916839"
+            timestampString = "581779567.81616"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "38"
@@ -210,7 +274,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ClientsController.swift"
-            timestampString = "581755510.9168791"
+            timestampString = "581779567.81651"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "45"
@@ -226,7 +290,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ClientsController.swift"
-            timestampString = "581755510.916919"
+            timestampString = "581779567.816815"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "137"
@@ -274,7 +338,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ClientsController.swift"
-            timestampString = "581755510.916958"
+            timestampString = "581779567.817125"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "124"
@@ -290,28 +354,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581755510.9170049"
+            timestampString = "581779567.817458"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "263"
-            endingLineNumber = "263"
-            landmarkName = "uploadMessageToFirebase(using:)"
-            landmarkType = "7">
+            startingLineNumber = "227"
+            endingLineNumber = "227"
+            landmarkName = "ChatLogController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581755510.917239"
+            timestampString = "581779567.8175499"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "164"
-            endingLineNumber = "164"
-            landmarkName = "observeMessage()"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
+            landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
