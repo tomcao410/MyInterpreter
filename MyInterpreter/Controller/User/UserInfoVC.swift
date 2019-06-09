@@ -18,7 +18,7 @@ class UserInfoVC: UIViewController {
     
     var header: DetailHeaderView!
     var headerMaskLayer: CAShapeLayer!
-    
+    var userInfo: [String] = ["Name", "1st language", "2nd language","Email", "Booking status"]
     
     // MARK: Views
     override func viewDidLoad() {
@@ -35,7 +35,23 @@ class UserInfoVC: UIViewController {
         navigationItem.setCustomNavBar(title: "Profile")
         navigationItem.rightBarButtonItem = logOutButton
         
-        // Tableview
+        customTableView()
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+    }
+    
+    @objc func logOutButtonClicked()
+    {
+        try! Auth.auth().signOut()
+        
+        navigationController?.popToRootViewController(animated: true)
+        dismiss(animated: true, completion: nil)
+    }
+    
+    // MARK: ---Custom TableView---
+    func customTableView()
+    {
         tableView.estimatedRowHeight = tableView.rowHeight
         tableView.rowHeight = UITableView.automaticDimension
         
@@ -56,17 +72,6 @@ class UserInfoVC: UIViewController {
         tableView.contentOffset = CGPoint(x: 0, y: -effectiveHeight)
         
         updateHeaderView()
-        
-        tableView.delegate = self
-        tableView.dataSource = self
-    }
-    
-    @objc func logOutButtonClicked()
-    {
-        try! Auth.auth().signOut()
-        
-        navigationController?.popToRootViewController(animated: true)
-        dismiss(animated: true, completion: nil)
     }
     
     func updateHeaderView()
