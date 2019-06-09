@@ -22,15 +22,18 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! ChatLogMessageCell
         
-        Database.database().reference().child("users").child(self.userId).observeSingleEvent(of: .value, with: { (snapshot) in
+        let userRef = Database.database().reference().child("users").child(self.userId)
+        
+        userRef.observe(.childAdded) { (snapshot: DataSnapshot) in
             if let info = snapshot.value as? NSDictionary {
                 let user = User(email: info.value(forKey: "email") as! String, name: info.value(forKey: "name") as! String, motherLanguage: info.value(forKey: "motherLanguage") as! String, secondLanguage: info.value(forKey: "secondLanguage") as! String, profileImageURL: info.value(forKey: "profileImageURL") as! String, booking: info.value(forKey: "booking") as! String)
                 let imageURL = URL(string: user.profileImageURL)
-                do {
-                    let imageData = try Data(contentsOf: imageURL!)
-                    cell.profileImageView.image = UIImage(data: imageData)
-                } catch let error {
-                    print(error)
+                DispatchQueue.global(qos: .userInteractive).async
+                    {
+                        let imageData = NSData(contentsOf: imageURL!)
+                        DispatchQueue.main.async {
+                            cell.profileImageView.image = UIImage(data: imageData! as Data)
+                        }
                 }
                 cell.messageTextView.text = self.messages[indexPath.row].text
                 let sizeToFit = CGSize(width: self.view.frame.width * 2 / 3, height: CGFloat.greatestFiniteMagnitude)
@@ -48,7 +51,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
                     cell.textBubbleView.backgroundColor = UIColor(red: 0, green: 137/255, blue: 255/255, alpha: 1)
                 }
             }
-        })
+        }
         return cell
     }
     

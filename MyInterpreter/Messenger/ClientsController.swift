@@ -193,7 +193,7 @@ class MessageCell: BaseCell {
                     DispatchQueue.global().async {
                         let imageURL = URL(string: user.profileImageURL)
                         let data = NSData(contentsOf: imageURL!)
-                        DispatchQueue.main.async {
+                        DispatchQueue.main.async { 
                             guard let data = data else {
                                 return
                             }
