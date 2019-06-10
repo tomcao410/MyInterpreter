@@ -12,7 +12,7 @@ class UserInfoCell: UITableViewCell {
 
     
     @IBOutlet weak var titleLbl: UILabel!
-    @IBOutlet weak var contextLbl: UILabel!
+    @IBOutlet weak var infoLbl: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

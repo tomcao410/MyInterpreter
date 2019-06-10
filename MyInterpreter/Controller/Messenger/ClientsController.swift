@@ -108,7 +108,7 @@ class MessageCell: BaseCell {
             Database.database().reference().child("users").child(self.userId!).observeSingleEvent(of: .value, with: { (snapshot) in
                 if let dataChange = snapshot.value as? NSDictionary {
                                 let user = User(email: dataChange.value(forKey: "email") as! String, name: dataChange.value(forKey: "name") as! String, motherLanguage: dataChange.value(forKey: "motherLanguage") as! String, secondLanguage: dataChange.value(forKey: "secondLanguage") as! String, profileImageURL: dataChange.value(forKey: "profileImageURL") as! String, booking:  dataChange.value(forKey: "booking") as! String)
-                                self.nameLabel.text = user.getName()
+                                self.nameLabel.text = user.name
                                 DispatchQueue.global().async {
                                     let imageURL = URL(string: user.profileImageURL)
                                     let data = NSData(contentsOf: imageURL!)

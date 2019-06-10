@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 class User
 {
     var name: String
@@ -38,59 +39,38 @@ class User
     }
     
     // MARK: profile image
-    func getProfileImageURL() -> String
-    {
-        return profileImageURL
-    }
-    
     func setProfileImageURL(imageURL: String)
     {
         self.profileImageURL = imageURL
     }
     
     // MARK: name
-    func getName() -> String
-    {
-        return name
-    }
-    
     func setName(name: String)
     {
         self.name = name
     }
     
     // MARK: motherlanguage
-    func getMotherLanguage() -> String
-    {
-        return motherLanguage
-    }
-    
     func setMotherLanguage(motherLanguage: String)
     {
         self.motherLanguage = motherLanguage
     }
     
     // MARK: secondlanguage
-    func getSecondLanguage() -> String
-    {
-        return secondLanguage
-    }
-    
     func setSecondLanguage(secondLanguage: String)
     {
         self.secondLanguage = secondLanguage
     }
     
     // MARK: Email
-    func getEmail() -> String
-    {
-        return email
-    }
-    
     func setEmail(email: String)
     {
         self.email = email
     }
     
-    
+    // MARK: Booking status
+    func setBooking(booking: String)
+    {
+        self.booking = booking
+    }
 }

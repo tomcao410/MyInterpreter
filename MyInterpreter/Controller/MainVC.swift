@@ -20,11 +20,7 @@ class MainVC: UIViewController {
         
         setUI()
 
-        if Auth.auth().currentUser != nil
-        {
-            print("There is user!!!!")
-            try! Auth.auth().signOut()
-        }
+        setInitVC()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -44,12 +40,33 @@ class MainVC: UIViewController {
     {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
+    
+    private func setInitVC()
+    {
+        if Auth.auth().currentUser != nil
+        {
+            // Create a reference to the the appropriate storyboard
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            
+            if (Auth.auth().currentUser?.email?.contains("interpreter"))!
+            {
+                let controller = storyboard.instantiateViewController(withIdentifier: "ListUsersVC")
+                navigationController?.pushViewController(controller, animated: false)
+            }
+            else
+            {
+                let controller = storyboard.instantiateViewController(withIdentifier: "ListInterpretersVC")
+                navigationController?.pushViewController(controller, animated: false)
+            }
+        }
+    }
+    
     @IBAction func userButtonPressed(_ sender: UIButton) {
-        sender.pulsate()
+        
     }
 
     @IBAction func interpreterButtonPressed(_ sender: UIButton) {
-        sender.pulsate()
+        
     }
     
 }

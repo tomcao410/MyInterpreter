@@ -20,6 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+        
         FirebaseApp.configure()
         
         STPPaymentConfiguration.shared().publishableKey = "pk_test_vqdGYXtezAO1bXGVv4hhRNQ600N5jBAQll"
@@ -130,5 +132,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
+}
+
+extension UIApplication
+{
+    var statusBarView: UIView?
+    {
+        return value(forKey: "statusBar") as? UIView
+    }
 }
 

@@ -38,6 +38,7 @@ class ListInterpretersVC: UIViewController {
 
     }
     
+    
     // MARK: Work place
     private func setUI()
     {
@@ -121,7 +122,7 @@ extension ListInterpretersVC: UITableViewDataSource, UITableViewDelegate
         cell.languagesLbl.text = listInterpreters[indexPath.row].getMotherLanguage() + " - " + listInterpreters[indexPath.row].getSecondLanguage()
         
         // Save data in cache (prevent from lagging)
-        if let img = cache.object(forKey: self.listInterpreters[indexPath.row] as AnyObject)
+        if let img = cache.object(forKey: self.listInterpreters[indexPath.row].email as AnyObject)
         {
             cell.interpreterImage.image = img as? UIImage
         }
@@ -134,7 +135,8 @@ extension ListInterpretersVC: UITableViewDataSource, UITableViewDelegate
                 DispatchQueue.main.async
                 {
                     cell.interpreterImage.image = UIImage(data: data! as Data)
-                    self.cache.setObject(cell.interpreterImage.image!, forKey: self.listInterpreters[indexPath.row] as AnyObject)
+                    self.cache.setObject(cell.interpreterImage.image!, forKey: self.listInterpreters[indexPath.row].email as AnyObject)
+                    cell.spinner.stopAnimating()
                 }
             }
         }
