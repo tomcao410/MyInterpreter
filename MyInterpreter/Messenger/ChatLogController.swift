@@ -16,17 +16,85 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     var userId: String = ""
     var messages: [Message] = []
     var userProfileImage: UIImage?
+    var cache = NSCache<AnyObject, AnyObject>()
+    
+    func downloadImage(from urlString: String, completion: @escaping (UIImage) -> ()) {
+        if let cachedImage = cache.object(forKey: urlString as AnyObject) {
+            completion(cachedImage as! UIImage)
+        } else {
+            DispatchQueue.global().async {
+                let imageURL = URL(string: urlString)
+                let data = NSData(contentsOf: imageURL!)
+                DispatchQueue.main.async {
+                    guard let data = data else {
+                        return
+                    }
+                    self.cache.setObject(UIImage(data: data as Data)!, forKey: urlString as AnyObject)
+                    completion(UIImage(data: data as Data)!)
+                }
+            }
+        }
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return messages.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return setUpTextCellViews(indexPath: indexPath)
+        
+        if messages[indexPath.row].imageURL != "" {
+            return setUpImageCellViews(indexPath: indexPath)
+        } else if messages[indexPath.row].text != "" {
+            return setUpTextCellViews(indexPath: indexPath)
+        } else if messages[indexPath.row].videoURL != "" {
+            return setUpVideoCellViews(indexPath: indexPath)
+        }
+        return UITableViewCell()
+    }
+    
+    func setUpVideoCellViews(indexPath: IndexPath) -> ChatLogMessageCell {
+        return ChatLogMessageCell()
+    }
+    
+    func setUpImageCellViews(indexPath: IndexPath) -> ChatLogMessageCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! ChatLogMessageCell
+        
+        cell.messageContent = "image"
+        
+        if let cachedImage = cache.object(forKey: messages[indexPath.row].imageURL as AnyObject) as? UIImage {
+            let ratio = cachedImage.size.width / cachedImage.size.height
+            let maxWidth = self.view.frame.width / 3 * 2
+            let maxHeight = self.view.frame.height / 3
+            let viewWidth = self.view.frame.width
+            
+            cell.imageContentView.image = cachedImage
+            
+            if (self.messages[indexPath.row].sender == "user") {
+                cell.profileImageView.image = self.userProfileImage
+                cell.profileImageView.isHidden = false
+                
+                if ratio > 1.0 { //landscape image
+                    cell.imageContentView.frame = CGRect(x: 48, y: 0, width: maxWidth, height: maxWidth / ratio)
+                } else {
+                    cell.imageContentView.frame = CGRect(x: 48, y: 0, width: maxHeight * ratio, height: maxHeight)
+                }
+            } else {
+                cell.profileImageView.isHidden = true
+                
+                if ratio > 1.0 {
+                    cell.imageContentView.frame = CGRect(x: viewWidth - maxWidth - 16, y: 0, width: maxWidth, height: maxWidth / ratio)
+                } else {
+                    cell.imageContentView.frame = CGRect(x: viewWidth - maxHeight * ratio, y: 0, width: maxHeight * ratio, height: maxHeight)
+                }
+            }
+        }
+        return cell
     }
     
     func setUpTextCellViews(indexPath: IndexPath) -> ChatLogMessageCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! ChatLogMessageCell
+        
+        cell.messageContent = "text"
         
         cell.messageTextView.text = self.messages[indexPath.row].text
         
@@ -49,10 +117,45 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        
+        if messages[indexPath.row].imageURL != "" {
+            return calculateImageCellHeight(indexPath: indexPath)
+        } else if messages[indexPath.row].text != "" {
+            return calculateTextCellHeight(indexPath: indexPath)
+        } else if messages[indexPath.row].videoURL != "" {
+            return calculateVideoCellHeight(indexPath: indexPath)
+        }
+        return 0
+    }
+    
+    func calculateTextCellHeight(indexPath: IndexPath) -> CGFloat {
         let text = messages[indexPath.row].text
         let sizeToFit = CGSize(width: view.frame.width * 2 / 3, height: CGFloat.greatestFiniteMagnitude)
         
         return text.getTextViewRect(sizeToFit: sizeToFit, font: UIFont.systemFont(ofSize: 16), startPoint: CGPoint(x: 0, y: 0)).height + 20
+    }
+    
+    func calculateImageCellHeight(indexPath: IndexPath) -> CGFloat {
+        var height: CGFloat = 0
+        
+        if let cachedImage = cache.object(forKey: messages[indexPath.row].imageURL as AnyObject) as? UIImage {
+            let ratio = cachedImage.size.width / cachedImage.size.height
+            let maxWidth = self.view.frame.width / 3 * 2
+            let maxHeight = self.view.frame.height / 3
+            
+            if ratio > 1.0 { //landscape image
+                height = maxWidth / ratio + 20
+            } else {
+                height = maxHeight + 20
+            }
+        }
+ 
+        return height
+    }
+    
+    func calculateVideoCellHeight(indexPath: IndexPath) -> CGFloat {
+        return 0
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -119,7 +222,17 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         tableView.separatorColor = .clear
         tableView.allowsSelection = false
         
-        observeMessage()
+        observeMessage { (message) in
+            if message.imageURL != "" {
+                self.downloadImage(from: message.imageURL, completion: { _ in
+                    self.tableView.reloadData()
+                    self.scrollToBottom()
+                })
+            } else {
+                self.tableView.reloadData()
+                self.scrollToBottom()
+            }
+        }
         
         let guide = view.safeAreaLayoutGuide
         
@@ -157,7 +270,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         }
     }
     
-    func observeMessage() {
+    func observeMessage(completion: @escaping (Message) -> ()) {
         Database.database().reference().child("messages").queryOrdered(byChild: "user").queryEqual(toValue: userId).observe(.childAdded) { (snapshot) in
             
             guard let newMessage = snapshot.value as? NSDictionary else {
@@ -167,16 +280,18 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
             let encodedEmail = self.interpreterEmail.getEncodedEmail()
             if (newMessage.value(forKey: "interpreter") as? String == encodedEmail) {
                 if (newMessage.value(forKey: "image") != nil) {
-                    self.messages.append(Message(sender: newMessage.value(forKey: "sender") as! String, imageURL: newMessage.value(forKey: "image") as! String, user: newMessage.value(forKey: "user") as! String, interpreter: newMessage.value(forKey: "interpreter") as! String, time: newMessage.value(forKey: "time") as! String))
+                    let message = Message(sender: newMessage.value(forKey: "sender") as! String, imageURL: newMessage.value(forKey: "image") as! String, user: newMessage.value(forKey: "user") as! String, interpreter: newMessage.value(forKey: "interpreter") as! String, time: newMessage.value(forKey: "time") as! String)
+                    self.messages.append(message)
+                    completion(message)
                 } else if (newMessage.value(forKey: "text") != nil) {
-                    self.messages.append(Message(sender: newMessage.value(forKey: "sender") as! String, text: newMessage.value(forKey: "text") as! String, user: newMessage.value(forKey: "user") as! String, interpreter: newMessage.value(forKey: "interpreter") as! String, time: newMessage.value(forKey: "time") as! String))
+                    let message = Message(sender: newMessage.value(forKey: "sender") as! String, text: newMessage.value(forKey: "text") as! String, user: newMessage.value(forKey: "user") as! String, interpreter: newMessage.value(forKey: "interpreter") as! String, time: newMessage.value(forKey: "time") as! String)
+                    self.messages.append(message)
+                    completion(message)
                 } else if (newMessage.value(forKey: "video") != nil) {
-                    self.messages.append(Message(sender: newMessage.value(forKey: "sender") as! String, videoURL: newMessage.value(forKey: "video") as! String, user: newMessage.value(forKey: "user") as! String, interpreter: newMessage.value(forKey: "interpreter") as! String, time: newMessage.value(forKey: "time") as! String))
+                    let message = Message(sender: newMessage.value(forKey: "sender") as! String, videoURL: newMessage.value(forKey: "video") as! String, user: newMessage.value(forKey: "user") as! String, interpreter: newMessage.value(forKey: "interpreter") as! String, time: newMessage.value(forKey: "time") as! String)
+                    self.messages.append(message)
+                    completion(message)
                 }
-            }
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-                self.scrollToBottom()
             }
         }
     }
@@ -359,7 +474,11 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
 
 class ChatLogMessageCell: BaseCell {
     
-    let messageContent: String = ""
+    var messageContent: String = "" {
+        didSet {
+            adjustLayout(with: self.messageContent)
+        }
+    }
     
     let textBubbleView: UIView = {
         let view = UIView()
@@ -383,9 +502,21 @@ class ChatLogMessageCell: BaseCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 15
+        
+//        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
+//        imageView.isUserInteractionEnabled = true
+//        imageView.addGestureRecognizer(tapGestureRecognizer)
         
         return imageView
     }()
+    
+//    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
+//    {
+//        let tappedImage = tapGestureRecognizer.view as! UIImageView
+//
+//
+//    }
     
     let messageTextView: UITextView = {
         let textView = UITextView()
@@ -396,6 +527,10 @@ class ChatLogMessageCell: BaseCell {
         return textView
     }()
     
+    var TextCellProfileImageAnchor: NSLayoutConstraint?
+    
+    var ImageCellProfileImageAnchor: NSLayoutConstraint?
+    
     override func setupViews() {
         super.setupViews()
         addSubview(textBubbleView)
@@ -405,12 +540,22 @@ class ChatLogMessageCell: BaseCell {
         profileImageView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        
         profileImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8).isActive = true
-        profileImageView.bottomAnchor.constraint(equalTo: textBubbleView.bottomAnchor).isActive = true
         profileImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
         profileImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
-        
+        TextCellProfileImageAnchor = profileImageView.bottomAnchor.constraint(equalTo: textBubbleView.bottomAnchor)
+        ImageCellProfileImageAnchor = profileImageView.bottomAnchor.constraint(equalTo: imageContentView.bottomAnchor)
+    }
+    
+    func adjustLayout(with messageContent: String) {
+        if messageContent == "text" {
+            TextCellProfileImageAnchor?.isActive = true
+        } else if messageContent == "image" {
+            ImageCellProfileImageAnchor?.isActive = true
+        }
     }
 }
 
