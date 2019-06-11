@@ -7,7 +7,8 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseAuth
+import FirebaseDatabase
 
 class MainVC: UIViewController {
 
@@ -48,18 +49,34 @@ class MainVC: UIViewController {
         {
             // Create a reference to the the appropriate storyboard
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let userEmail = Auth.auth().currentUser?.email
             
-            if (Auth.auth().currentUser?.email?.contains("interpreter"))!
+            if (userEmail?.contains("interpreter"))!
             {
                 let clientsController = ClientsController()
-                clientsController.interpreterEmail = (Auth.auth().currentUser?.email)!
-                //self.navigationItem.setCustomNavBar(title: "")
+                clientsController.interpreterEmail = userEmail!
                 self.navigationController?.pushViewController(clientsController, animated: false)
             }
             else
             {
-                let controller = storyboard.instantiateViewController(withIdentifier: "ListInterpretersVC")
-                navigationController?.pushViewController(controller, animated: false)
+                let bookingRef = Database.database().reference()
+                
+                let bookingPath = bookingRef.child("users").child((userEmail?.getEncodedEmail())!).child("booking")
+                
+                bookingPath.observeSingleEvent(of: .value) { (snapshot: DataSnapshot) in
+                    
+                    let bookingObject = snapshot.value as! String
+                    if bookingObject.contains("interpreter0")
+                    {
+                        let listInterpreterVC = storyboard.instantiateViewController(withIdentifier: "ListInterpretersVC")
+                        self.navigationController?.pushViewController(listInterpreterVC, animated: false)
+                    }
+                    else
+                    {
+                        let userDashboardVC = storyboard.instantiateViewController(withIdentifier: "UserDashboardVC")
+                        self.navigationController?.pushViewController(userDashboardVC, animated: false)
+                    }
+                }
             }
         }
     }

@@ -41,6 +41,7 @@ class SignUpStage2VC: UIViewController {
         
         lblError.isHidden = true // Error UI
         navigationItem.setCustomNavBar(title: "Register")
+        navigationController?.navigationBar.tintColor = .black
         
         // Profile Image UI
         userImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(photoPickerController)))

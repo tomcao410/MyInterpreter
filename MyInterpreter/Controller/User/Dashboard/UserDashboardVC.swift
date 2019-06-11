@@ -10,6 +10,11 @@ import UIKit
 
 class UserDashboardVC: UIViewController {
 
+    // MARK: UI elements
+    @IBOutlet weak var interpreterProfileImage: UIImageView!
+    
+    // Params
+    
     
     // MARK: Views
     override func viewDidLoad() {
@@ -26,6 +31,17 @@ class UserDashboardVC: UIViewController {
         
         navigationItem.setCustomNavBar(title: "Dashboard")
         navigationItem.hidesBackButton = true
+        
+        interpreterProfileImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(photoPickerController)))
+        interpreterProfileImage.isUserInteractionEnabled = true
+        
+    }
+    
+    
+    // MARK: ---BUTTON---
+    @objc func photoPickerController()
+    {
+        // CHỖ NÀY ĐỂ PUSH TỚI CÁI VIEW CHAT NHA
     }
     
     @objc func userButtonClicked()

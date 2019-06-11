@@ -1162,14 +1162,33 @@ Price: $1.49 per day</string>
         <!--User DashboardVC-->
         <scene sceneID="hZK-gj-EsY">
             <objects>
-                <viewController id="k7P-0h-k7g" customClass="UserDashboardVC" customModule="MyInterpreter" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="UserDashboardVC" id="k7P-0h-k7g" customClass="UserDashboardVC" customModule="MyInterpreter" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UMQ-9M-JmE">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hS8-g4-ceJ">
+                                <rect key="frame" x="62.5" y="208.5" width="250" height="250"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="250" id="TLZ-bb-BkK"/>
+                                    <constraint firstAttribute="width" constant="250" id="ie0-mc-Z1N"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="30"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="hS8-g4-ceJ" firstAttribute="centerX" secondItem="UMQ-9M-JmE" secondAttribute="centerX" id="2ga-La-anc"/>
+                            <constraint firstItem="hS8-g4-ceJ" firstAttribute="centerY" secondItem="UMQ-9M-JmE" secondAttribute="centerY" id="Zvy-Va-PAl"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="LRI-SP-t3A"/>
                     </view>
                     <connections>
+                        <outlet property="interpreterProfileImage" destination="hS8-g4-ceJ" id="8Jb-L5-eFj"/>
                         <segue destination="qaa-Ja-21H" kind="show" identifier="userInfoSegue" id="OHD-fK-jgn"/>
                     </connections>
                 </viewController>
@@ -1332,7 +1351,7 @@ Price: $1.49 per day</string>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="7A9-2z-BIR"/>
-        <segue reference="BYu-OV-1O9"/>
+        <segue reference="OHD-fK-jgn"/>
         <segue reference="NIp-pH-V6n"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -7,7 +7,8 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseAuth
+import FirebaseDatabase
 
 class SignInUserVC: UIViewController
 {
@@ -35,6 +36,7 @@ class SignInUserVC: UIViewController
         lblError.isHidden = true
         
         navigationItem.setCustomNavBar(title: "Sign In")
+        navigationController?.navigationBar.tintColor = .black
         
         emailField.delegate = self
         passwordField.delegate = self
@@ -85,10 +87,27 @@ class SignInUserVC: UIViewController
         Auth.auth().signIn(withEmail: email, password: pass) { (user: AuthDataResult?, error: Error?) in
             if user != nil
             {
-                self.loginButton.status(enable: true, hidden: false)
-                self.spinner.stopAnimating()
+                let bookingRef = Database.database().reference()
                 
-                self.performSegue(withIdentifier: "userLogInSegue", sender: self)
+                let bookingPath = bookingRef.child("users").child(email.getEncodedEmail()).child("booking")
+                
+                bookingPath.observeSingleEvent(of: .value) { (snapshot: DataSnapshot) in
+                    
+                    let bookingObject = snapshot.value as! String
+                    if bookingObject.contains("interpreter0")
+                    {
+                        self.loginButton.status(enable: true, hidden: false)
+                        self.spinner.stopAnimating()
+                        
+                        self.performSegue(withIdentifier: "userLogInSegue", sender: self)
+                    }
+                    else
+                    {
+                        self.loginButton.status(enable: true, hidden: false)
+                        self.spinner.stopAnimating()
+                        self.performSegue(withIdentifier: "userDashboardSegue", sender: self)
+                    }
+                }
             }
             else
             {
