@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ClientsController.swift"
-            timestampString = "581882834.0379291"
+            timestampString = "581963752.295081"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "107"
-            endingLineNumber = "107"
+            startingLineNumber = "215"
+            endingLineNumber = "215"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,7 +42,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581882834.0380321"
+            timestampString = "581963752.295832"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "253"
@@ -58,7 +58,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581882834.0386339"
+            timestampString = "581963752.295928"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "313"
@@ -82,7 +82,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581882834.039117"
+            timestampString = "581963752.2960041"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "315"
@@ -98,7 +98,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581882834.0395761"
+            timestampString = "581963752.296085"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "316"
@@ -146,7 +146,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581882834.040032"
+            timestampString = "581963752.296164"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "318"
@@ -162,7 +162,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581882834.040471"
+            timestampString = "581963752.2962461"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "322"
@@ -210,7 +210,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581882834.040872"
+            timestampString = "581963752.296331"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "343"
@@ -226,11 +226,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ClientsController.swift"
-            timestampString = "581882834.0412689"
+            timestampString = "581963752.296423"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
+            startingLineNumber = "200"
+            endingLineNumber = "200"
             landmarkName = "listUser"
             landmarkType = "24">
          </BreakpointContent>
@@ -242,11 +242,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ClientsController.swift"
-            timestampString = "581882834.041338"
+            timestampString = "581963752.297255"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
+            startingLineNumber = "199"
+            endingLineNumber = "199"
             landmarkName = "listUser"
             landmarkType = "24">
          </BreakpointContent>
@@ -258,43 +258,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ClientsController.swift"
-            timestampString = "581882834.041397"
+            timestampString = "581963752.297748"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "38"
-            endingLineNumber = "38"
-            landmarkName = "getUser(from:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MyInterpreter/Messenger/ClientsController.swift"
-            timestampString = "581882834.041453"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
-            landmarkName = "getUser(from:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MyInterpreter/Messenger/ClientsController.swift"
-            timestampString = "581882834.041509"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "137"
-            endingLineNumber = "137"
+            startingLineNumber = "278"
+            endingLineNumber = "278"
             landmarkName = "observeUsers()"
             landmarkType = "7">
             <Locations>
@@ -338,11 +306,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ClientsController.swift"
-            timestampString = "581882834.041563"
+            timestampString = "581963752.298377"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
+            startingLineNumber = "265"
+            endingLineNumber = "265"
             landmarkName = "observeUsers()"
             landmarkType = "7">
          </BreakpointContent>
@@ -354,7 +322,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581882834.041625"
+            timestampString = "581963752.298987"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "342"
@@ -370,7 +338,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581882834.042031"
+            timestampString = "581963752.299075"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "241"
@@ -386,7 +354,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581882834.042412"
+            timestampString = "581963752.2991329"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "227"
@@ -434,7 +402,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581882834.0427901"
+            timestampString = "581963752.2991869"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "153"
@@ -450,7 +418,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581882834.043183"
+            timestampString = "581963752.2992409"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "140"
@@ -466,7 +434,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581882834.043555"
+            timestampString = "581963752.299293"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "23"
@@ -482,7 +450,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581882834.0439169"
+            timestampString = "581963752.299343"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "25"
@@ -530,7 +498,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581882834.044286"
+            timestampString = "581963752.299394"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "32"
@@ -546,7 +514,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581882834.044664"
+            timestampString = "581963752.299492"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "65"
@@ -562,7 +530,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581882834.045038"
+            timestampString = "581963752.299567"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "143"
@@ -578,7 +546,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581882834.045408"
+            timestampString = "581963752.2996449"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "78"
@@ -594,7 +562,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581882834.045774"
+            timestampString = "581963752.299722"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "77"
@@ -610,7 +578,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581882834.046147"
+            timestampString = "581963752.299796"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "79"
@@ -626,7 +594,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581882834.046522"
+            timestampString = "581963752.2999361"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "85"
@@ -642,7 +610,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581882834.046896"
+            timestampString = "581963752.300014"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "87"
@@ -658,7 +626,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581882834.047264"
+            timestampString = "581963752.300072"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "64"
@@ -674,13 +642,141 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyInterpreter/Messenger/ChatLogController.swift"
-            timestampString = "581882834.047621"
+            timestampString = "581963752.300157"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "524"
             endingLineNumber = "524"
             landmarkName = "messageTextView"
             landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MyInterpreter/Messenger/ClientsController.swift"
+            timestampString = "581963752.300227"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "30"
+            endingLineNumber = "30"
+            landmarkName = "newUsersAndBookingID"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MyInterpreter.ClientsController.newUsersAndBookingID.didset : Swift.Array&lt;Swift.String&gt;"
+                  moduleName = "MyInterpreter"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook/Desktop/swift/ThietKeProject/MyInterpreter/Messenger/ClientsController.swift"
+                  timestampString = "581963662.802238"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "30"
+                  endingLineNumber = "30"
+                  offsetFromSymbolStart = "1304">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (MyInterpreter.Booking) -&gt; () in MyInterpreter.ClientsController.newUsersAndBookingID.didset : Swift.Array&lt;Swift.String&gt;"
+                  moduleName = "MyInterpreter"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook/Desktop/swift/ThietKeProject/MyInterpreter/Messenger/ClientsController.swift"
+                  timestampString = "581963662.803943"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "31"
+                  endingLineNumber = "31"
+                  offsetFromSymbolStart = "221">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MyInterpreter/Messenger/ClientsController.swift"
+            timestampString = "581963752.300907"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "27"
+            endingLineNumber = "27"
+            landmarkName = "newUsersAndBookingID"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MyInterpreter/Messenger/ClientsController.swift"
+            timestampString = "581963752.3013901"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
+            landmarkName = "setPopUpViews(newUser:newBooking:profileImage:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MyInterpreter/Messenger/ClientsController.swift"
+            timestampString = "581963752.3018399"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "254"
+            endingLineNumber = "254"
+            landmarkName = "sleepModeOn()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MyInterpreter/Messenger/ClientsController.swift"
+            timestampString = "581963752.302286"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "259"
+            endingLineNumber = "259"
+            landmarkName = "workModeOn()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MyInterpreter/Messenger/ClientsController.swift"
+            timestampString = "581963752.302809"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "253"
+            endingLineNumber = "253"
+            landmarkName = "sleepModeOn()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

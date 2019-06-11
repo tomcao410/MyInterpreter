@@ -16,6 +16,10 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
     var cached = NSCache<AnyObject, AnyObject>()
     let tableView = UITableView()
     var visualEffectView = UIVisualEffectView()
+    let popUpView = UIView()
+    var WorkingOnBookingID: String = ""
+    var WorkingOnUser: User = User()
+    var workingMode: Bool = true
     var newUsersAndBookingID: [String] = [] {
         didSet {
             for item in self.newUsersAndBookingID {
@@ -23,14 +27,120 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
                 var arr = item.split(separator: " ")
                 let newUserId: String = String(arr[0])
                 let newBookingId: String? = arr.count > 1 ? String(arr[1]) : nil
-                getUser(from: newUserId) { (newUser) in
-                    DispatchQueue.main.async {
-                        let alert = self.createAlert(about: newUser, newBookingID: newBookingId!)
-                        self.present(alert, animated: true, completion: nil)
+                getBookingInfo(from: newBookingId!) { (newBooking) in
+                    self.getUser(from: newUserId) { (newUser) in
+                        self.downloadUserProfileImage(from: newUserId, completion: { (image) in
+                            DispatchQueue.main.async {
+                                self.WorkingOnBookingID = newBookingId!
+                                self.WorkingOnUser = newUser
+                                self.setPopUpViews(newUser: newUser, newBooking: newBooking, profileImage: image)
+                            }
+                        })
+                        
                     }
                 }
             }
             self.newUsersAndBookingID.removeAll()
+        }
+    }
+    
+    func setPopUpViews(newUser: User, newBooking: Booking, profileImage: UIImage) {
+        let goldenDecimal: CGFloat = 1.618
+        
+        let blurEffect = UIBlurEffect(style: .dark)
+        visualEffectView.effect = blurEffect
+        visualEffectView.isHidden = false
+        visualEffectView.frame = view.bounds
+        visualEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.view.addSubview(visualEffectView)
+        
+        popUpView.backgroundColor = .white
+        self.view.addSubview(popUpView)
+        popUpView.translatesAutoresizingMaskIntoConstraints = false
+        popUpView.layer.cornerRadius = 10
+        
+        popUpView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        popUpView.widthAnchor.constraint(equalToConstant: 200 * goldenDecimal).isActive = true
+        popUpView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        popUpView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        
+        let profileImageView = UIImageView()
+        profileImageView.layer.cornerRadius = 40
+        profileImageView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        profileImageView.image = profileImage
+        profileImageView.clipsToBounds = true
+        profileImageView.layer.masksToBounds = true
+        profileImageView.layer.borderWidth = 1.5
+        profileImageView.layer.borderColor = UIColor.white.cgColor
+
+        
+        popUpView.addSubview(profileImageView)
+        profileImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        profileImageView.topAnchor.constraint(equalTo: popUpView.topAnchor, constant: -40).isActive = true
+        profileImageView.centerXAnchor.constraint(equalTo: popUpView.centerXAnchor).isActive = true
+        profileImageView.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        profileImageView.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        
+        let nameLabel = UILabel()
+        nameLabel.text = newUser.getName()
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.font = UIFont.systemFont(ofSize: 30)
+        nameLabel.textColor = .black
+        nameLabel.textAlignment = .center
+        popUpView.addSubview(nameLabel)
+
+        nameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 5).isActive = true
+        nameLabel.centerXAnchor.constraint(equalTo: profileImageView.centerXAnchor).isActive = true
+        nameLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        nameLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        
+        let messageLabel = UILabel()
+        messageLabel.textColor = .gray
+        messageLabel.font = UIFont.systemFont(ofSize: 16)
+        messageLabel.text = "Book you from " + newBooking.timeStart + " to " + newBooking.timeEnd + " with a price " + newBooking.price
+        messageLabel.textAlignment = .center
+        messageLabel.numberOfLines = 0
+        popUpView.addSubview(messageLabel)
+        messageLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        messageLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 5).isActive = true
+        messageLabel.centerXAnchor.constraint(equalTo: popUpView.centerXAnchor).isActive = true
+        messageLabel.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        messageLabel.widthAnchor.constraint(equalToConstant: 200 * goldenDecimal - 10).isActive = true
+        
+        let confirmButton = UIButton()
+        confirmButton.setTitle("Confirm", for: .normal)
+        confirmButton.setTitleColor(#colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1), for: .normal)
+        confirmButton.addTarget(self, action: #selector(confirmBooking), for: .touchUpInside)
+        
+        popUpView.addSubview(confirmButton)
+        confirmButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        confirmButton.topAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: 5).isActive = true
+        confirmButton.centerXAnchor.constraint(equalTo: popUpView.centerXAnchor).isActive = true
+        confirmButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        confirmButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        
+    }
+    
+    @objc func confirmBooking() {
+        let bookingRef = Database.database().reference().child("bookings").child(WorkingOnBookingID)
+        bookingRef.updateChildValues(["confirm": true])
+//        bookingRef.updateChildValues(["timeStart": Date().getString(with: "yyyy-MM-dd HH:mm:ss")])
+        self.listUser.append(WorkingOnUser)
+        self.visualEffectView.isHidden = true
+        self.popUpView.isHidden = true
+        
+    }
+    
+    func getBookingInfo(from id: String, completion: @escaping (Booking) -> ()) {
+        let bookingRef = Database.database().reference().child("bookings").child(id)
+        
+        bookingRef.observeSingleEvent(of: .value) { (snapshot) in
+            if let booking = snapshot.value as? NSDictionary {
+                completion(Booking(dic: booking))
+            }
         }
     }
     
@@ -68,21 +178,19 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
         })
     }
     
-    func createAlert(about newUser: User, newBookingID: String) -> UIAlertController {
-        let alert = UIAlertController(title: "New booking to you", message: newUser.email, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { _ in
-            Database.database().reference().child("bookings").child(newBookingID).updateChildValues(["confirm": true])
-            self.listUser.append(newUser)
-            self.visualEffectView.isHidden = true
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
-            Database.database().reference().child("bookings").child(newBookingID).updateChildValues(["confirm": false])
-            self.visualEffectView.isHidden = true
-        }))
-        
-        return alert
-    }
+//    func createAlert(about newUser: User, newBookingID: String) -> UIAlertController {
+//        let alert = UIAlertController(title: "New booking to you", message: newUser.email, preferredStyle: .alert)
+//        alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { _ in
+//
+//        }))
+//
+//        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
+//            Database.database().reference().child("bookings").child(newBookingID).updateChildValues(["confirm": false])
+//            self.visualEffectView.isHidden = true
+//        }))
+//
+//        return alert
+//    }
 
     private let cellID = "cellID"
     
@@ -115,7 +223,40 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
             tableView.bottomAnchor.constraint(equalTo: guide.bottomAnchor).isActive = true
         }
         tableView.register(MessageCell.self, forCellReuseIdentifier: cellID)
-        setUpPopUpViews()
+        
+        observeInterpreterMode { (working) in
+            if working == true {
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sleep", style: .plain, target: self, action: #selector(self.sleepModeOn))
+            } else {
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Work", style: .plain, target: self, action: #selector(self.workModeOn))
+            }
+        }
+    }
+    
+    let workingButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "Work", style: .plain, target: self, action: #selector(workModeOn))
+        return button
+    }()
+    let sleepButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "Sleep", style: .plain, target: self, action: #selector(sleepModeOn))
+        return button
+    }()
+    
+    func observeInterpreterMode(completion: @escaping (Bool) -> ()) {
+        let interpreterStatusRef = Database.database().reference().child("interpreters").child(interpreterEmail.getEncodedEmail()).child("status")
+        interpreterStatusRef.observe(.value) { (snapshot) in
+            completion(snapshot.value as! Bool)
+        }
+    }
+    
+    @objc func sleepModeOn() {
+        let interpreterStatusRef = Database.database().reference().child("interpreters").child(interpreterEmail.getEncodedEmail()).child("status")
+        interpreterStatusRef.setValue(false)
+    }
+    
+    @objc func workModeOn() {
+        let interpreterStatusRef = Database.database().reference().child("interpreters").child(interpreterEmail.getEncodedEmail()).child("status")
+        interpreterStatusRef.setValue(true)
     }
     
     func observeUsers() {
@@ -143,6 +284,8 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
             }
         })
     }
+    
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -190,21 +333,6 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
         }
         self.navigationController?.pushViewController(controller, animated: true)
     }
-    
-    func setUpPopUpViews() {
-        let blurEffect = UIBlurEffect(style: .dark)
-        self.visualEffectView.effect = blurEffect
-        self.view.addSubview(visualEffectView)
-        visualEffectView.translatesAutoresizingMaskIntoConstraints = false
-        
-        visualEffectView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        visualEffectView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-        visualEffectView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        visualEffectView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        
-        visualEffectView.isHidden = true
-    }
-    
 }
 
 class MessageCell: BaseCell {
@@ -216,19 +344,20 @@ class MessageCell: BaseCell {
         messageLabel.textColor = highlighted ? .white : .darkGray
     }
     
-    var messages: Array<String>? {
-        didSet {
+    func observeMessageAndChangeCellViews(about userId: String) {
+        Database.database().reference().child("messages").queryOrdered(byChild: "user").queryEqual(toValue: userId).observe(.childAdded) { (snapshot) in
             
-        }
-    }
-    
-    var user: User? {
-        didSet {
-            //get user from database
-            self.nameLabel.text = user!.getName()
-            self.messageLabel.text = "Hello"
-            let date = Date()
+            guard let newMessage = snapshot.value as? NSDictionary else {
+                return
+            }
+            
             let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            dateFormatter.timeZone = TimeZone(abbreviation: "GMT+0:00")
+            guard let date = dateFormatter.date(from: newMessage.value(forKey: "time") as! String) else {
+                fatalError()
+            }
+            
             dateFormatter.dateFormat = "h:mm a"
             
             let elapsedTimeInSeconds = NSDate().timeIntervalSince(date as Date)
@@ -243,6 +372,24 @@ class MessageCell: BaseCell {
             }
             
             self.timeLabel.text = dateFormatter.string(from: date as Date)
+            
+            if (newMessage.value(forKey: "image") != nil) {
+                self.messageLabel.text = "Đã gửi một tin nhắn hình ảnh"
+            } else if (newMessage.value(forKey: "text") != nil) {
+                self.messageLabel.text = (newMessage.value(forKey: "text") as! String)
+            } else if (newMessage.value(forKey: "video") != nil) {
+                
+            }
+        }
+    }
+    
+    var user: User? {
+        didSet {
+            //get user from database
+            self.nameLabel.text = user!.getName()
+            self.messageLabel.text = "Hello"
+            
+            observeMessageAndChangeCellViews(about: (self.user?.email.getEncodedEmail())!)
         }
     }
 
@@ -361,5 +508,14 @@ class BaseCell: UITableViewCell{
     
     func setupViews() {
         
+    }
+}
+
+extension Date {
+    func getString(with formatString: String) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = formatString
+        formatter.timeZone = TimeZone(abbreviation: "GMT+7:00")
+        return formatter.string(from: self)
     }
 }
