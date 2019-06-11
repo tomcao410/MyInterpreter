@@ -59,14 +59,14 @@ class SignUpStage2VC: UIViewController {
             storageRef.putData(uploadData, metadata: nil) { (metaData: StorageMetadata?, error: Error?) in
                 if error != nil
                 {
-                    self.alertAction(title: "Uploading image failed!", message: String(describing: error))
+                    self.customAlertAction(title: "Uploading image failed!", message: String(describing: error))
                 }
                 else
                 {
                     storageRef.downloadURL(completion: { (url: URL?, error: Error?) in
                         if error != nil
                         {
-                            self.alertAction(title: "Uploading image failed!", message: String(describing: error))
+                            self.customAlertAction(title: "Uploading image failed!", message: String(describing: error))
                         }
                         else
                         {
@@ -174,14 +174,6 @@ class SignUpStage2VC: UIViewController {
             self.spinner.stopAnimating()
             self.createButton.status(enable: true, hidden: false)
         }
-    }
-    
-    // MARK: --------ALERT--------
-    private func alertAction(title: String, message: String)
-    {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
-        self.present(alert, animated: true, completion: nil)
     }
 }
 

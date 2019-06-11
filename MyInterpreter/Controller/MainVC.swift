@@ -39,6 +39,7 @@ class MainVC: UIViewController {
     private func setUI()
     {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationController?.navigationBar.tintColor = .black
     }
     
     private func setInitVC()

@@ -27,6 +27,7 @@
 		54BBEFBB22AAA5F600D86C17 /* TextField-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BBEFBA22AAA5F600D86C17 /* TextField-Extension.swift */; };
 		54BBEFBF22AAB33F00D86C17 /* NavigationBar-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BBEFBE22AAB33F00D86C17 /* NavigationBar-Extension.swift */; };
 		54BBEFC122AAB42300D86C17 /* MainVC-2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BBEFC022AAB42300D86C17 /* MainVC-2.swift */; };
+		54BE147C22AEA11B00ED5947 /* Picker-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BE147B22AEA11B00ED5947 /* Picker-Extension.swift */; };
 		54C2B82822ACC89D001A9CFB /* Alert-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C2B82722ACC89D001A9CFB /* Alert-Extension.swift */; };
 		54C719E72270C214001B2BFF /* ListInterpretersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C719E62270C214001B2BFF /* ListInterpretersVC.swift */; };
 		54C719E92270C24B001B2BFF /* ListInterpretersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C719E82270C24B001B2BFF /* ListInterpretersCell.swift */; };
@@ -86,6 +87,7 @@
 		54BBEFBA22AAA5F600D86C17 /* TextField-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextField-Extension.swift"; sourceTree = "<group>"; };
 		54BBEFBE22AAB33F00D86C17 /* NavigationBar-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationBar-Extension.swift"; sourceTree = "<group>"; };
 		54BBEFC022AAB42300D86C17 /* MainVC-2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainVC-2.swift"; sourceTree = "<group>"; };
+		54BE147B22AEA11B00ED5947 /* Picker-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Picker-Extension.swift"; sourceTree = "<group>"; };
 		54C2B82722ACC89D001A9CFB /* Alert-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Alert-Extension.swift"; sourceTree = "<group>"; };
 		54C719E62270C214001B2BFF /* ListInterpretersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListInterpretersVC.swift; sourceTree = "<group>"; };
 		54C719E82270C24B001B2BFF /* ListInterpretersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListInterpretersCell.swift; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 				54BBEFBA22AAA5F600D86C17 /* TextField-Extension.swift */,
 				54BBEFBE22AAB33F00D86C17 /* NavigationBar-Extension.swift */,
 				54C2B82722ACC89D001A9CFB /* Alert-Extension.swift */,
+				54BE147B22AEA11B00ED5947 /* Picker-Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -547,6 +550,7 @@
 				5466FEE1225255A10071B8FE /* User.swift in Sources */,
 				54E6B53A2245E81B000F82D8 /* AppDelegate.swift in Sources */,
 				54B73F0C22AC10F800402EBF /* UserInfoCell.swift in Sources */,
+				54BE147C22AEA11B00ED5947 /* Picker-Extension.swift in Sources */,
 				54E4BAA7229A71590011C7D0 /* ListUsersCell.swift in Sources */,
 				54C719E72270C214001B2BFF /* ListInterpretersVC.swift in Sources */,
 				54B59CB7224E37B60026814A /* SignUpStage1VC.swift in Sources */,

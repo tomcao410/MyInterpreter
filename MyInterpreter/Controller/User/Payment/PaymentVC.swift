@@ -110,7 +110,7 @@ class PaymentVC: UIViewController {
         }
         else
         {
-            alertInputNumberOfDays()
+            self.customAlertAction(title: "Notice!", message: "Please input number of days that you want to book!")
             lblPrice.text = "0.0"
         }
     }
@@ -132,7 +132,7 @@ class PaymentVC: UIViewController {
         
         if (lblPrice.text == "0.0")
         {
-            alertInputNumberOfDays()
+            self.customAlertAction(title: "Notice!", message: "Please input number of days that you want to book!")
         }
         else
         {
@@ -144,14 +144,6 @@ class PaymentVC: UIViewController {
             }
             performSegue(withIdentifier: "confirmPaymentSegue", sender: nil)
         }
-    }
-    
-    // MARK: --------ALERT--------
-    func alertInputNumberOfDays()
-    {
-        let alert = UIAlertController(title: "Notice!", message: "Please input number of days that you want to book!", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        present(alert, animated: true)
     }
 }
 

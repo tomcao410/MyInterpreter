@@ -95,14 +95,7 @@ class ListInterpretersVC: UIViewController {
             }
         }
     }
-    
-    // MARK: --------ALERT--------
-    private func alertAction(title: String, message: String)
-    {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
-        self.present(alert, animated: true, completion: nil)
-    }
+
 }
 
 

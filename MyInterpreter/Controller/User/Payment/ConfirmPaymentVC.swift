@@ -58,6 +58,7 @@ class ConfirmPaymentVC: UIViewController {
         cardNumberTxtFlield.addDoneCancelToolbar()
         expDateTxtField.addDoneCancelToolbar()
         cvcTxtField.addDoneCancelToolbar()
+        
         expDateTxtField.delegate = self
         cvcTxtField.delegate = self
         
@@ -210,7 +211,7 @@ class ConfirmPaymentVC: UIViewController {
             && (cardNumberTxtFlield.text?.isEmpty)!
             && (cvcTxtField.text?.isEmpty)!
         {
-            self.alertAction(title: "Error", message: "Wrong card input!")
+            self.customAlertAction(title: "Error", message: "Wrong card input!")
             return
         }
         let comps = expDateTxtField.text?.components(separatedBy: "/")
@@ -230,7 +231,7 @@ class ConfirmPaymentVC: UIViewController {
                 self.spinner.stopAnimating()
                 self.bookButton.status(enable: true, hidden: false)
                 
-                self.alertAction(title: "Incorrect", message: "Your card is invalid! Please check again!")
+                self.customAlertAction(title: "Incorrect", message: "Your card is invalid! Please check again!")
                 return
             }
             let amount = PaymentVC.price
@@ -270,19 +271,12 @@ class ConfirmPaymentVC: UIViewController {
                     self.spinner.stopAnimating()
                     self.bookButton.status(enable: true, hidden: false)
                     
-                    self.alertAction(title: "Error", message: "Something happened to the web server! (code = \(code))")
+                    self.customAlertAction(title: "Error", message: "Something happened to the web server! (code = \(code))")
                 }
             }
         }
     }
-    
-    // MARK: --------ALERT--------
-    private func alertAction(title: String, message: String)
-    {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }
+
 }
 
 

@@ -17,23 +17,18 @@ class UserInfoVC: UIViewController {
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     
     // MARK: Params
-    private let tableHeaderHeight: CGFloat = 400.0
-    private let tableHeaderCutAway: CGFloat = 60.0
+    private let tableHeaderHeight: CGFloat = 450.0
+    private let tableHeaderCutAway: CGFloat = 40.0
+    let screenSize = UIScreen.main.bounds
     
     var header: DetailHeaderView!
     var headerMaskLayer: CAShapeLayer!
     var userInfoSection: [String] = ["Name", "1st language", "2nd language","Email", "Booking status"]
-    var user = User()
-    var cache = NSCache<AnyObject, AnyObject>()
-    
-    var alertAction: UIAlertController!
-    
+    static var user = User()
+
     // MARK: Views
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        getUserData()
-        
         
         setUI()
     }
@@ -43,9 +38,14 @@ class UserInfoVC: UIViewController {
         
         self.navigationController?.navigationBar.tintColor = UIColor.black
     }
-    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        getUserData()
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+    
+        
         
         self.navigationController?.navigationBar.tintColor = UIColor.white
         
@@ -56,6 +56,7 @@ class UserInfoVC: UIViewController {
         customNavigationBar()
         
         customTableView()
+        
         
         
         tableView.delegate = self
@@ -91,39 +92,43 @@ class UserInfoVC: UIViewController {
                 
                 guard let userObject = snapshot.value as? NSDictionary else
                 {
-                    self.alertAction.customAlertAction(title: "Error!", message: "Can't observe data from database")
+                    self.customAlertAction(title: "Error!", message: "Can't observe data from database")
                     return
                 }
                 
-                self.user.name = userObject["name"] as! String
-                self.user.email = userObject["email"] as! String
-                self.user.booking = userObject["booking"] as! String
-                self.user.motherLanguage = userObject["motherLanguage"] as! String
-                self.user.secondLanguage = userObject["secondLanguage"] as! String
-                self.user.profileImageURL = userObject["profileImageURL"] as! String
+                if let name = userObject["name"] as? String,
+                    let email = userObject["email"] as? String,
+                    let booking = userObject["booking"] as? String,
+                    let motherLanguage = userObject["motherLanguage"] as? String,
+                    let secondLanguage = userObject["secondLanguage"] as? String,
+                    let profileImageURL = userObject["profileImageURL"] as? String
+                {
+                    UserInfoVC.user.name = name
+                    UserInfoVC.user.email = email
+                    UserInfoVC.user.booking = booking
+                    UserInfoVC.user.motherLanguage = motherLanguage
+                    UserInfoVC.user.secondLanguage = secondLanguage
+                    UserInfoVC.user.profileImageURL = profileImageURL
 
-                // Save image into cache
-                if let img = self.cache.object(forKey: self.user.email as AnyObject)
-                {
-                    self.headerImage.image = img as? UIImage
                 }
-                else
-                {
-                    let url = URL(string: self.user.profileImageURL)
-                    
-                    guard let data = NSData(contentsOf: url!)
-                        else {
-                            return
-                    }
-                    DispatchQueue.main.async
-                        {
-                            self.headerImage.image = UIImage(data: data as Data)
-                            self.cache.setObject(self.headerImage.image!, forKey: self.user.email as AnyObject)
-                            
-                            self.spinner.stopAnimating()
-                            
-                            self.tableView.reloadData()
-                    }
+
+                
+                // Set image view
+                let url = URL(string: UserInfoVC.user.profileImageURL)
+                
+                guard let data = NSData(contentsOf: url!)
+                    else {
+                        self.customAlertAction(title: "Error!", message: "Something wrong with your profile image!")
+                        return
+                }
+                DispatchQueue.main.async
+                    {
+                        
+                        self.headerImage.image = UIImage(data: data as Data)
+
+                        self.spinner.stopAnimating()
+                        
+                        self.tableView.reloadData()
                 }
             })
         }
@@ -136,6 +141,7 @@ class UserInfoVC: UIViewController {
         tableView.rowHeight = UITableView.automaticDimension
         
         header = tableView.tableHeaderView as? DetailHeaderView
+
         tableView.tableHeaderView = nil
         tableView.addSubview(header)
         
@@ -204,22 +210,22 @@ extension UserInfoVC: UITableViewDelegate, UITableViewDataSource
         
         switch indexPath.row {
         case 0:
-            context = user.name
+            context = UserInfoVC.user.name
             break
         case 1:
-            context = user.motherLanguage
+            context = UserInfoVC.user.motherLanguage
             break
         case 2:
-            context = user.secondLanguage
+            context = UserInfoVC.user.secondLanguage
             break
         case 3:
-            context = user.email
+            context = UserInfoVC.user.email
             break
         case 4:
-            context = user.booking
+            context = UserInfoVC.user.booking
             break
         default:
-            alertAction.customAlertAction(title: "Error!", message: "Something wrong with your profile!")
+            self.customAlertAction(title: "Error!", message: "Something wrong with your profile!")
             break
         }
 

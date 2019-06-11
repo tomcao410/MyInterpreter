@@ -1,14 +1,14 @@
 //
-//  Alert-Extension.swift
+//  Picker-Extension.swift
 //  MyInterpreter
 //
-//  Created by Tom on 6/9/19.
+//  Created by Tom on 6/10/19.
 //  Copyright © 2019 Tom. All rights reserved.
 //
 
 import UIKit
 
-extension UIAlertController
+extension UIPickerView
 {
-
+    
 }
