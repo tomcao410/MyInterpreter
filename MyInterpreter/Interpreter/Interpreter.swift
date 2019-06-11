@@ -15,6 +15,7 @@ class Interpreter
     var motherLanguage: String
     var secondLanguage: String
     var profileImageURL: String
+    var status: Bool
     init()
     {
         email = ""
@@ -22,6 +23,7 @@ class Interpreter
         motherLanguage = ""
         secondLanguage = ""
         profileImageURL = ""
+        status = false
     }
     
     init(email: String, name: String, motherLanguage: String, secondLanguage: String, profileImageURL: String)
@@ -31,6 +33,8 @@ class Interpreter
         self.motherLanguage = motherLanguage
         self.secondLanguage = secondLanguage
         self.profileImageURL = profileImageURL
+        status = false
+        
     }
     
     // MARK: email
