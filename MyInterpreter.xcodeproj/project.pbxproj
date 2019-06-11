@@ -11,6 +11,9 @@
 		54023F2422A6624E004D1A1B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54023F2322A6624E004D1A1B /* Main.storyboard */; };
 		5405E2432247ECB2001FF399 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5405E2422247ECB2001FF399 /* GoogleService-Info.plist */; };
 		5418814D22A98EA2004F1FBA /* Button-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5418814C22A98EA2004F1FBA /* Button-Extension.swift */; };
+		543DDA5C22B01D9800532536 /* Date-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543DDA5B22B01D9800532536 /* Date-Extension.swift */; };
+		543DDA5E22B01DBE00532536 /* BaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543DDA5D22B01DBE00532536 /* BaseCell.swift */; };
+		543DDA6022B01E1700532536 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543DDA5F22B01E1700532536 /* MessageCell.swift */; };
 		543EF3F6224E7B79009CEAE6 /* SignUpStage2VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543EF3F5224E7B79009CEAE6 /* SignUpStage2VC.swift */; };
 		5449B8CC22A7D96B00250518 /* ChatLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5449B8CB22A7D96B00250518 /* ChatLogController.swift */; };
 		5449B8CE22A7D9E500250518 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5449B8CD22A7D9E500250518 /* Message.swift */; };
@@ -37,8 +40,6 @@
 		54C8AAAD22AA181E00696C15 /* Data-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C8AAAC22AA181E00696C15 /* Data-Extension.swift */; };
 		54DBEA7A228802CB00672238 /* PaymentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DBEA79228802CB00672238 /* PaymentVC.swift */; };
 		54E4BAA2229A618C0011C7D0 /* UserDashboardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E4BAA1229A618C0011C7D0 /* UserDashboardVC.swift */; };
-		54E4BAA5229A71410011C7D0 /* ListUsersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E4BAA4229A71410011C7D0 /* ListUsersVC.swift */; };
-		54E4BAA7229A71590011C7D0 /* ListUsersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E4BAA6229A71590011C7D0 /* ListUsersCell.swift */; };
 		54E6B53A2245E81B000F82D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E6B5392245E81B000F82D8 /* AppDelegate.swift */; };
 		54E6B53C2245E81B000F82D8 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E6B53B2245E81B000F82D8 /* MainVC.swift */; };
 		54E6B5422245E81B000F82D8 /* MyInterpreter.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 54E6B5402245E81B000F82D8 /* MyInterpreter.xcdatamodeld */; };
@@ -71,6 +72,9 @@
 		54023F2322A6624E004D1A1B /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		5405E2422247ECB2001FF399 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5418814C22A98EA2004F1FBA /* Button-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button-Extension.swift"; sourceTree = "<group>"; };
+		543DDA5B22B01D9800532536 /* Date-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date-Extension.swift"; sourceTree = "<group>"; };
+		543DDA5D22B01DBE00532536 /* BaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCell.swift; sourceTree = "<group>"; };
+		543DDA5F22B01E1700532536 /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		543EF3F5224E7B79009CEAE6 /* SignUpStage2VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpStage2VC.swift; sourceTree = "<group>"; };
 		5449B8CB22A7D96B00250518 /* ChatLogController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogController.swift; sourceTree = "<group>"; };
 		5449B8CD22A7D9E500250518 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
@@ -97,8 +101,6 @@
 		54C8AAAC22AA181E00696C15 /* Data-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data-Extension.swift"; sourceTree = "<group>"; };
 		54DBEA79228802CB00672238 /* PaymentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentVC.swift; sourceTree = "<group>"; };
 		54E4BAA1229A618C0011C7D0 /* UserDashboardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDashboardVC.swift; sourceTree = "<group>"; };
-		54E4BAA4229A71410011C7D0 /* ListUsersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListUsersVC.swift; sourceTree = "<group>"; };
-		54E4BAA6229A71590011C7D0 /* ListUsersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListUsersCell.swift; sourceTree = "<group>"; };
 		54E6B5362245E81B000F82D8 /* MyInterpreter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyInterpreter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		54E6B5392245E81B000F82D8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		54E6B53B2245E81B000F82D8 /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 				54BBEFBE22AAB33F00D86C17 /* NavigationBar-Extension.swift */,
 				54C2B82722ACC89D001A9CFB /* Alert-Extension.swift */,
 				54BE147B22AEA11B00ED5947 /* Picker-Extension.swift */,
+				543DDA5B22B01D9800532536 /* Date-Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -171,7 +174,6 @@
 			isa = PBXGroup;
 			children = (
 				54B59CAE224E26FC0026814A /* SignInInterpreterVC.swift */,
-				54E4BAA3229A702D0011C7D0 /* ListUsers */,
 			);
 			path = Interpreter;
 			sourceTree = "<group>";
@@ -222,9 +224,10 @@
 			isa = PBXGroup;
 			children = (
 				54C719E82270C24B001B2BFF /* ListInterpretersCell.swift */,
-				54E4BAA6229A71590011C7D0 /* ListUsersCell.swift */,
 				54B73F0B22AC10F800402EBF /* UserInfoCell.swift */,
 				54B73F1122AC232200402EBF /* DetailHeaderView.swift */,
+				543DDA5D22B01DBE00532536 /* BaseCell.swift */,
+				543DDA5F22B01E1700532536 /* MessageCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -239,14 +242,6 @@
 				5449B8CA22A7D93F00250518 /* Messenger */,
 			);
 			path = Controller;
-			sourceTree = "<group>";
-		};
-		54E4BAA3229A702D0011C7D0 /* ListUsers */ = {
-			isa = PBXGroup;
-			children = (
-				54E4BAA4229A71410011C7D0 /* ListUsersVC.swift */,
-			);
-			path = ListUsers;
 			sourceTree = "<group>";
 		};
 		54E6B52D2245E81B000F82D8 = {
@@ -531,27 +526,28 @@
 				5418814D22A98EA2004F1FBA /* Button-Extension.swift in Sources */,
 				548ABB922297D18300A7D9C4 /* ConfirmPaymentVC.swift in Sources */,
 				54C719E92270C24B001B2BFF /* ListInterpretersCell.swift in Sources */,
+				543DDA5E22B01DBE00532536 /* BaseCell.swift in Sources */,
 				54DBEA7A228802CB00672238 /* PaymentVC.swift in Sources */,
 				54B59CAF224E26FC0026814A /* SignInInterpreterVC.swift in Sources */,
 				543EF3F6224E7B79009CEAE6 /* SignUpStage2VC.swift in Sources */,
 				54E6B5422245E81B000F82D8 /* MyInterpreter.xcdatamodeld in Sources */,
 				54C8AAAB22AA171D00696C15 /* String-Extension.swift in Sources */,
+				543DDA6022B01E1700532536 /* MessageCell.swift in Sources */,
 				54BBEFBF22AAB33F00D86C17 /* NavigationBar-Extension.swift in Sources */,
 				5449B8CE22A7D9E500250518 /* Message.swift in Sources */,
 				54C8AAAD22AA181E00696C15 /* Data-Extension.swift in Sources */,
 				54B73F1222AC232200402EBF /* DetailHeaderView.swift in Sources */,
 				5449B8D022A7DA0500250518 /* ClientsController.swift in Sources */,
-				54E4BAA5229A71410011C7D0 /* ListUsersVC.swift in Sources */,
 				54E8E74D22AA7B3100A08A39 /* ViewController-Extension.swift in Sources */,
 				54E6B53C2245E81B000F82D8 /* MainVC.swift in Sources */,
 				54C2B82822ACC89D001A9CFB /* Alert-Extension.swift in Sources */,
 				54B779382273618F001A53B7 /* Interpreter.swift in Sources */,
 				54E4BAA2229A618C0011C7D0 /* UserDashboardVC.swift in Sources */,
 				5466FEE1225255A10071B8FE /* User.swift in Sources */,
+				543DDA5C22B01D9800532536 /* Date-Extension.swift in Sources */,
 				54E6B53A2245E81B000F82D8 /* AppDelegate.swift in Sources */,
 				54B73F0C22AC10F800402EBF /* UserInfoCell.swift in Sources */,
 				54BE147C22AEA11B00ED5947 /* Picker-Extension.swift in Sources */,
-				54E4BAA7229A71590011C7D0 /* ListUsersCell.swift in Sources */,
 				54C719E72270C214001B2BFF /* ListInterpretersVC.swift in Sources */,
 				54B59CB7224E37B60026814A /* SignUpStage1VC.swift in Sources */,
 				54B59CB5224E31690026814A /* SignInUserVC.swift in Sources */,

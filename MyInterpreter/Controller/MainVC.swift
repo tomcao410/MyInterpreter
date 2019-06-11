@@ -51,8 +51,10 @@ class MainVC: UIViewController {
             
             if (Auth.auth().currentUser?.email?.contains("interpreter"))!
             {
-                let controller = storyboard.instantiateViewController(withIdentifier: "ListUsersVC")
-                navigationController?.pushViewController(controller, animated: false)
+                let clientsController = ClientsController()
+                clientsController.interpreterEmail = (Auth.auth().currentUser?.email)!
+                //self.navigationItem.setCustomNavBar(title: "")
+                self.navigationController?.pushViewController(clientsController, animated: false)
             }
             else
             {
