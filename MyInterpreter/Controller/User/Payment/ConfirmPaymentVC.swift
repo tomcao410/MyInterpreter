@@ -258,6 +258,8 @@ class ConfirmPaymentVC: UIViewController {
 
                     databaseRef.child("bookings/").childByAutoId().setValue(["interpreter": ListInterpretersVC.selectedInterpreter.email.getEncodedEmail(), "price": "$\(Double(PaymentVC.price) / 100)", "user": (Auth.auth().currentUser?.email?.getEncodedEmail())!, "timeStart": self.today.toDate(), "timeEnd": Calendar.current.date(byAdding: .day, value: PaymentVC.numberOfDays, to: self.today)?.toDate() as Any, "confirm": false])
                     
+                    
+                    
                     // Update users booking status (default: "interpreter0" - means the user hasn't booked anyone yet)
                     databaseRef.child("users/\(Auth.auth().currentUser!.email!.getEncodedEmail())/booking").setValue(ListInterpretersVC.selectedInterpreter.email.getEncodedEmail())
                     

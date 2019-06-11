@@ -52,8 +52,19 @@ class UserEditProfileVC: UIViewController {
         imageSpinner.startAnimating()
         
         hideKeyboard()
+        keyboardEvents()
         self.navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveButtonClicked)), animated: true)
         
+        getUserInfo()
+        
+        createPickerView()
+        
+
+        passwordStack.isHidden = true
+    }
+    
+    func getUserInfo()
+    {
         // Profile Image UI
         profileImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(photoPickerController)))
         profileImage.isUserInteractionEnabled = true
@@ -84,11 +95,6 @@ class UserEditProfileVC: UIViewController {
                     self.imageSpinner.stopAnimating()
             }
         }
-        
-        createPickerView()
-        
-
-        passwordStack.isHidden = true
     }
     
     func changePassword(email: String, currentPassword: String, newPassword: String) {
@@ -103,7 +109,6 @@ class UserEditProfileVC: UIViewController {
                         self.saveSpinner.stopAnimating()
                         self.view.isUserInteractionEnabled = true
                         self.errorPasswordLbl.isHidden = true
-                        self.dismiss(animated: true)
                     }
                 }
             } else {
@@ -124,6 +129,38 @@ class UserEditProfileVC: UIViewController {
         myPickerController.delegate = self
         myPickerController.sourceType = .photoLibrary
         self.present(myPickerController, animated: true)
+    }
+    
+    // MARK: --------KEYBOARD--------
+    func keyboardEvents()
+    {
+        NotificationCenter.default.addObserver(self, selector: #selector (keyboardWillChange(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector (keyboardWillChange(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector (keyboardWillChange(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+    }
+    
+    @objc func keyboardWillChange(notification: Notification)
+    {
+        guard let keyboardRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+            else
+        {
+            return
+        }
+        if notification.name == UIResponder.keyboardWillShowNotification || notification.name == UIResponder.keyboardWillChangeFrameNotification
+        {
+            
+            view.frame.origin.y = -1 * keyboardRect.height
+        }
+        else
+        {
+            view.frame.origin.y = 0
+        }
     }
     
     // MARK: ---PickerView
@@ -249,7 +286,6 @@ class UserEditProfileVC: UIViewController {
                                                 self.customAlertAction(title: "Notice!", message: "Update info success!")
                                                 self.saveSpinner.stopAnimating()
                                                 self.view.isUserInteractionEnabled = true
-                                                self.navigationController?.popViewController(animated: true)
                                             }
                                         }
                                     }

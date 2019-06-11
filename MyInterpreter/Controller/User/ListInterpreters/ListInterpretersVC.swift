@@ -15,17 +15,34 @@ class ListInterpretersVC: UIViewController {
     @IBOutlet weak var listInterpretersTableView: UITableView!
 
     // MARK: Parameters
-    var totalInterpreters = Int()
     var listInterpreters = [Interpreter]()
     {
-        didSet
-        {
+        didSet{
             listInterpretersTableView.reloadData()
         }
     }
     
     static var selectedInterpreter = Interpreter()
     var cache = NSCache<AnyObject, AnyObject>()
+    
+    
+    //MARK: ---Refresher---
+    lazy var refresher: UIRefreshControl =
+        {
+            let refreshControl = UIRefreshControl()
+            refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...")
+            refreshControl.tintColor = .gray
+            refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+            
+            return refreshControl
+    }()
+    
+    @objc func refreshData ()
+    {
+        getInterpreterInfo()
+        refresher.endRefreshing()
+    }
+    
     
     // MARK: views
     override func viewDidLoad() {
@@ -50,6 +67,7 @@ class ListInterpretersVC: UIViewController {
         
         listInterpretersTableView.tableFooterView = UIView()
         
+        listInterpretersTableView.refreshControl = refresher
         listInterpretersTableView.delegate = self
         listInterpretersTableView.dataSource = self
     }
@@ -69,33 +87,30 @@ class ListInterpretersVC: UIViewController {
                 if snapshot.childrenCount > 0
                 {
                     self.listInterpreters.removeAll()
-                    self.totalInterpreters = Int(snapshot.childrenCount)
-                    
-                    DispatchQueue.main.async {
-                        self.listInterpretersTableView.reloadData()
-                    }
                     
                     for object in snapshot.children.allObjects as![DataSnapshot]
                     {
                         let artistObject = object.value as? [String: Any]
                         
-                        let email = artistObject?["email"]
-                        let name = artistObject?["name"]
-                        let motherLanguage = artistObject?["motherLanguage"]
-                        let secondLanguage = artistObject?["secondLanguage"]
-                        let imageURL = artistObject?["profileImageURL"]
-                        
-                        let artist = Interpreter(email: email as! String, name: name as! String, motherLanguage: motherLanguage as! String, secondLanguage: secondLanguage as! String, profileImageURL: imageURL as! String)
-                        
-                        self.listInterpreters.append(artist)
-
+                        let bookingStatus = artistObject?["status"] as! Bool
+                        if bookingStatus
+                        {
+                            let email = artistObject?["email"]
+                            let name = artistObject?["name"]
+                            let motherLanguage = artistObject?["motherLanguage"]
+                            let secondLanguage = artistObject?["secondLanguage"]
+                            let imageURL = artistObject?["profileImageURL"]
+                            
+                            let artist = Interpreter(email: email as! String, name: name as! String, motherLanguage: motherLanguage as! String, secondLanguage: secondLanguage as! String, profileImageURL: imageURL as! String, status: bookingStatus)
+                            
+                            self.listInterpreters.append(artist)
+                        }
                     }
                     
                 }
             }
         }
     }
-
 }
 
 
@@ -103,7 +118,7 @@ class ListInterpretersVC: UIViewController {
 extension ListInterpretersVC: UITableViewDataSource, UITableViewDelegate
 {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return totalInterpreters
+        return listInterpreters.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
