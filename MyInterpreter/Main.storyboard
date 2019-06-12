@@ -1167,28 +1167,36 @@ Price: $1.49 per day</string>
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hS8-g4-ceJ">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="userIcon" translatesAutoresizingMaskIntoConstraints="NO" id="hS8-g4-ceJ">
                                 <rect key="frame" x="62.5" y="208.5" width="250" height="250"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="250" id="TLZ-bb-BkK"/>
                                     <constraint firstAttribute="width" constant="250" id="ie0-mc-Z1N"/>
                                 </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="30"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
                             </imageView>
+                            <activityIndicatorView hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Mwq-4k-H8m">
+                                <rect key="frame" x="167.5" y="313.5" width="40" height="40"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="EEj-to-RfJ"/>
+                                    <constraint firstAttribute="height" constant="40" id="VFU-j5-5vV"/>
+                                </constraints>
+                                <color key="color" red="0.76078431372549016" green="0.76078431372549016" blue="0.792156862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="hS8-g4-ceJ" firstAttribute="centerX" secondItem="UMQ-9M-JmE" secondAttribute="centerX" id="2ga-La-anc"/>
+                            <constraint firstItem="Mwq-4k-H8m" firstAttribute="centerX" secondItem="UMQ-9M-JmE" secondAttribute="centerX" id="DQX-4y-9D8"/>
+                            <constraint firstItem="Mwq-4k-H8m" firstAttribute="centerY" secondItem="UMQ-9M-JmE" secondAttribute="centerY" id="E0N-dM-mVF"/>
                             <constraint firstItem="hS8-g4-ceJ" firstAttribute="centerY" secondItem="UMQ-9M-JmE" secondAttribute="centerY" id="Zvy-Va-PAl"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="LRI-SP-t3A"/>
                     </view>
                     <connections>
                         <outlet property="interpreterProfileImage" destination="hS8-g4-ceJ" id="8Jb-L5-eFj"/>
+                        <outlet property="spinner" destination="Mwq-4k-H8m" id="w75-Kb-i8Y"/>
                         <segue destination="qaa-Ja-21H" kind="show" identifier="userInfoSegue" id="OHD-fK-jgn"/>
                     </connections>
                 </viewController>
@@ -1351,7 +1359,7 @@ Price: $1.49 per day</string>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="7A9-2z-BIR"/>
-        <segue reference="OHD-fK-jgn"/>
+        <segue reference="BYu-OV-1O9"/>
         <segue reference="NIp-pH-V6n"/>
     </inferredMetricsTieBreakers>
 </document>

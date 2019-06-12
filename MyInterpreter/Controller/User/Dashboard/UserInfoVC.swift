@@ -19,13 +19,17 @@ class UserInfoVC: UIViewController {
     // MARK: Params
     private let tableHeaderHeight: CGFloat = 450.0
     private let tableHeaderCutAway: CGFloat = 40.0
-    let screenSize = UIScreen.main.bounds
     
+    let screenSize = UIScreen.main.bounds
     var header: DetailHeaderView!
     var headerMaskLayer: CAShapeLayer!
     var userInfoSection: [String] = ["Name", "1st language", "2nd language","Email", "Booking status"]
+    var interpreter = Interpreter()
+    
+    static var objectID: String = ""
     static var user = User()
-
+    
+    
     // MARK: Views
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +44,7 @@ class UserInfoVC: UIViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
         getUserData()
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -68,9 +73,12 @@ class UserInfoVC: UIViewController {
     {
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
-        
         self.navigationItem.setCustomNavBar(title: "")
-        self.navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonClicked)), animated: true)
+        
+        if !UserInfoVC.objectID.contains("interpreter")
+        {
+            self.navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonClicked)), animated: true)
+        }
     }
     
     // MARK: perform segue to edit profile view
@@ -84,39 +92,57 @@ class UserInfoVC: UIViewController {
     {
         spinner.startAnimating()
         
-        let userId = (Auth.auth().currentUser?.email?.getEncodedEmail())!
         DispatchQueue.global().async {
-            let userRef = Database.database().reference().child("users").child(userId)
+            let dataRef = Database.database().reference().child("users").child(UserInfoVC.objectID)
 
-            userRef.observeSingleEvent(of: .value, with: { (snapshot: DataSnapshot) in
+            dataRef.observeSingleEvent(of: .value, with: { (snapshot: DataSnapshot) in
                 
-                guard let userObject = snapshot.value as? NSDictionary else
+                guard let object = snapshot.value as? NSDictionary else
                 {
-                    self.customAlertAction(title: "Error!", message: "Can't observe data from database")
+                    self.customAlertAction(title: "Error!", message: "Can't observe user info from database")
                     return
                 }
                 
-                if let name = userObject["name"] as? String,
-                    let email = userObject["email"] as? String,
-                    let booking = userObject["booking"] as? String,
-                    let motherLanguage = userObject["motherLanguage"] as? String,
-                    let secondLanguage = userObject["secondLanguage"] as? String,
-                    let profileImageURL = userObject["profileImageURL"] as? String
+                var imageURL = URL(string: "")
+                
+                if let name = object["name"] as? String,
+                    let email = object["email"] as? String,
+                    let motherLanguage = object["motherLanguage"] as? String,
+                    let secondLanguage = object["secondLanguage"] as? String,
+                    let profileImageURL = object["profileImageURL"] as? String
                 {
-                    UserInfoVC.user.name = name
-                    UserInfoVC.user.email = email
-                    UserInfoVC.user.booking = booking
-                    UserInfoVC.user.motherLanguage = motherLanguage
-                    UserInfoVC.user.secondLanguage = secondLanguage
-                    UserInfoVC.user.profileImageURL = profileImageURL
-
+                    if UserInfoVC.objectID.contains("interpreter")
+                    {
+                        if let status = object["status"] as? Bool
+                        {
+                            self.interpreter.name = name
+                            self.interpreter.email = email
+                            self.interpreter.status = status
+                            self.interpreter.motherLanguage = motherLanguage
+                            self.interpreter.secondLanguage = secondLanguage
+                            self.interpreter.profileImageURL = profileImageURL
+                            
+                            imageURL = URL(string: self.interpreter.profileImageURL)
+                        }
+                    }
+                    else
+                    {
+                        if let booking = object["booking"] as? String
+                        {
+                            UserInfoVC.user.name = name
+                            UserInfoVC.user.email = email
+                            UserInfoVC.user.booking = booking
+                            UserInfoVC.user.motherLanguage = motherLanguage
+                            UserInfoVC.user.secondLanguage = secondLanguage
+                            UserInfoVC.user.profileImageURL = profileImageURL
+                            
+                            imageURL = URL(string: UserInfoVC.user.profileImageURL)
+                        }
+                    }
                 }
-
                 
                 // Set image view
-                let url = URL(string: UserInfoVC.user.profileImageURL)
-                
-                guard let data = NSData(contentsOf: url!)
+                guard let data = NSData(contentsOf: imageURL!)
                     else {
                         self.customAlertAction(title: "Error!", message: "Something wrong with your profile image!")
                         return

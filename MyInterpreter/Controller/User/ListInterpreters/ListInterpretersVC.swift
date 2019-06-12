@@ -74,6 +74,7 @@ class ListInterpretersVC: UIViewController {
     
     @objc func userButtonClicked()
     {
+        UserInfoVC.objectID = (Auth.auth().currentUser?.email?.getEncodedEmail())!
         performSegue(withIdentifier: "userInfoSegue", sender: nil)
     }
     
