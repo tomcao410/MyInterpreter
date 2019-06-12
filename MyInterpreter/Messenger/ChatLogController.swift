@@ -17,6 +17,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     var messages: [Message] = []
     var userProfileImage: UIImage?
     var cache = NSCache<AnyObject, AnyObject>()
+    var doneCellCount: Int = 0
     
     func downloadImage(from urlString: String, completion: @escaping (UIImage) -> ()) {
         if let cachedImage = cache.object(forKey: urlString as AnyObject) {
@@ -226,10 +227,12 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
             if message.imageURL != "" {
                 self.downloadImage(from: message.imageURL, completion: { _ in
                     self.tableView.reloadData()
+                    self.doneCellCount = self.doneCellCount + 1
                     self.scrollToBottom()
                 })
             } else {
                 self.tableView.reloadData()
+                self.doneCellCount = self.doneCellCount + 1
                 self.scrollToBottom()
             }
         }
@@ -264,10 +267,10 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func scrollToBottom(){
-//        DispatchQueue.main.async {
-//            let indexPath = IndexPath(row: self.messages.count-1, section: 0)
-//            self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
-//        }
+        DispatchQueue.main.async {
+            let indexPath = IndexPath(row: self.doneCellCount - 1, section: 0)
+            self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
+        }
     }
     
     func observeMessage(completion: @escaping (Message) -> ()) {
@@ -368,6 +371,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         }
         
         uploadMessageToFirebase(using: image)
+        picker.dismiss(animated: true, completion: nil)
     }
     
     func uploadMessageToFirebase(using messageImage: UIImage) {
@@ -473,6 +477,10 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
 
 
 class ChatLogMessageCell: BaseCell {
+    
+    override func prepareForReuse() {
+        imageContentView.image = nil
+    }
     
     var messageContent: String = "" {
         didSet {
