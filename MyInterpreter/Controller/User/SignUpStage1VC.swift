@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseDatabase
 
 class SignUpStage1VC: UIViewController {
 
@@ -18,12 +19,13 @@ class SignUpStage1VC: UIViewController {
     
     static var user = User()
     
-    var languages: [String] = ["English",
-                               "Vietnamese",
-                               "German",
-                               "Korean",
-                               "Spanish",
-                               "Japanese"]
+    var languages: [String] = []
+    {
+        didSet{
+            motherLanguagePicker.reloadAllComponents()
+            secondLanguagePicker.reloadAllComponents()
+        }
+    }
     var name: String = ""
     var motherLang: String = ""
     var secondLang: String = ""
@@ -34,36 +36,47 @@ class SignUpStage1VC: UIViewController {
         
         setUI()
         
+
+    }
+    
+    // MARK: Work place
+    
+    private func setUI()
+    {
+        hideKeyboard() // hide keyboard when tap anywhere outside the text field
+        
+        getLanguages()
+        
+        navigationItem.setCustomNavBar(title: "Register")
+        
+        lblError.isHidden = true
+        
         nameField.delegate = self
         secondLanguagePicker.delegate = self
         motherLanguagePicker.delegate = self
     }
     
-    // MARK: Work place
-    
-    // MARK: Set UI
-    private func setUI()
+    func getLanguages()
     {
-        hideKeyboard() // hide keyboard when tap anywhere outside the text field
+        DispatchQueue.global(qos: .userInteractive).async {
+            let databaseRef = Database.database().reference().child("languages")
+            
+            databaseRef.observe(.childAdded, with: { (snapshot: DataSnapshot) in
+                
+                let language = snapshot.value as? String
+                if let actualLanguage = language {
+                    self.languages.append(actualLanguage)
+                }
+            })
+        }
         
-        lblError.isHidden = true
-    }
-    
-    // MARK: --------KEYBOARD--------
-    func hideKeyboard()
-    {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector (dissmissKeyboard))
-        view.addGestureRecognizer(tap)
-    }
-    
-    @objc func dissmissKeyboard()
-    {
-        view.endEditing(true)
     }
     
     // MARK: --------BUTTON--------
     @IBAction func nextButtonClicked(_ sender: Any)
     {
+        hideKeyboard()
+        
         if (nameField.text?.isEmpty)!
         {
             lblError.isHidden = false
@@ -87,12 +100,7 @@ class SignUpStage1VC: UIViewController {
             SignUpStage1VC.user.setSecondLanguage(secondLanguage: secondLang)
             performSegue(withIdentifier: "userRegisterSegue1", sender: self)
         }
-        
-        
     }
-    
-    
-
 }
 
 // MARK: --------TEXT FIELD--------

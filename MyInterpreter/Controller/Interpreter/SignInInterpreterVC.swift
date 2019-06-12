@@ -25,28 +25,21 @@ class SignInInterpreterVC: UIViewController
     {
         super.viewDidLoad()
 
-        hideKeyboard() // hide keyboard when tap anywhere outside the textfield
+        setUI()
+    }
+    
+    // MARK: Work place
+    private func setUI()
+    {
+        hideKeyboard()
         
         lblError.isHidden = true
+        
+        navigationItem.setCustomNavBar(title: "Sign In")
         
         idField.delegate = self
         passwordField.delegate = self
     }
-    
-    // MARK: Work place
-
-    // MARK: --------KEYBOARD--------
-    func hideKeyboard()
-    {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector (dissmissKeyboard))
-        view.addGestureRecognizer(tap)
-    }
-    
-    @objc func dissmissKeyboard()
-    {
-        view.endEditing(true)
-    }
-    
     // MARK: --------BUTTON--------
     @IBAction func handleLogIn(_ sender: UIButton)
     {

@@ -1,40 +1,59 @@
 //
-//  User.swift
+//  Interpreter.swift
 //  MyInterpreter
 //
-//  Created by Tom on 4/1/19.
+//  Created by Tom on 4/26/19.
 //  Copyright © 2019 Tom. All rights reserved.
 //
 
 import Foundation
 
-class User
+class Interpreter
 {
+    var email: String
     var name: String
     var motherLanguage: String
     var secondLanguage: String
-    var email: String
     var profileImageURL: String
-    var booking: String
-    
+    var status: Bool
     init()
     {
+        email = ""
         name = ""
         motherLanguage = ""
         secondLanguage = ""
-        email = ""
         profileImageURL = ""
-        booking = ""
+        status = false
     }
     
-    init(email: String, name: String, motherLanguage: String, secondLanguage: String, profileImageURL: String, booking: String)
+    init(email: String, name: String, motherLanguage: String, secondLanguage: String, profileImageURL: String, status: Bool)
     {
         self.email = email
         self.name = name
         self.motherLanguage = motherLanguage
         self.secondLanguage = secondLanguage
         self.profileImageURL = profileImageURL
-        self.booking = booking
+        self.status = status
+    }
+    
+    init(dic: NSDictionary) {
+        self.email = dic.value(forKey: "email") as! String
+        self.name = dic.value(forKey: "name") as! String
+        self.motherLanguage = dic.value(forKey: "motherLanguage") as! String
+        self.secondLanguage = dic.value(forKey: "secondLanguage") as! String
+        self.profileImageURL = dic.value(forKey: "profileImageURL") as! String
+        self.status = (dic.value(forKey: "status") != nil)
+    }
+    
+    // MARK: email
+    func getEmail() -> String
+    {
+        return email
+    }
+    
+    func setEmail(email: String)
+    {
+        self.email = email
     }
     
     // MARK: profile image
@@ -81,45 +100,15 @@ class User
         self.secondLanguage = secondLanguage
     }
     
-    // MARK: Email
-    func getEmail() -> String
+    // MARK: status
+    func getStatus() -> Bool
     {
-        return email
+        return self.status
     }
     
-    func getEncodedEmail() -> String
+    func setStatus(status: Bool)
     {
-        var result = ""
-        
-        result = email.replacingOccurrences(of: "@", with: "-")
-        
-        if let index = result.range(of: ".")?.lowerBound
-        {
-            let substring = result[..<index]
-            result = String(substring)
-        }
-        
-        return result
-    }
-    
-    func setEmail(email: String)
-    {
-        self.email = email
+        self.status = status
     }
 }
 
-extension String {
-    func getEncodedEmail() -> String {
-        var result = ""
-        
-        result = self.replacingOccurrences(of: "@", with: "-")
-        
-        if let index = result.range(of: ".")?.lowerBound
-        {
-            let substring = result[..<index]
-            result = String(substring)
-        }
-        
-        return result
-        }
-    }

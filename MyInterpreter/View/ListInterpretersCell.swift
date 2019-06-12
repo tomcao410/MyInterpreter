@@ -15,18 +15,18 @@ class ListInterpretersCell: UITableViewCell {
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var languagesLbl: UILabel!
     
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
+    
     
     // MARK: Work place
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        
+        spinner.startAnimating()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        
-        
     }
 
 }

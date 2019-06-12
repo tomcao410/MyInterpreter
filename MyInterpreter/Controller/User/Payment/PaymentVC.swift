@@ -29,7 +29,7 @@ class PaymentVC: UIViewController {
     var method2: String = "Period prepaid"
     
     static var price: Int = 0
-    
+    static var numberOfDays: Int = 1
     // MARK: Views
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +37,6 @@ class PaymentVC: UIViewController {
         // UI
         setUI()
         
-        hideKeyboard() // hide keyboard when tap anywhere outside the text field
         
         pickerPaymentMethod.delegate = self
     }
@@ -46,16 +45,21 @@ class PaymentVC: UIViewController {
     // MARK: --------Functions--------
     func setUI()
     {
+        hideKeyboard() // hide keyboard when tap anywhere outside the text field
+        
+        navigationItem.setCustomNavBar(title: "Payment")
+        
         effect = visualEffectView.effect
         visualEffectView.effect = nil
         visualEffectView.isHidden = true
         
         modalPaymentMethod.layer.cornerRadius = 10
-        
         paymenMethods.append(method1)
         paymenMethods.append(method2)
         
         txtFieldNumberOfDays.isEnabled = false
+        txtFieldNumberOfDays.addDoneCancelToolbar()
+        
         lblNumberOfDays.textColor = .gray
         lblPricePerDay.textColor = .gray
     }
@@ -96,18 +100,6 @@ class PaymentVC: UIViewController {
         
     }
     
-    // MARK: --------KEYBOARD--------
-    func hideKeyboard()
-    {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector (dissmissKeyboard))
-        view.addGestureRecognizer(tap)
-    }
-    
-    @objc func dissmissKeyboard()
-    {
-        view.endEditing(true)
-    }
-    
     // MARK: --------TEXT FIELD--------
     @IBAction func numberOfDaysChanged(_ sender: Any) {
         var price = Double(self.txtFieldNumberOfDays.text!)
@@ -118,7 +110,7 @@ class PaymentVC: UIViewController {
         }
         else
         {
-            alertInputNumberOfDays()
+            self.customAlertAction(title: "Notice!", message: "Please input number of days that you want to book!")
             lblPrice.text = "0.0"
         }
     }
@@ -136,25 +128,22 @@ class PaymentVC: UIViewController {
     
     @IBAction func btnNextClicked(_ sender: Any)
     {
+        hideKeyboard()
+        
         if (lblPrice.text == "0.0")
         {
-            alertInputNumberOfDays()
+            self.customAlertAction(title: "Notice!", message: "Please input number of days that you want to book!")
         }
         else
         {
             // MARKK: payment invoice processsing.... STRIPE!!!!!!!
             PaymentVC.price = Int((lblPrice.text! as NSString).floatValue * 100)
-
+            if (txtFieldNumberOfDays.text != "")
+            {
+                PaymentVC.numberOfDays = Int(txtFieldNumberOfDays.text!)!
+            }
             performSegue(withIdentifier: "confirmPaymentSegue", sender: nil)
         }
-    }
-    
-    // MARK: --------ALERT--------
-    func alertInputNumberOfDays()
-    {
-        let alert = UIAlertController(title: "Notice!", message: "Please input number of days that you want to book!", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        present(alert, animated: true)
     }
 }
 

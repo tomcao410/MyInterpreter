@@ -15,16 +15,19 @@ class ConfirmPaymentVC: UIViewController {
 
     private var previousTextFieldContent: String?
     private var previousSelection: UITextRange?
-    @IBOutlet var cardNumberTxtFlield: UITextField!;
+    @IBOutlet var cardNumberTxtFlield: UITextField!
     @IBOutlet weak var expDateTxtField: UITextField!
     @IBOutlet weak var cvcTxtField: UITextField!
-    
     @IBOutlet weak var interpreterImage: UIImageView!
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var priceLbl: UILabel!
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
+    @IBOutlet weak var bookButton: UIButton!
     
     // Remember to add "/charge"
     let backendBaseURL: String = "https://my-interpreter.herokuapp.com/charge"
+    let today = Date()
+
     
     // MARK: ---Views---
     override func viewDidLoad() {
@@ -47,8 +50,14 @@ class ConfirmPaymentVC: UIViewController {
         keyboardEvents()
         hideKeyboard()
         
+        navigationItem.setCustomNavBar(title: "Payment")
+        
         nameLbl.text = ListInterpretersVC.selectedInterpreter.getName()
         priceLbl.text = "$\(Float(PaymentVC.price) / 100)"
+        
+        cardNumberTxtFlield.addDoneCancelToolbar()
+        expDateTxtField.addDoneCancelToolbar()
+        cvcTxtField.addDoneCancelToolbar()
         
         expDateTxtField.delegate = self
         cvcTxtField.delegate = self
@@ -102,18 +111,7 @@ class ConfirmPaymentVC: UIViewController {
             view.frame.origin.y = 0
         }
     }
-    
-    func hideKeyboard()
-    {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector (dissmissKeyboard))
-        view.addGestureRecognizer(tap)
-    }
-    
-    @objc func dissmissKeyboard()
-    {
-        view.endEditing(true)
-    }
-    
+
     // MARK: ---Text Field UI---
     @objc func reformatAsCardNumber(textField: UITextField) {
         var targetCursorPosition = 0
@@ -205,6 +203,17 @@ class ConfirmPaymentVC: UIViewController {
     // MARK: --------BUTTON--------
     @IBAction func bookBtnClicked(_ sender: Any)
     {
+        hideKeyboard()
+        spinner.startAnimating()
+        bookButton.status(enable: false, hidden: true)
+        
+        if (expDateTxtField.text?.isEmpty)!
+            && (cardNumberTxtFlield.text?.isEmpty)!
+            && (cvcTxtField.text?.isEmpty)!
+        {
+            self.customAlertAction(title: "Error", message: "Wrong card input!")
+            return
+        }
         let comps = expDateTxtField.text?.components(separatedBy: "/")
         let f = UInt(comps!.first!)
         let l = UInt(comps!.last!)
@@ -219,7 +228,10 @@ class ConfirmPaymentVC: UIViewController {
             
             if token == nil
             {
-                self.alertAction(title: "Incorrect", message: "Your card is invalid! Please check again!")
+                self.spinner.stopAnimating()
+                self.bookButton.status(enable: true, hidden: false)
+                
+                self.customAlertAction(title: "Incorrect", message: "Your card is invalid! Please check again!")
                 return
             }
             let amount = PaymentVC.price
@@ -242,25 +254,31 @@ class ConfirmPaymentVC: UIViewController {
                     let databaseRef = Database.database().reference()
                     
                     // Update users booking status (default: "interpreter0" - means the user hasn't booked anyone yet)
-                    databaseRef.child("users/\(self.emailEncoded(email: (Auth.auth().currentUser?.email)!))/booking").setValue("\(self.emailEncoded(email: ListInterpretersVC.selectedInterpreter.getEmail()))")
+                    //databaseRef.child("users/\(self.emailEncoded(email: (Auth.auth().currentUser?.email)!))/booking").setValue("\(self.emailEncoded(email: ListInterpretersVC.selectedInterpreter.getEmail()))")
+
+                    databaseRef.child("bookings/").childByAutoId().setValue(["interpreter": ListInterpretersVC.selectedInterpreter.email.getEncodedEmail(), "price": "$\(Double(PaymentVC.price) / 100)", "user": (Auth.auth().currentUser?.email?.getEncodedEmail())!, "timeStart": self.today.toDate(), "timeEnd": Calendar.current.date(byAdding: .day, value: PaymentVC.numberOfDays, to: self.today)?.toDate() as Any, "confirm": false])
+                    
+                    
+                    
+                    // Update users booking status (default: "interpreter0" - means the user hasn't booked anyone yet)
+                    databaseRef.child("users/\(Auth.auth().currentUser!.email!.getEncodedEmail())/booking").setValue(ListInterpretersVC.selectedInterpreter.email.getEncodedEmail())
+                    
+                    self.spinner.stopAnimating()
+                    self.bookButton.status(enable: true, hidden: false)
                     
                     self.performSegue(withIdentifier: "userDashboardSegue", sender: nil)
                 }
                 else
                 {
-                    self.alertAction(title: "Error", message: "Something happened to the web server! (code = \(code))")
+                    self.spinner.stopAnimating()
+                    self.bookButton.status(enable: true, hidden: false)
+                    
+                    self.customAlertAction(title: "Error", message: "Something happened to the web server! (code = \(code))")
                 }
             }
         }
     }
-    
-    // MARK: --------ALERT--------
-    private func alertAction(title: String, message: String)
-    {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }
+
 }
 
 
@@ -269,26 +287,21 @@ extension ConfirmPaymentVC: UITextFieldDelegate
 {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
-        if textField == expDateTxtField
-        {
-            if string == "" {
-                return true
-            }
+        if textField == expDateTxtField {
             
-            let currentText = textField.text! as NSString
-            let updatedText = currentText.replacingCharacters(in: range, with: string)
+            // check the chars length MM --> 2
+            if (textField.text?.count == 2) {
+                //Handle backspace being pressed
+                if !(string == "") {
+                    // append the text
+                    textField.text = (textField.text)! + "/"
+                }
+            }
+            // check the condition not exceed 7 chars
             
-            textField.text = updatedText
-            let numberOfCharacters = updatedText.count
-            if numberOfCharacters == 2 {
-                textField.text?.append("/")
-            }
-            if numberOfCharacters > 5
-            {
-                textField.text?.removeLast()
-            }
-            return false
+            return !(textField.text!.count > 6 && (string.count) > range.length)
         }
+
         if textField == cvcTxtField
         {
             if string == "" {

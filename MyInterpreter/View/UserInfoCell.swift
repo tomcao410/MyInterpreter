@@ -1,18 +1,18 @@
 //
-//  ListUsersCell.swift
+//  UserInfoCell.swift
 //  MyInterpreter
 //
-//  Created by Tom on 5/26/19.
+//  Created by Tom on 6/8/19.
 //  Copyright © 2019 Tom. All rights reserved.
 //
 
 import UIKit
 
-class ListUsersCell: UITableViewCell {
+class UserInfoCell: UITableViewCell {
+
     
-    @IBOutlet weak var userImage: UIImageView!
-    @IBOutlet weak var nameLbl: UILabel!
-    @IBOutlet weak var messagesLbl: UILabel!
+    @IBOutlet weak var titleLbl: UILabel!
+    @IBOutlet weak var infoLbl: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
