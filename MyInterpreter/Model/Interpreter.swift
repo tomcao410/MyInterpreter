@@ -36,6 +36,15 @@ class Interpreter
         self.status = status
     }
     
+    init(dic: NSDictionary) {
+        self.email = dic.value(forKey: "email") as! String
+        self.name = dic.value(forKey: "name") as! String
+        self.motherLanguage = dic.value(forKey: "motherLanguage") as! String
+        self.secondLanguage = dic.value(forKey: "secondLanguage") as! String
+        self.profileImageURL = dic.value(forKey: "profileImageURL") as! String
+        self.status = (dic.value(forKey: "status") != nil)
+    }
+    
     // MARK: email
     func getEmail() -> String
     {

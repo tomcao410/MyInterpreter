@@ -114,10 +114,18 @@ class UserDashboardVC: UIViewController {
     }
     
     
+    
     // MARK: ---BUTTON---
     @objc func photoPickerController()
     {
-        // CHỖ NÀY ĐỂ PUSH TỚI CÁI VIEW CHAT NHA
+        let controller = ChatLogController()
+        controller.userId = ((Auth.auth().currentUser?.email?.getEncodedEmail())!)
+        controller.interpreterEmail = UserDashboardVC.interpreter.email
+        controller.chatter = "user"
+        if let notChatterProfileImage = interpreterProfileImage.image {
+            controller.notChatterProfileImage = notChatterProfileImage
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
     }
     
     @objc func userButtonClicked()

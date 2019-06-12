@@ -322,11 +322,12 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
         let controller = ChatLogController()
         controller.interpreterEmail = interpreterEmail
         controller.userId = listUser[indexPath.row].email.getEncodedEmail()
+        controller.chatter = "interpreter"
         if let cachedImage = cached.object(forKey: listUser[indexPath.row].email.getEncodedEmail() as AnyObject) {
-            controller.userProfileImage = (cachedImage as! UIImage)
+            controller.notChatterProfileImage = (cachedImage as! UIImage)
         } else {
             downloadUserProfileImage(from: listUser[indexPath.row].email.getEncodedEmail()) { (image) in
-                controller.userProfileImage = image
+                controller.notChatterProfileImage = image
             }
         }
         self.navigationController?.pushViewController(controller, animated: true)

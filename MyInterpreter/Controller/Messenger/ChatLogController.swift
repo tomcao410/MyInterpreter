@@ -12,10 +12,11 @@ import AVKit
 
 class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     
+    var chatter: String = ""
     var interpreterEmail: String = ""
     var userId: String = ""
     var messages: [Message] = []
-    var userProfileImage: UIImage?
+    var notChatterProfileImage: UIImage?
     var cache = NSCache<AnyObject, AnyObject>()
     
     func downloadImage(from urlString: String, completion: @escaping (UIImage) -> ()) {
@@ -34,6 +35,17 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
                 }
             }
         }
+    }
+    
+    func getInterpreterInfo(with id: String, completion: @escaping (Interpreter) -> ()) {
+        let interpreterRef = Database.database().reference().child("interpreters").child(interpreterEmail.getEncodedEmail())
+        
+        interpreterRef.observeSingleEvent(of: .value) { (snapshot) in
+            let interpreterDic = snapshot.value as! NSDictionary
+            
+            completion(Interpreter(dic: interpreterDic))
+        }
+        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -69,8 +81,8 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
             
             cell.imageContentView.image = cachedImage
             
-            if (self.messages[indexPath.row].sender == "user") {
-                cell.profileImageView.image = self.userProfileImage
+            if (self.messages[indexPath.row].sender == chatter) {
+                cell.profileImageView.image = self.notChatterProfileImage
                 cell.profileImageView.isHidden = false
                 
                 if ratio > 1.0 { //landscape image
@@ -104,7 +116,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         if (self.messages[indexPath.row].sender == "user") {
             cell.messageTextView.frame = CGRect(x: 48 + 8, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
             cell.textBubbleView.frame = CGRect(x: 48 , y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 20)
-            cell.profileImageView.image = userProfileImage
+            cell.profileImageView.image = notChatterProfileImage
             cell.messageTextView.textColor = .black
             cell.profileImageView.isHidden = false
         } else {
@@ -263,10 +275,10 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func scrollToBottom(){
-        //        DispatchQueue.main.async {
-        //            let indexPath = IndexPath(row: self.messages.count-1, section: 0)
-        //            self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
-        //        }
+            DispatchQueue.main.async {
+                let indexPath = IndexPath(row: self.messages.count-1, section: 0)
+                self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
+            }
     }
     
     func observeMessage(completion: @escaping (Message) -> ()) {
