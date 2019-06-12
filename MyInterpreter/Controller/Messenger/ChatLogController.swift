@@ -18,6 +18,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     var messages: [Message] = []
     var notChatterProfileImage: UIImage?
     var cache = NSCache<AnyObject, AnyObject>()
+    var doneCellCount:Int = 0
     
     func downloadImage(from urlString: String, completion: @escaping (UIImage) -> ()) {
         if let cachedImage = cache.object(forKey: urlString as AnyObject) {
@@ -73,6 +74,9 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         
         cell.messageContent = "image"
         
+        cell.textBubbleView.isHidden = true
+        cell.imageContentView.isHidden = false
+        
         if let cachedImage = cache.object(forKey: messages[indexPath.row].imageURL as AnyObject) as? UIImage {
             let ratio = cachedImage.size.width / cachedImage.size.height
             let maxWidth = self.view.frame.width / 3 * 2
@@ -81,7 +85,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
             
             cell.imageContentView.image = cachedImage
             
-            if (self.messages[indexPath.row].sender == chatter) {
+            if (self.messages[indexPath.row].sender != chatter) {
                 cell.profileImageView.image = self.notChatterProfileImage
                 cell.profileImageView.isHidden = false
                 
@@ -110,19 +114,24 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         
         cell.messageTextView.text = self.messages[indexPath.row].text
         
+        cell.imageContentView.isHidden = true
+        cell.textBubbleView.isHidden = false
+        
         let sizeToFit = CGSize(width: self.view.frame.width * 2 / 3, height: CGFloat.greatestFiniteMagnitude)
         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
         let estimatedFrame = NSString(string: self.messages[indexPath.row].text).boundingRect(with: sizeToFit, options: options, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)], context: nil)
-        if (self.messages[indexPath.row].sender == "user") {
+        if (self.messages[indexPath.row].sender != chatter) {
             cell.messageTextView.frame = CGRect(x: 48 + 8, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
             cell.textBubbleView.frame = CGRect(x: 48 , y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 20)
             cell.profileImageView.image = notChatterProfileImage
             cell.messageTextView.textColor = .black
             cell.profileImageView.isHidden = false
+            cell.textBubbleView.backgroundColor = .lightGray
         } else {
             cell.messageTextView.frame = CGRect(x: self.view.frame.width - estimatedFrame.width - 16 - 16, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
             cell.textBubbleView.frame = CGRect(x: self.view.frame.width - estimatedFrame.width - 16 - 8 - 16, y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 20)
             cell.profileImageView.isHidden = true
+            cell.messageTextView.textColor = .white
             cell.textBubbleView.backgroundColor = UIColor(red: 0, green: 137/255, blue: 255/255, alpha: 1)
         }
         return cell
@@ -237,10 +246,12 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
             if message.imageURL != "" {
                 self.downloadImage(from: message.imageURL, completion: { _ in
                     self.tableView.reloadData()
+                    self.doneCellCount = self.doneCellCount + 1
                     self.scrollToBottom()
                 })
             } else {
                 self.tableView.reloadData()
+                self.doneCellCount = self.doneCellCount + 1
                 self.scrollToBottom()
             }
         }
@@ -276,7 +287,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     func scrollToBottom(){
             DispatchQueue.main.async {
-                let indexPath = IndexPath(row: self.messages.count-1, section: 0)
+                let indexPath = IndexPath(row: self.doneCellCount - 1, section: 0)
                 self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
             }
     }
@@ -379,6 +390,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         }
         
         uploadMessageToFirebase(using: image)
+        picker.dismiss(animated: true, completion: nil)
     }
     
     func uploadMessageToFirebase(using messageImage: UIImage) {
@@ -481,6 +493,12 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
 
 class ChatLogMessageCell: BaseCell {
     
+    override func prepareForReuse() {
+        imageContentView.image = nil
+        messageTextView.text = nil
+        messageTextView.textColor = nil
+    }
+    
     var messageContent: String = "" {
         didSet {
             adjustLayout(with: self.messageContent)
@@ -530,7 +548,6 @@ class ChatLogMessageCell: BaseCell {
         textView.font = .systemFont(ofSize: 16)
         textView.textAlignment = .left
         textView.backgroundColor = .clear
-        textView.textColor = .white
         return textView
     }()
     
@@ -559,8 +576,10 @@ class ChatLogMessageCell: BaseCell {
     
     func adjustLayout(with messageContent: String) {
         if messageContent == "text" {
+            ImageCellProfileImageAnchor?.isActive = false
             TextCellProfileImageAnchor?.isActive = true
         } else if messageContent == "image" {
+            TextCellProfileImageAnchor?.isActive = false
             ImageCellProfileImageAnchor?.isActive = true
         }
     }
