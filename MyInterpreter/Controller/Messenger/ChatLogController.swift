@@ -229,7 +229,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         super.viewDidLoad()
         
         view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-
+        
         hideKeyboard()
         
         
@@ -286,10 +286,10 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func scrollToBottom(){
-            DispatchQueue.main.async {
-                let indexPath = IndexPath(row: self.doneCellCount - 1, section: 0)
-                self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
-            }
+        DispatchQueue.main.async {
+            let indexPath = IndexPath(row: self.doneCellCount - 1, section: 0)
+            self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
+        }
     }
     
     func observeMessage(completion: @escaping (Message) -> ()) {
@@ -326,7 +326,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
             dateFormatter.timeZone = TimeZone(abbreviation: "GMT+7:00")
             let stringDate = dateFormatter.string(from: date)
             let messageRef = Database.database().reference().child("messages").childByAutoId()
-            messageRef.updateChildValues(["sender": "interpreter", "text": inputTextField.text!, "user": self.userId, "interpreter": self.interpreterEmail.getEncodedEmail(), "time": stringDate])
+            messageRef.updateChildValues(["sender": chatter, "text": inputTextField.text!, "user": self.userId, "interpreter": self.interpreterEmail.getEncodedEmail(), "time": stringDate])
             self.inputTextField.text = ""
             
         }
@@ -441,7 +441,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         
         self.present(alert, animated: true, completion: nil)
     }
-
+    
     @objc func handleKeyboardNotification(notification: Notification) {
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
@@ -592,3 +592,4 @@ extension String {
         return CGRect(x: startPoint.x, y: startPoint.y, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
     }
 }
+

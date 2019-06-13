@@ -55,7 +55,8 @@ class MainVC: UIViewController {
             {
                 let clientsController = ClientsController()
                 clientsController.interpreterEmail = userEmail!
-                self.navigationController?.pushViewController(clientsController, animated: false)
+                
+                self.present(UINavigationController(rootViewController: clientsController), animated :true)
             }
             else
             {
@@ -70,6 +71,7 @@ class MainVC: UIViewController {
                     {
                         let listInterpreterVC = storyboard.instantiateViewController(withIdentifier: "ListInterpretersVC")
                         self.navigationController?.pushViewController(listInterpreterVC, animated: false)
+                        
                     }
                     else
                     {
