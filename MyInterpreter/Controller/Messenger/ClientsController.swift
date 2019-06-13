@@ -212,6 +212,8 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
         tableView.delegate = self
         tableView.dataSource = self
         
+        navigationController?.navigationBar.tintColor = .black
+        
         observeUsers()
         
         if #available(iOS 11, *) {
