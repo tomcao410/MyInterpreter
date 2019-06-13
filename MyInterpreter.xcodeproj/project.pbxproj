@@ -115,7 +115,6 @@
 		54E8E74C22AA7B3100A08A39 /* ViewController-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController-Extension.swift"; sourceTree = "<group>"; };
 		67EC764C6C6ED974C804A8BF /* Pods-MyInterpreter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyInterpreter.debug.xcconfig"; path = "Target Support Files/Pods-MyInterpreter/Pods-MyInterpreter.debug.xcconfig"; sourceTree = "<group>"; };
 		D82D9072DBB8F4749C58B0C0 /* Pods_MyInterpreter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyInterpreter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		FAB04C7722AFEAB80065A66F /* Booking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Booking.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,7 +164,6 @@
 			children = (
 				5449B8CB22A7D96B00250518 /* ChatLogController.swift */,
 				5449B8CF22A7DA0500250518 /* ClientsController.swift */,
-				FAB04C7722AFEAB80065A66F /* Booking.swift */,
 			);
 			path = Messenger;
 			sourceTree = "<group>";
@@ -185,7 +183,6 @@
 				54B59CB6224E37B60026814A /* SignUpStage1VC.swift */,
 				543EF3F5224E7B79009CEAE6 /* SignUpStage2VC.swift */,
 				54C719EA2270C256001B2BFF /* ListInterpreters */,
-				54F1B6B522957202009FA286 /* Payment */,
 				54C8056022AD64BA00A71CF1 /* Dashboard */,
 			);
 			path = User;
@@ -253,6 +250,7 @@
 				54E6B5372245E81B000F82D8 /* Products */,
 				DAB0D5ED8D7BAD646A5CAC73 /* Pods */,
 				E354ED6B10CFCD8DE554759A /* Frameworks */,
+				FAD2427422B2982200DABF0A /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -325,6 +323,14 @@
 			children = (
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		FAD2427422B2982200DABF0A /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				54DBEA79228802CB00672238 /* PaymentVC.swift */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -523,7 +529,6 @@
 				54C8AAA922AA146500696C15 /* Booking.swift in Sources */,
 				54BBEFC122AAB42300D86C17 /* MainVC-2.swift in Sources */,
 				5418814D22A98EA2004F1FBA /* Button-Extension.swift in Sources */,
-				548ABB922297D18300A7D9C4 /* ConfirmPaymentVC.swift in Sources */,
 				54C719E92270C24B001B2BFF /* ListInterpretersCell.swift in Sources */,
 				543DDA5E22B01DBE00532536 /* BaseCell.swift in Sources */,
 				54DBEA7A228802CB00672238 /* PaymentVC.swift in Sources */,
