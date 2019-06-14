@@ -133,7 +133,8 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
             cell.textBubbleView.frame = CGRect(x: self.view.frame.width - estimatedFrame.width - 16 - 8 - 16, y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 20)
             cell.profileImageView.isHidden = true
             cell.messageTextView.textColor = .white
-            cell.textBubbleView.backgroundColor = UIColor(red: 0, green: 137/255, blue: 255/255, alpha: 1)
+//            cell.textBubbleView.backgroundColor = UIColor(red: 0, green: 137/255, blue: 255/255, alpha: 1)
+            cell.textBubbleView.backgroundColor = .black
         }
         return cell
     }
@@ -327,7 +328,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
             dateFormatter.timeZone = TimeZone(abbreviation: "GMT+7:00")
             let stringDate = dateFormatter.string(from: date)
             let messageRef = Database.database().reference().child("messages").childByAutoId()
-            messageRef.updateChildValues(["sender": "interpreter", "text": inputTextField.text!, "user": self.userId, "interpreter": self.interpreterEmail.getEncodedEmail(), "time": stringDate])
+            messageRef.updateChildValues(["sender": chatter, "text": inputTextField.text!, "user": self.userId, "interpreter": self.interpreterEmail.getEncodedEmail(), "time": stringDate])
             self.inputTextField.text = ""
             
         }
@@ -433,7 +434,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         dateFormatter.timeZone = TimeZone(abbreviation: "GMT+7:00")
         let stringDate = dateFormatter.string(from: date)
         let messageRef = Database.database().reference().child("messages").childByAutoId()
-        messageRef.updateChildValues(["sender": "interpreter", "image": urlString, "user": self.userId, "interpreter": self.interpreterEmail.getEncodedEmail(), "time": stringDate])
+        messageRef.updateChildValues(["sender": chatter, "image": urlString, "user": self.userId, "interpreter": self.interpreterEmail.getEncodedEmail(), "time": stringDate])
     }
     
     private func alertAction(title: String, message: String)
