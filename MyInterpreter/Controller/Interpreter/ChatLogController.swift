@@ -17,7 +17,6 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     var messages: [Message] = []
     var userProfileImage: UIImage?
     var cache = NSCache<AnyObject, AnyObject>()
-    var doneCellCount: Int = 0
     
     func downloadImage(from urlString: String, completion: @escaping (UIImage) -> ()) {
         if let cachedImage = cache.object(forKey: urlString as AnyObject) {
@@ -59,7 +58,33 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     func setUpImageCellViews(indexPath: IndexPath) -> ChatLogMessageCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! ChatLogMessageCell
-        
+        Database.database().reference().child("users").child(self.userId).observeSingleEvent(of: .value, with: { (snapshot) in
+            if let info = snapshot.value as? NSDictionary {
+                let user = User(email: info.value(forKey: "email") as! String, name: info.value(forKey: "name") as! String, motherLanguage: info.value(forKey: "motherLanguage") as! String, secondLanguage: info.value(forKey: "secondLanguage") as! String, profileImageURL: info.value(forKey: "profileImageURL") as! String, booking: info.value(forKey: "booking") as! String)
+                let imageURL = URL(string: user.profileImageURL)
+                do {
+                    let imageData = try Data(contentsOf: imageURL!)
+                    cell.profileImageView.image = UIImage(data: imageData)
+                } catch let error {
+                    print(error)
+                }
+                cell.messageTextView.text = self.messages[indexPath.row].text
+                let sizeToFit = CGSize(width: self.view.frame.width * 2 / 3, height: CGFloat.greatestFiniteMagnitude)
+                let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+                let estimatedFrame = NSString(string: self.messages[indexPath.row].text).boundingRect(with: sizeToFit, options: options, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)], context: nil)
+                if (self.messages[indexPath.row].sender == "user") {
+                    cell.messageTextView.frame = CGRect(x: 48 + 8, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
+                    cell.textBubbleView.frame = CGRect(x: 48 , y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 20)
+                    cell.profileImageView.isHidden = false
+                } else {
+                    cell.messageTextView.frame = CGRect(x: self.view.frame.width - estimatedFrame.width - 16 - 16, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
+                    cell.textBubbleView.frame = CGRect(x: self.view.frame.width - estimatedFrame.width - 16 - 8 - 16, y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 20)
+                    cell.profileImageView.isHidden = true
+                    
+                    cell.textBubbleView.backgroundColor = UIColor(red: 0, green: 137/255, blue: 255/255, alpha: 1)
+                }
+            }
+        })
         cell.messageContent = "image"
         
         if let cachedImage = cache.object(forKey: messages[indexPath.row].imageURL as AnyObject) as? UIImage {
@@ -114,12 +139,11 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
             cell.profileImageView.isHidden = true
             cell.textBubbleView.backgroundColor = UIColor(red: 0, green: 137/255, blue: 255/255, alpha: 1)
         }
+
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        
         if messages[indexPath.row].imageURL != "" {
             return calculateImageCellHeight(indexPath: indexPath)
         } else if messages[indexPath.row].text != "" {
@@ -131,12 +155,13 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func calculateTextCellHeight(indexPath: IndexPath) -> CGFloat {
+
         let text = messages[indexPath.row].text
         let sizeToFit = CGSize(width: view.frame.width * 2 / 3, height: CGFloat.greatestFiniteMagnitude)
         
         return text.getTextViewRect(sizeToFit: sizeToFit, font: UIFont.systemFont(ofSize: 16), startPoint: CGPoint(x: 0, y: 0)).height + 20
     }
-    
+
     func calculateImageCellHeight(indexPath: IndexPath) -> CGFloat {
         var height: CGFloat = 0
         
@@ -158,7 +183,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     func calculateVideoCellHeight(indexPath: IndexPath) -> CGFloat {
         return 0
     }
-    
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
         
@@ -169,7 +194,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     private let cellID = "cellID"
     let tableView = UITableView()
-    
+
     let messageInputContainerView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -181,7 +206,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         textField.placeholder = "Enter Message..."
         return textField
     }()
-    
+
     let sendButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Send", for: .normal)
@@ -204,7 +229,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     var messageInputBottomAnchor: NSLayoutConstraint?
     var messageInputActivateBottomAnchor: NSLayoutConstraint?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -227,12 +252,10 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
             if message.imageURL != "" {
                 self.downloadImage(from: message.imageURL, completion: { _ in
                     self.tableView.reloadData()
-                    self.doneCellCount = self.doneCellCount + 1
                     self.scrollToBottom()
                 })
             } else {
                 self.tableView.reloadData()
-                self.doneCellCount = self.doneCellCount + 1
                 self.scrollToBottom()
             }
         }
@@ -262,15 +285,32 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         setUpInputComponent()
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+    }
+    
+    @objc func handleKeyboardNotification(notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            print(keyboardRectangle.height)
+        }
+    }
+    
+    private func setUpInputComponent() {
+        messageInputContainerView.addSubview(inputTextField)
+        inputTextField.translatesAutoresizingMaskIntoConstraints = false
+        
+        inputTextField.leftAnchor.constraint(equalTo: messageInputContainerView.leftAnchor).isActive = true
+        inputTextField.bottomAnchor.constraint(equalTo: messageInputContainerView.bottomAnchor).isActive = true
+        inputTextField.heightAnchor.constraint(equalTo: messageInputContainerView.heightAnchor, multiplier: 1).isActive = true
+        inputTextField.widthAnchor.constraint(equalToConstant: 150).isActive = true
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     func scrollToBottom(){
-        DispatchQueue.main.async {
-            let indexPath = IndexPath(row: self.doneCellCount - 1, section: 0)
-            self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
-        }
+//        DispatchQueue.main.async {
+//            let indexPath = IndexPath(row: self.messages.count-1, section: 0)
+//            self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
+//        }
     }
     
     func observeMessage(completion: @escaping (Message) -> ()) {
@@ -371,7 +411,6 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         }
         
         uploadMessageToFirebase(using: image)
-        picker.dismiss(animated: true, completion: nil)
     }
     
     func uploadMessageToFirebase(using messageImage: UIImage) {
@@ -477,17 +516,13 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
 
 
 class ChatLogMessageCell: BaseCell {
-    
-    override func prepareForReuse() {
-        imageContentView.image = nil
-    }
-    
+
     var messageContent: String = "" {
         didSet {
             adjustLayout(with: self.messageContent)
         }
     }
-    
+
     let textBubbleView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(white: 0.95, alpha: 1)
@@ -505,26 +540,15 @@ class ChatLogMessageCell: BaseCell {
         
         return imageView
     }()
-    
+
     let imageContentView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 15
         
-//        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
-//        imageView.isUserInteractionEnabled = true
-//        imageView.addGestureRecognizer(tapGestureRecognizer)
-        
         return imageView
     }()
-    
-//    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
-//    {
-//        let tappedImage = tapGestureRecognizer.view as! UIImageView
-//
-//
-//    }
     
     let messageTextView: UITextView = {
         let textView = UITextView()
@@ -534,11 +558,10 @@ class ChatLogMessageCell: BaseCell {
         textView.textColor = .white
         return textView
     }()
-    
+
     var TextCellProfileImageAnchor: NSLayoutConstraint?
     
     var ImageCellProfileImageAnchor: NSLayoutConstraint?
-    
     override func setupViews() {
         super.setupViews()
         addSubview(textBubbleView)
@@ -553,7 +576,7 @@ class ChatLogMessageCell: BaseCell {
         profileImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8).isActive = true
         profileImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
         profileImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        
+
         TextCellProfileImageAnchor = profileImageView.bottomAnchor.constraint(equalTo: textBubbleView.bottomAnchor)
         ImageCellProfileImageAnchor = profileImageView.bottomAnchor.constraint(equalTo: imageContentView.bottomAnchor)
     }
@@ -564,6 +587,7 @@ class ChatLogMessageCell: BaseCell {
         } else if messageContent == "image" {
             ImageCellProfileImageAnchor?.isActive = true
         }
+
     }
 }
 

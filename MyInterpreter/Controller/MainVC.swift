@@ -12,8 +12,6 @@ import FirebaseDatabase
 
 class MainVC: UIViewController {
 
-    static var isInterpreter: Bool = false;
-    static var isUser: Bool = false;
     
     // MARK: To do
     override func viewDidLoad() {
@@ -22,23 +20,14 @@ class MainVC: UIViewController {
         setUI()
 
         setInitVC()
-    }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        navigationController?.setNavigationBarHidden(true, animated: false)
-    }
-    
-    // MARL: Work place
+    // MARK: Work place
     private func setUI()
     {
+        navigationItem.setCustomNavBar(title: "MyInterpreter")
+
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.navigationBar.tintColor = .black
     }
@@ -86,10 +75,10 @@ class MainVC: UIViewController {
     @IBAction func userButtonPressed(_ sender: UIButton) {
         
     }
-
+    
     @IBAction func interpreterButtonPressed(_ sender: UIButton) {
         
+        
     }
-    
 }
 

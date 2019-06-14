@@ -11,7 +11,7 @@ import FirebaseDatabase
 import FirebaseAuth
 
 class UserDashboardVC: UIViewController {
-
+    
     // MARK: UI elements
     @IBOutlet weak var interpreterProfileImage: UIImageView!
     @IBOutlet weak var spinner: UIActivityIndicatorView!
