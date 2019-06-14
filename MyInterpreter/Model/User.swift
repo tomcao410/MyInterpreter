@@ -17,7 +17,8 @@ class User
     var email: String
     var profileImageURL: String
     var booking: String
-    
+    var status: Bool
+
     init()
     {
         name = ""
@@ -25,7 +26,11 @@ class User
         secondLanguage = ""
         email = ""
         profileImageURL = ""
+
         booking = ""
+
+        status = false
+
     }
     
     init(email: String, name: String, motherLanguage: String, secondLanguage: String, profileImageURL: String, booking: String)
@@ -36,6 +41,21 @@ class User
         self.secondLanguage = secondLanguage
         self.profileImageURL = profileImageURL
         self.booking = booking
+
+        status = false
+        
+    }
+    
+    // MARK: email
+    func getEmail() -> String
+    {
+        return email
+    }
+    
+    func setEmail(email: String)
+    {
+        self.email = email
+
     }
     
     // MARK: profile image

@@ -55,7 +55,6 @@ objects = {
 		5449B8D022A7DA0500250518 /* ClientsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5449B8CF22A7DA0500250518 /* ClientsController.swift */; };
 		545079C322A6925A00EFFD2F /* UserInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545079C222A6925A00EFFD2F /* UserInfoVC.swift */; };
 		5466FEE1225255A10071B8FE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5466FEE0225255A10071B8FE /* User.swift */; };
-		548ABB922297D18300A7D9C4 /* ConfirmPaymentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548ABB912297D18300A7D9C4 /* ConfirmPaymentVC.swift */; };
 		54B59CAF224E26FC0026814A /* SignInInterpreterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B59CAE224E26FC0026814A /* SignInInterpreterVC.swift */; };
 		54B59CB5224E31690026814A /* SignInUserVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B59CB4224E31690026814A /* SignInUserVC.swift */; };
 		54B59CB7224E37B60026814A /* SignUpStage1VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B59CB6224E37B60026814A /* SignUpStage1VC.swift */; };
@@ -84,6 +83,7 @@ objects = {
 		54E6B55D2245E81C000F82D8 /* MyInterpreterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E6B55C2245E81C000F82D8 /* MyInterpreterUITests.swift */; };
 		54E8E74D22AA7B3100A08A39 /* ViewController-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E8E74C22AA7B3100A08A39 /* ViewController-Extension.swift */; };
 
+		FAB04C7822AFEAB80065A66F /* Booking.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB04C7722AFEAB80065A66F /* Booking.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -160,7 +160,6 @@ D82D9072DBB8F4749C58B0C0 /* Pods_MyInterpreter.framework */ = {isa = PBXFileRefe
 		5449B8CF22A7DA0500250518 /* ClientsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientsController.swift; sourceTree = "<group>"; };
 		545079C222A6925A00EFFD2F /* UserInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoVC.swift; sourceTree = "<group>"; };
 		5466FEE0225255A10071B8FE /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		548ABB912297D18300A7D9C4 /* ConfirmPaymentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPaymentVC.swift; sourceTree = "<group>"; };
 		54B59CAE224E26FC0026814A /* SignInInterpreterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInInterpreterVC.swift; sourceTree = "<group>"; };
 		54B59CB4224E31690026814A /* SignInUserVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInUserVC.swift; sourceTree = "<group>"; };
 		54B59CB6224E37B60026814A /* SignUpStage1VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpStage1VC.swift; sourceTree = "<group>"; };
@@ -174,6 +173,7 @@ D82D9072DBB8F4749C58B0C0 /* Pods_MyInterpreter.framework */ = {isa = PBXFileRefe
 		54C2B82722ACC89D001A9CFB /* Alert-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Alert-Extension.swift"; sourceTree = "<group>"; };
 		54C719E62270C214001B2BFF /* ListInterpretersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListInterpretersVC.swift; sourceTree = "<group>"; };
 		54C719E82270C24B001B2BFF /* ListInterpretersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListInterpretersCell.swift; sourceTree = "<group>"; };
+
 		54C8056122AD650D00A71CF1 /* UserEditProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEditProfileVC.swift; sourceTree = "<group>"; };
 		54C8AAA822AA146500696C15 /* Booking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Booking.swift; sourceTree = "<group>"; };
 		54C8AAAA22AA171D00696C15 /* String-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String-Extension.swift"; sourceTree = "<group>"; };
@@ -196,7 +196,7 @@ D82D9072DBB8F4749C58B0C0 /* Pods_MyInterpreter.framework */ = {isa = PBXFileRefe
 		54E8E74C22AA7B3100A08A39 /* ViewController-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController-Extension.swift"; sourceTree = "<group>"; };
 		67EC764C6C6ED974C804A8BF /* Pods-MyInterpreter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyInterpreter.debug.xcconfig"; path = "Target Support Files/Pods-MyInterpreter/Pods-MyInterpreter.debug.xcconfig"; sourceTree = "<group>"; };
 		D82D9072DBB8F4749C58B0C0 /* Pods_MyInterpreter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyInterpreter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-
+		FAB04C7722AFEAB80065A66F /* Booking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Booking.swift; sourceTree = "<group>"; };
 
 /* End PBXFileReference section */
 
@@ -424,6 +424,7 @@ sourceTree = "<group>";
 			children = (
 				5449B8CB22A7D96B00250518 /* ChatLogController.swift */,
 				5449B8CF22A7DA0500250518 /* ClientsController.swift */,
+				FAB04C7722AFEAB80065A66F /* Booking.swift */,
 			);
 			path = Messenger;
 			sourceTree = "<group>";
@@ -443,8 +444,13 @@ sourceTree = "<group>";
 				54B59CB6224E37B60026814A /* SignUpStage1VC.swift */,
 				543EF3F5224E7B79009CEAE6 /* SignUpStage2VC.swift */,
 				54C719EA2270C256001B2BFF /* ListInterpreters */,
+
 				54F1B6B522957202009FA286 /* Payment */,
 				54C8056022AD64BA00A71CF1 /* Dashboard */,
+
+				54E4BAA1229A618C0011C7D0 /* UserDashboardVC.swift */,
+				545079C222A6925A00EFFD2F /* UserInfoVC.swift */,
+
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -527,6 +533,7 @@ sourceTree = "<group>";
 		54E6B5382245E81B000F82D8 /* MyInterpreter */ = {
 			isa = PBXGroup;
 			children = (
+				FA45D9CA22AA2A1F0004028D /* View */,
 				54E6B5392245E81B000F82D8 /* AppDelegate.swift */,
 				54C8AAA522AA12FA00696C15 /* Model */,
 				54C8AAA622AA130400696C15 /* View */,
@@ -560,15 +567,6 @@ sourceTree = "<group>";
 			path = MyInterpreterUITests;
 			sourceTree = "<group>";
 		};
-		54F1B6B522957202009FA286 /* Payment */ = {
-			isa = PBXGroup;
-			children = (
-				54DBEA79228802CB00672238 /* PaymentVC.swift */,
-				548ABB912297D18300A7D9C4 /* ConfirmPaymentVC.swift */,
-			);
-			path = Payment;
-			sourceTree = "<group>";
-		};
 		DAB0D5ED8D7BAD646A5CAC73 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -587,6 +585,13 @@ sourceTree = "<group>";
 			sourceTree = "<group>";
 		};
 
+		FA45D9CA22AA2A1F0004028D /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -838,6 +843,9 @@ runOnlyForDeploymentPostprocessing = 0;
 				54C719E92270C24B001B2BFF /* ListInterpretersCell.swift in Sources */,
 				543DDA5E22B01DBE00532536 /* BaseCell.swift in Sources */,
 				54DBEA7A228802CB00672238 /* PaymentVC.swift in Sources */,
+
+				54C719E92270C24B001B2BFF /* ListInterpretersCell.swift in Sources */,
+
 				54B59CAF224E26FC0026814A /* SignInInterpreterVC.swift in Sources */,
 				543EF3F6224E7B79009CEAE6 /* SignUpStage2VC.swift in Sources */,
 				54E6B5422245E81B000F82D8 /* MyInterpreter.xcdatamodeld in Sources */,
@@ -848,7 +856,12 @@ runOnlyForDeploymentPostprocessing = 0;
 				54C8AAAD22AA181E00696C15 /* Data-Extension.swift in Sources */,
 				54B73F1222AC232200402EBF /* DetailHeaderView.swift in Sources */,
 				5449B8D022A7DA0500250518 /* ClientsController.swift in Sources */,
+
 				54E8E74D22AA7B3100A08A39 /* ViewController-Extension.swift in Sources */,
+
+				FAB04C7822AFEAB80065A66F /* Booking.swift in Sources */,
+				54E4BAA5229A71410011C7D0 /* ListUsersVC.swift in Sources */,
+
 				54E6B53C2245E81B000F82D8 /* MainVC.swift in Sources */,
 				54C2B82822ACC89D001A9CFB /* Alert-Extension.swift in Sources */,
 				54B779382273618F001A53B7 /* Interpreter.swift in Sources */,
