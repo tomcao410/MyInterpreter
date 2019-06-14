@@ -19,7 +19,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     var notChatterProfileImage: UIImage?
     var cache = NSCache<AnyObject, AnyObject>()
     var doneCellCount: Int = 0
-    var doneCellCount:Int = 0
+
     
     func downloadImage(from urlString: String, completion: @escaping (UIImage) -> ()) {
         if let cachedImage = cache.object(forKey: urlString as AnyObject) {
