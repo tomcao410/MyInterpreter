@@ -19,14 +19,6 @@ class MainVC: UIViewController {
         
         setUI()
 
-        
-        if Auth.auth().currentUser != nil
-        {
-            print("There is user!!!!")
-            try! Auth.auth().signOut()
-        }
-
-
         setInitVC()
 
     }
