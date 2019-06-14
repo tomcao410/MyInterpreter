@@ -63,7 +63,6 @@ class SignInInterpreterVC: UIViewController
                 let clientsController = ClientsController()
                 clientsController.interpreterEmail = email
                 self.navigationController?.pushViewController(clientsController, animated: true)
-
             }
             else
             {
