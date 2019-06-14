@@ -83,18 +83,10 @@ class MainVC: UIViewController {
     @IBAction func userButtonPressed(_ sender: UIButton) {
         
     }
-}
-
-
-extension UINavigationItem
-{
-    func setCustomNavBar(title: String)
-    {
-        self.title = title
-        self.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-
+    
     @IBAction func interpreterButtonPressed(_ sender: UIButton) {
         
-
+        
     }
 }
+
