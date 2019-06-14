@@ -47,16 +47,19 @@ class PaymentVC: UIViewController {
     {
         hideKeyboard() // hide keyboard when tap anywhere outside the text field
         
+        navigationItem.setCustomNavBar(title: "Payment")
+        
         effect = visualEffectView.effect
         visualEffectView.effect = nil
         visualEffectView.isHidden = true
         
         modalPaymentMethod.layer.cornerRadius = 10
-        
         paymenMethods.append(method1)
         paymenMethods.append(method2)
         
         txtFieldNumberOfDays.isEnabled = false
+        txtFieldNumberOfDays.addDoneCancelToolbar()
+        
         lblNumberOfDays.textColor = .gray
         lblPricePerDay.textColor = .gray
     }
@@ -107,7 +110,7 @@ class PaymentVC: UIViewController {
         }
         else
         {
-            alertInputNumberOfDays()
+            self.customAlertAction(title: "Notice!", message: "Please input number of days that you want to book!")
             lblPrice.text = "0.0"
         }
     }
@@ -125,9 +128,11 @@ class PaymentVC: UIViewController {
     
     @IBAction func btnNextClicked(_ sender: Any)
     {
+        hideKeyboard()
+        
         if (lblPrice.text == "0.0")
         {
-            alertInputNumberOfDays()
+            self.customAlertAction(title: "Notice!", message: "Please input number of days that you want to book!")
         }
         else
         {
@@ -139,14 +144,6 @@ class PaymentVC: UIViewController {
             }
             performSegue(withIdentifier: "confirmPaymentSegue", sender: nil)
         }
-    }
-    
-    // MARK: --------ALERT--------
-    func alertInputNumberOfDays()
-    {
-        let alert = UIAlertController(title: "Notice!", message: "Please input number of days that you want to book!", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        present(alert, animated: true)
     }
 }
 

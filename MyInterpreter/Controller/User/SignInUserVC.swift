@@ -7,7 +7,8 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseAuth
+import FirebaseDatabase
 
 class SignInUserVC: UIViewController
 {
@@ -16,6 +17,8 @@ class SignInUserVC: UIViewController
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var lblError: UILabel!
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
+    @IBOutlet weak var loginButton: UIButton!
     
     // MARK: views
     override func viewDidLoad() {
@@ -40,6 +43,8 @@ class SignInUserVC: UIViewController
         lblError.isHidden = true
         
         navigationItem.setCustomNavBar(title: "Sign In")
+        
+        navigationController?.navigationBar.tintColor = .black
         
         emailField.delegate = self
         passwordField.delegate = self
@@ -80,18 +85,45 @@ class SignInUserVC: UIViewController
     // MARK: --------BUTTON--------
     @IBAction func handleLogIn(_ sender: UIButton)
     {
+        hideKeyboard()
+        spinner.startAnimating()
+        loginButton.status(enable: false, hidden: true)
+        
         guard let email = emailField.text else {return}
         guard let pass = passwordField.text else {return}
         
         Auth.auth().signIn(withEmail: email, password: pass) { (user: AuthDataResult?, error: Error?) in
             if user != nil
             {
-                self.performSegue(withIdentifier: "userLogInSegue", sender: self)
+                let bookingRef = Database.database().reference()
+                
+                let bookingPath = bookingRef.child("users").child(email.getEncodedEmail()).child("booking")
+                
+                bookingPath.observeSingleEvent(of: .value) { (snapshot: DataSnapshot) in
+                    
+                    let bookingObject = snapshot.value as! String
+                    if bookingObject.contains("interpreter0")
+                    {
+                        self.loginButton.status(enable: true, hidden: false)
+                        self.spinner.stopAnimating()
+                        
+                        self.performSegue(withIdentifier: "userLogInSegue", sender: self)
+                    }
+                    else
+                    {
+                        self.loginButton.status(enable: true, hidden: false)
+                        self.spinner.stopAnimating()
+                        self.performSegue(withIdentifier: "userDashboardSegue", sender: self)
+                    }
+                }
             }
             else
             {
                 self.lblError.isHidden = false
                 self.lblError.text = error!.localizedDescription
+                
+                self.loginButton.status(enable: true, hidden: false)
+                self.spinner.stopAnimating()
             }
         }
     }

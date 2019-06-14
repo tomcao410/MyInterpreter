@@ -15,6 +15,7 @@ class Interpreter
     var motherLanguage: String
     var secondLanguage: String
     var profileImageURL: String
+    var status: Bool
     init()
     {
         email = ""
@@ -22,15 +23,26 @@ class Interpreter
         motherLanguage = ""
         secondLanguage = ""
         profileImageURL = ""
+        status = false
     }
     
-    init(email: String, name: String, motherLanguage: String, secondLanguage: String, profileImageURL: String)
+    init(email: String, name: String, motherLanguage: String, secondLanguage: String, profileImageURL: String, status: Bool)
     {
         self.email = email
         self.name = name
         self.motherLanguage = motherLanguage
         self.secondLanguage = secondLanguage
         self.profileImageURL = profileImageURL
+        self.status = status
+    }
+    
+    init(dic: NSDictionary) {
+        self.email = dic.value(forKey: "email") as! String
+        self.name = dic.value(forKey: "name") as! String
+        self.motherLanguage = dic.value(forKey: "motherLanguage") as! String
+        self.secondLanguage = dic.value(forKey: "secondLanguage") as! String
+        self.profileImageURL = dic.value(forKey: "profileImageURL") as! String
+        self.status = (dic.value(forKey: "status") != nil)
     }
     
     // MARK: email
@@ -88,5 +100,15 @@ class Interpreter
         self.secondLanguage = secondLanguage
     }
     
+    // MARK: status
+    func getStatus() -> Bool
+    {
+        return self.status
+    }
+    
+    func setStatus(status: Bool)
+    {
+        self.status = status
+    }
 }
 

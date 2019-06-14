@@ -62,27 +62,8 @@ class SignInInterpreterVC: UIViewController
             {
                 let clientsController = ClientsController()
                 clientsController.interpreterEmail = email
-                
-                self.ref = Database.database().reference()
-                
-                self.ref.child("bookings").observe(.value, with: { (snapshot) in
-                    
-                    let enumerator = snapshot.children
-                    while let rest = enumerator.nextObject() as? DataSnapshot {
-                        if let dataChange = rest.value as? [String:AnyObject] {
-                            let encodedEmail = email.getEncodedEmail()
-                            if ((dataChange["interpreter"] as! String) == encodedEmail) {
-                                clientsController.usersId.append(dataChange["user"] as! String)
-                                print(dataChange["user"] as! String)
-                            }
-                        }
-                    }
-                    
-                    self.navigationController?.pushViewController(clientsController, animated: true)
-                    
-                }) { (error) in
-                    print(error.localizedDescription)
-                }
+                self.navigationController?.pushViewController(clientsController, animated: true)
+
             }
             else
             {
