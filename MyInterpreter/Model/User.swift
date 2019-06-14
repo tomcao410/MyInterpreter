@@ -82,11 +82,6 @@ class User
         self.secondLanguage = secondLanguage
     }
     
-    // MARK: Email
-    func setEmail(email: String)
-    {
-        self.email = email
-    }
     
     // MARK: Booking status
     func setBooking(booking: String)

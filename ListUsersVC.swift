@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 
 class ListUsersVC: UIViewController {
-
+    
     @IBOutlet weak var listUsersTableView: UITableView!
     
     var totalUsers: Int = 0
@@ -18,7 +18,7 @@ class ListUsersVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setUI()
     }
     
@@ -36,7 +36,7 @@ class ListUsersVC: UIViewController {
     {
         
     }
-
+    
     // MARK: ---Get users info from database---
     private func getInterpreterInfo()
     {
@@ -86,7 +86,7 @@ extension ListUsersVC: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "userCell") as! ListUsersCell
-
+        
         return cell
     }
     
