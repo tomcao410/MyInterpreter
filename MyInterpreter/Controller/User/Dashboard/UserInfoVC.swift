@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 
 class UserInfoVC: UIViewController {
-
+    
     // MARK: UI elements
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var headerImage: UIImageView!
@@ -36,7 +36,7 @@ class UserInfoVC: UIViewController {
         
         setUI()
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -49,7 +49,7 @@ class UserInfoVC: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-    
+        
         
         
         self.navigationController?.navigationBar.tintColor = UIColor.white
@@ -94,7 +94,7 @@ class UserInfoVC: UIViewController {
         
         DispatchQueue.global().async {
             let dataRef = Database.database().reference().child("users").child(UserInfoVC.objectID)
-
+            
             dataRef.observeSingleEvent(of: .value, with: { (snapshot: DataSnapshot) in
                 
                 guard let object = snapshot.value as? NSDictionary else
@@ -151,7 +151,7 @@ class UserInfoVC: UIViewController {
                     {
                         
                         self.headerImage.image = UIImage(data: data as Data)
-
+                        
                         self.spinner.stopAnimating()
                         
                         self.tableView.reloadData()
@@ -167,7 +167,7 @@ class UserInfoVC: UIViewController {
         tableView.rowHeight = UITableView.automaticDimension
         
         header = tableView.tableHeaderView as? DetailHeaderView
-
+        
         tableView.tableHeaderView = nil
         tableView.addSubview(header)
         
@@ -254,7 +254,7 @@ extension UserInfoVC: UITableViewDelegate, UITableViewDataSource
             self.customAlertAction(title: "Error!", message: "Something wrong with your profile!")
             break
         }
-
+        
         cell.infoLbl.text = context
         
         return cell
@@ -271,29 +271,29 @@ extension UserInfoVC: UIScrollViewDelegate
         updateHeaderView()
         
         // MARK: Changing color of NavBar when scroll the tableview
-//        var offset = (scrollView.contentOffset.y + 370) / 15
-//        print(offset)
-//        if offset > 1
-//        {
-//            // Scroll UP
-//            offset = 1
-//            let color = UIColor.init(red: 1, green: 1, blue: 1, alpha: offset)
-//            let navColor = UIColor.init(hue: 0, saturation: offset, brightness: 0, alpha: 1)
-//
-//            self.navigationController?.navigationBar.tintColor = navColor
-//            self.navigationController?.navigationBar.backgroundColor = color
-//            UIApplication.shared.statusBarView?.backgroundColor = color
-//        }
-//        else
-//        {
-//            // Scroll DOWN
-//            let color = UIColor.init(red: 1, green: 1, blue: 1, alpha: offset)
-//            let navColor = UIColor.init(hue: 1, saturation: offset, brightness: 1, alpha: 1)
-//
-//            self.navigationController?.navigationBar.tintColor = navColor
-//
-//            self.navigationController?.navigationBar.backgroundColor = color
-//            UIApplication.shared.statusBarView?.backgroundColor = color
-//        }
+        //        var offset = (scrollView.contentOffset.y + 370) / 15
+        //        print(offset)
+        //        if offset > 1
+        //        {
+        //            // Scroll UP
+        //            offset = 1
+        //            let color = UIColor.init(red: 1, green: 1, blue: 1, alpha: offset)
+        //            let navColor = UIColor.init(hue: 0, saturation: offset, brightness: 0, alpha: 1)
+        //
+        //            self.navigationController?.navigationBar.tintColor = navColor
+        //            self.navigationController?.navigationBar.backgroundColor = color
+        //            UIApplication.shared.statusBarView?.backgroundColor = color
+        //        }
+        //        else
+        //        {
+        //            // Scroll DOWN
+        //            let color = UIColor.init(red: 1, green: 1, blue: 1, alpha: offset)
+        //            let navColor = UIColor.init(hue: 1, saturation: offset, brightness: 1, alpha: 1)
+        //
+        //            self.navigationController?.navigationBar.tintColor = navColor
+        //
+        //            self.navigationController?.navigationBar.backgroundColor = color
+        //            UIApplication.shared.statusBarView?.backgroundColor = color
+        //        }
     }
 }

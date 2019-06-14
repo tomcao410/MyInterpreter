@@ -153,10 +153,10 @@
             </objects>
             <point key="canvasLocation" x="1884" y="384.55772113943033"/>
         </scene>
-        <!--MainVC2-->
+        <!--User-->
         <scene sceneID="Fyz-Dk-iih">
             <objects>
-                <viewController id="ChC-xa-tbo" customClass="MainVC_2" customModule="MyInterpreter" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="User" id="ChC-xa-tbo" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="txq-j3-RFN">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
