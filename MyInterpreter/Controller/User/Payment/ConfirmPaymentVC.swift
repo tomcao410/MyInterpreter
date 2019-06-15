@@ -12,7 +12,7 @@ import Alamofire
 import Firebase
 
 class ConfirmPaymentVC: UIViewController {
-
+    
     private var previousTextFieldContent: String?
     private var previousSelection: UITextRange?
     @IBOutlet var cardNumberTxtFlield: UITextField!
@@ -27,14 +27,14 @@ class ConfirmPaymentVC: UIViewController {
     // Remember to add "/charge"
     let backendBaseURL: String = "https://my-interpreter.herokuapp.com/charge"
     let today = Date()
-
+    
     
     // MARK: ---Views---
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setUI()
-       
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -111,7 +111,7 @@ class ConfirmPaymentVC: UIViewController {
             view.frame.origin.y = 0
         }
     }
-
+    
     // MARK: ---Text Field UI---
     @objc func reformatAsCardNumber(textField: UITextField) {
         var targetCursorPosition = 0
@@ -255,13 +255,22 @@ class ConfirmPaymentVC: UIViewController {
                     
                     // Update users booking status (default: "interpreter0" - means the user hasn't booked anyone yet)
                     //databaseRef.child("users/\(self.emailEncoded(email: (Auth.auth().currentUser?.email)!))/booking").setValue("\(self.emailEncoded(email: ListInterpretersVC.selectedInterpreter.getEmail()))")
-
-                    databaseRef.child("bookings/").childByAutoId().setValue(["interpreter": ListInterpretersVC.selectedInterpreter.email.getEncodedEmail(), "price": "$\(Double(PaymentVC.price) / 100)", "user": (Auth.auth().currentUser?.email?.getEncodedEmail())!, "timeStart": self.today.toDate(), "timeEnd": Calendar.current.date(byAdding: .day, value: PaymentVC.numberOfDays, to: self.today)?.toDate() as Any, "confirm": false])
+                    let bookingsRef = databaseRef.child("bookings")
+                    bookingsRef.childByAutoId().setValue(["interpreter": ListInterpretersVC.selectedInterpreter.email.getEncodedEmail(), "price": "$\(Double(PaymentVC.price) / 100)", "user": (Auth.auth().currentUser?.email?.getEncodedEmail())!, "timeStart": self.today.toDate(), "timeEnd": Calendar.current.date(byAdding: .day, value: PaymentVC.numberOfDays, to: self.today)?.toDate() as Any, "confirm": false])
                     
                     
                     
                     // Update users booking status (default: "interpreter0" - means the user hasn't booked anyone yet)
-                    databaseRef.child("users/\(Auth.auth().currentUser!.email!.getEncodedEmail())/booking").setValue(ListInterpretersVC.selectedInterpreter.email.getEncodedEmail())
+                    let queryRef = bookingsRef.queryOrdered(byChild: "user").queryEqual(toValue: (Auth.auth().currentUser?.email?.getEncodedEmail())!)
+                    queryRef.observe(.value, with: { (snapshot: DataSnapshot) in
+                        for snap in snapshot.children
+                        {
+                            let bookingSnap = snap as! DataSnapshot
+                            let bookingID = bookingSnap.key
+                            
+                            databaseRef.child("users/\(Auth.auth().currentUser!.email!.getEncodedEmail())/booking").setValue(bookingID)
+                        }
+                    })
                     
                     self.spinner.stopAnimating()
                     self.bookButton.status(enable: true, hidden: false)
@@ -278,7 +287,7 @@ class ConfirmPaymentVC: UIViewController {
             }
         }
     }
-
+    
 }
 
 
@@ -301,7 +310,7 @@ extension ConfirmPaymentVC: UITextFieldDelegate
             
             return !(textField.text!.count > 6 && (string.count) > range.length)
         }
-
+        
         if textField == cvcTxtField
         {
             if string == "" {
@@ -326,4 +335,5 @@ extension ConfirmPaymentVC: UITextFieldDelegate
         return true
     }
 }
+
 

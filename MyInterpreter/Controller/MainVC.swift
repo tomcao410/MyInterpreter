@@ -20,7 +20,12 @@ class MainVC: UIViewController {
         setUI()
 
         setInitVC()
-
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        navigationController?.navigationBar.tintColor = .black
     }
     
     // MARK: Work place

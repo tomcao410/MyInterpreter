@@ -94,12 +94,7 @@ class PaymentVC: UIViewController {
         }
         visualEffectView.isHidden = true
     }
-    
-    private func confirmPayment()
-    {
-        
-    }
-    
+
     // MARK: --------TEXT FIELD--------
     @IBAction func numberOfDaysChanged(_ sender: Any) {
         var price = Double(self.txtFieldNumberOfDays.text!)
