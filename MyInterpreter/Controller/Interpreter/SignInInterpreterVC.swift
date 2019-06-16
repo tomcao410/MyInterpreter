@@ -26,12 +26,15 @@ class SignInInterpreterVC: UIViewController
         super.viewDidLoad()
 
         setUI()
+        
     }
     
     // MARK: Work place
     private func setUI()
     {
-        hideKeyboard()
+
+        hideKeyboard() // hide keyboard when tap anywhere outside the textfield
+
         
         lblError.isHidden = true
         
@@ -40,6 +43,7 @@ class SignInInterpreterVC: UIViewController
         idField.delegate = self
         passwordField.delegate = self
     }
+
     // MARK: --------BUTTON--------
     @IBAction func handleLogIn(_ sender: UIButton)
     {
@@ -59,7 +63,6 @@ class SignInInterpreterVC: UIViewController
                 let clientsController = ClientsController()
                 clientsController.interpreterEmail = email
                 self.navigationController?.pushViewController(clientsController, animated: true)
-
             }
             else
             {

@@ -23,4 +23,30 @@ extension String {
         
         return result
     }
+    
+    // From this: 2016-06-15 12:24:26 PM
+    // to: Jun 15, 2019 at 12:24:26 PM
+    func dateFormatter(date: String) -> String
+    {
+        var result = ""
+        
+        let dateFormatterGet = DateFormatter()
+        dateFormatterGet.dateFormat = "yyyy-MM-dd HH:mm:ss a"
+        dateFormatterGet.amSymbol = "AM"
+        dateFormatterGet.pmSymbol = "PM"
+        
+        let dateFormatterPrint = DateFormatter()
+        dateFormatterPrint.dateFormat = "MMM dd, yyyy 'at' H:mm:ss a"
+        dateFormatterPrint.amSymbol = "AM"
+        dateFormatterPrint.pmSymbol = "PM"
+        
+
+        if let formattedDate = dateFormatterGet.date(from: date) {
+            result = dateFormatterPrint.string(from: formattedDate)
+        } else {
+            print("There was an error decoding the string")
+        }
+        
+        return result
+    }
 }
