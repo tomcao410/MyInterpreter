@@ -60,6 +60,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         
         if (self.messages[indexPath.row].sender != chatter) {
             cell.profileImageView.image = leftCellProfileImage
+            setUpImageTapGesture(cell: cell)
             cellSide = .left
         } else {
             cellSide = .right
@@ -79,10 +80,12 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         return cell
     }
     
-    func setUpTextCellViews(indexPath: IndexPath) -> ChatLogMessageCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! ChatLogMessageCell
-        
-        return cell
+    func setUpImageTapGesture(cell: ChatLogMessageCell) {
+        cell.imageContentView.isUserInteractionEnabled = true
+        let singleTap = UITapGestureRecognizer(target: self, action: #selector(imageTapDetected(sender:)))
+        singleTap.numberOfTapsRequired = 1
+        singleTap.numberOfTouchesRequired = 1
+        cell.imageContentView.addGestureRecognizer(singleTap)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -400,6 +403,11 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
                 
             }
         }
+    }
+    
+    
+    @objc func imageTapDetected(sender: UIImageView) {
+        print(sender.image)
     }
     
     private func setUpInputComponent() {

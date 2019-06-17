@@ -68,9 +68,6 @@ class ChatLogMessageCell: BaseCell {
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 15
-//        imageView.isUserInteractionEnabled = true
-//        let singleTap = UIGestureRecognizer(target: self, action: #selector(<#T##@objc method#>))
-//        imageView.addGestureRecognizer(singleTap)
         return imageView
     }()
     
