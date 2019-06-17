@@ -47,6 +47,7 @@
 		54E6B5522245E81C000F82D8 /* MyInterpreterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E6B5512245E81C000F82D8 /* MyInterpreterTests.swift */; };
 		54E6B55D2245E81C000F82D8 /* MyInterpreterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E6B55C2245E81C000F82D8 /* MyInterpreterUITests.swift */; };
 		54E8E74D22AA7B3100A08A39 /* ViewController-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E8E74C22AA7B3100A08A39 /* ViewController-Extension.swift */; };
+		FAB487B122B7EE6900162954 /* FullImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB487B022B7EE6900162954 /* FullImageViewController.swift */; };
 		FAD6EAD622B5F53000E62CDF /* ChatLogMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6EAD522B5F53000E62CDF /* ChatLogMessageCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -116,6 +117,7 @@
 		54E8E74C22AA7B3100A08A39 /* ViewController-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController-Extension.swift"; sourceTree = "<group>"; };
 		67EC764C6C6ED974C804A8BF /* Pods-MyInterpreter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyInterpreter.debug.xcconfig"; path = "Target Support Files/Pods-MyInterpreter/Pods-MyInterpreter.debug.xcconfig"; sourceTree = "<group>"; };
 		D82D9072DBB8F4749C58B0C0 /* Pods_MyInterpreter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyInterpreter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAB487B022B7EE6900162954 /* FullImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullImageViewController.swift; sourceTree = "<group>"; };
 		FAD6EAD522B5F53000E62CDF /* ChatLogMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogMessageCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -165,6 +167,7 @@
 			children = (
 				5449B8CB22A7D96B00250518 /* ChatLogController.swift */,
 				5449B8CF22A7DA0500250518 /* ClientsController.swift */,
+				FAB487B022B7EE6900162954 /* FullImageViewController.swift */,
 			);
 			path = Messenger;
 			sourceTree = "<group>";
@@ -556,6 +559,7 @@
 				5466FEE1225255A10071B8FE /* User.swift in Sources */,
 				54E6B53A2245E81B000F82D8 /* AppDelegate.swift in Sources */,
 				54B73F0C22AC10F800402EBF /* UserInfoCell.swift in Sources */,
+				FAB487B122B7EE6900162954 /* FullImageViewController.swift in Sources */,
 				54BE147C22AEA11B00ED5947 /* Picker-Extension.swift in Sources */,
 				54C719E72270C214001B2BFF /* ListInterpretersVC.swift in Sources */,
 				54B59CB7224E37B60026814A /* SignUpStage1VC.swift in Sources */,

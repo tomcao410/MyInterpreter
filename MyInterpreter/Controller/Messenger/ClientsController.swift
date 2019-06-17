@@ -203,7 +203,7 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
         
         navigationController?.navigationBar.tintColor = .black
         
-//        timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(checkUserExpired), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(checkUserExpired), userInfo: nil, repeats: true)
         
         observeUsers()
         
@@ -229,8 +229,15 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
     @objc func checkUserExpired() {
         var bookingIndexExpired = -1
         for (index, item) in self.listBooking.enumerated() {
-            if item.timeEnd.stringDateToInt(with: stringFormatFromFirebase) < Date().toInt() {
+            let intEndDate = item.timeEnd.cutPMAMTail().stringDateToInt(with: "yyyy-MM-dd HH:mm:ss")
+            let intNowDate = Date().getString(with: "yyyy-MM-dd HH:mm:ss").stringDateToInt(with: "yyyy-MM-dd HH:mm:ss")
+            if intEndDate < intNowDate {
                 let alert = UIAlertController(title: "Notice", message: "A booking to you just expired", preferredStyle: .alert)
+                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
+                    alert.dismiss(animated: true, completion: nil)
+                }
+                
+                alert.addAction(cancelAction)
                 bookingIndexExpired = index
                 self.present(alert, animated: true, completion: nil)
             }
@@ -271,14 +278,14 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
             guard let newBooking = snapshot.value as? NSDictionary else {
                 return
             }
-            self.listBooking.append(Booking(dic: newBooking))
             let encodedEmail = self.interpreterEmail.getEncodedEmail()
-            let intDate = Date().toInt()
-            let intTimeEnd = (newBooking["timeEnd"] as! String).stringDateToInt(with: stringFormatFromFirebase)
-            let intTimeStart = (newBooking["timeStart"] as! String).stringDateToInt(with: stringFormatFromFirebase)
+            let intDate = Date().getString(with: "yyyy-MM-dd HH:mm:ss").stringDateToInt(with: "yyyy-MM-dd HH:mm:ss")
+            let intTimeEnd = (newBooking["timeEnd"] as! String).cutPMAMTail().stringDateToInt(with: "yyyy-MM-dd HH:mm:ss")
+            let intTimeStart = (newBooking["timeStart"] as! String).cutPMAMTail().stringDateToInt(with: "yyyy-MM-dd HH:mm:ss")
             if ((newBooking["interpreter"] as! String) == encodedEmail && intDate > intTimeStart && intDate < intTimeEnd) {
                 if (newBooking["confirm"] as! Bool == true) {
                     self.getUser(from: newBooking["user"] as! String, completion: { (user) in
+                        self.listBooking.append(Booking(dic: newBooking))
                         self.listUser.append(user)
                     })
                 } else {

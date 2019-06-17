@@ -44,8 +44,8 @@ extension String {
         dateFormatter.dateFormat = stringFormatFromFirebase
         dateFormatter.timeZone = TimeZone(abbreviation: "GMT+0:00")
         guard let date = dateFormatter.date(from: self) else {
-        }
             return Date()
+        }
         return date
     }
     func toDate(with formatString: String) -> Date {
@@ -82,5 +82,9 @@ extension String {
         }
         
         return result
+    }
+    
+    func cutPMAMTail() -> String {
+        return String(self.dropLast(3))
     }
 }

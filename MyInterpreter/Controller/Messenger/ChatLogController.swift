@@ -52,7 +52,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return messages.count
     }
-    
+        
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! ChatLogMessageCell
         
@@ -69,7 +69,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
             if let cachedImage = cache.object(forKey: messages[indexPath.row].imageURL as AnyObject) as? UIImage {
                 cell.messageContent = .image(content: cachedImage, viewWidth: self.view.frame.width, viewHeight: self.view.frame.height, side: cellSide)
             } else {
-                // MARK : indicator
+                cell.messageContent = .none
             }
         } else if messages[indexPath.row].text != "" {
             cell.messageContent = .text(content: self.messages[indexPath.row].text, viewWidth: self.view.frame.width, side: cellSide)
@@ -305,6 +305,8 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         // Present the controller
         self.present(actionSheet, animated: true, completion: nil)
     }
+    
+    
     
     func sendImageButtonTouched() {
         let imagePickerController = UIImagePickerController()
