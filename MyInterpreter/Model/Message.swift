@@ -24,13 +24,7 @@ class Message {
         self.text = text
         self.user = user
         self.interpreter = interpreter
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        dateFormatter.timeZone = TimeZone(abbreviation: "GMT+0:00")
-        guard let date = dateFormatter.date(from: time) else {
-            fatalError()
-        }
-        self.time = date
+        self.time = time.toDate(with: "yyyy-MM-dd HH:mm:ss")
         self.imageURL = ""
         self.videoURL = ""
     }

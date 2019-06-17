@@ -10,10 +10,10 @@ import Foundation
  
 
 extension Date {
-    func toDate() -> String
+    func toDate(with formatString: String) -> String
     {
         let dataFormatter = DateFormatter()
-        dataFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dataFormatter.dateFormat = formatString
         
         let date = dataFormatter.string(from: self)
         return date

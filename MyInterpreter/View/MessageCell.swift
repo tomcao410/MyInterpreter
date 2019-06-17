@@ -26,12 +26,10 @@ class MessageCell: BaseCell {
                 return
             }
             
+            let date = (newMessage.value(forKey: "time") as! String).toDate(with: "yyyy-MM-dd HH:mm:ss")
+            
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
             dateFormatter.timeZone = TimeZone(abbreviation: "GMT+0:00")
-            guard let date = dateFormatter.date(from: newMessage.value(forKey: "time") as! String) else {
-                fatalError()
-            }
             
             dateFormatter.dateFormat = "h:mm a"
             
@@ -46,7 +44,7 @@ class MessageCell: BaseCell {
                 dateFormatter.dateFormat = "MM/dd/YY"
             }
             
-            self.timeLabel.text = dateFormatter.string(from: date as Date)
+            self.timeLabel.text = dateFormatter.string(from: date)
             
             if (newMessage.value(forKey: "image") != nil) {
                 self.messageLabel.text = "Đã gửi một tin nhắn hình ảnh"

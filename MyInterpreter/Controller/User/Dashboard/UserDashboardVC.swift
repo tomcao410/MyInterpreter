@@ -123,7 +123,7 @@ class UserDashboardVC: UIViewController {
         controller.interpreterEmail = UserDashboardVC.interpreter.email
         controller.chatter = "user"
         if let notChatterProfileImage = interpreterProfileImage.image {
-            controller.notChatterProfileImage = notChatterProfileImage
+            controller.leftCellProfileImage = notChatterProfileImage
             self.navigationController?.pushViewController(controller, animated: true)
         }
     }

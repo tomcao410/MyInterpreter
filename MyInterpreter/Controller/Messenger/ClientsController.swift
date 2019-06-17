@@ -20,6 +20,15 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
     var WorkingOnBookingID: String = ""
     var WorkingOnUser: User = User()
     var workingMode: Bool = true
+    private let cellID = "cellID"
+    var listUser: [User] = [] {
+        didSet {
+            self.tableView.reloadData()
+        }
+    }
+    var listBooking: [Booking] = []
+    var interpreterEmail: String = ""
+    var timer = Timer()
     var newUsersAndBookingID: [String] = [] {
         didSet {
             for item in self.newUsersAndBookingID {
@@ -127,7 +136,11 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
     @objc func confirmBooking() {
         let bookingRef = Database.database().reference().child("bookings").child(WorkingOnBookingID)
         bookingRef.updateChildValues(["confirm": true])
-        //        bookingRef.updateChildValues(["timeStart": Date().getString(with: "yyyy-MM-dd HH:mm:ss")])
+        bookingRef.observeSingleEvent(of: .value) { (snapshot) in
+            if let confirmedBooking = snapshot.value as? NSDictionary {
+                self.listBooking.append(Booking(dic: confirmedBooking))
+            }
+        }
         self.listUser.append(WorkingOnUser)
         self.visualEffectView.isHidden = true
         self.popUpView.isHidden = true
@@ -177,34 +190,10 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
             }
         })
     }
-    
-    //    func createAlert(about newUser: User, newBookingID: String) -> UIAlertController {
-    //        let alert = UIAlertController(title: "New booking to you", message: newUser.email, preferredStyle: .alert)
-    //        alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { _ in
-    //
-    //        }))
-    //
-    //        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
-    //            Database.database().reference().child("bookings").child(newBookingID).updateChildValues(["confirm": false])
-    //            self.visualEffectView.isHidden = true
-    //        }))
-    //
-    //        return alert
-    //    }
-    
-    private let cellID = "cellID"
-    
-    var listUser: [User] = [] {
-        didSet {
-            self.tableView.reloadData()
-        }
-    }
-    var interpreterEmail: String = ""
-    
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         navigationItem.title = "Recent"
         view.addSubview(tableView)
         view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
@@ -213,6 +202,8 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
         tableView.dataSource = self
         
         navigationController?.navigationBar.tintColor = .black
+        
+//        timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(checkUserExpired), userInfo: nil, repeats: true)
         
         observeUsers()
         
@@ -232,6 +223,21 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
             } else {
                 self.navigationItem.setRightBarButtonItems([UIBarButtonItem(image: #imageLiteral(resourceName: "Log-Out-Icon"), style: .plain, target: self, action: #selector(self.logOutButtonClicked)), UIBarButtonItem(title: "Work", style: .plain, target: self, action: #selector(self.workModeOn))], animated: true)
             }
+        }
+    }
+    
+    @objc func checkUserExpired() {
+        var bookingIndexExpired = -1
+        for (index, item) in self.listBooking.enumerated() {
+            if item.timeEnd.stringDateToInt(with: stringFormatFromFirebase) < Date().toInt() {
+                let alert = UIAlertController(title: "Notice", message: "A booking to you just expired", preferredStyle: .alert)
+                bookingIndexExpired = index
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
+        if bookingIndexExpired != -1 {
+            self.listBooking.remove(at: bookingIndexExpired)
+            self.listUser.remove(at: bookingIndexExpired)
         }
     }
     
@@ -265,16 +271,13 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
             guard let newBooking = snapshot.value as? NSDictionary else {
                 return
             }
-            
+            self.listBooking.append(Booking(dic: newBooking))
             let encodedEmail = self.interpreterEmail.getEncodedEmail()
-            let date = Date()
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-            dateFormatter.timeZone = TimeZone(abbreviation: "GMT+7:00")
-            let stringDate = dateFormatter.string(from: date)
-            if ((newBooking["interpreter"] as! String) == encodedEmail && (newBooking["timeEnd"] as! String) > stringDate && (newBooking["timeStart"] as! String) < stringDate) {
+            let intDate = Date().toInt()
+            let intTimeEnd = (newBooking["timeEnd"] as! String).stringDateToInt(with: stringFormatFromFirebase)
+            let intTimeStart = (newBooking["timeStart"] as! String).stringDateToInt(with: stringFormatFromFirebase)
+            if ((newBooking["interpreter"] as! String) == encodedEmail && intDate > intTimeStart && intDate < intTimeEnd) {
                 if (newBooking["confirm"] as! Bool == true) {
-                    //                    self.usersId.append(newBooking["user"] as! String)
                     self.getUser(from: newBooking["user"] as! String, completion: { (user) in
                         self.listUser.append(user)
                     })
@@ -326,10 +329,10 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
         controller.userId = listUser[indexPath.row].email.getEncodedEmail()
         controller.chatter = "interpreter"
         if let cachedImage = cached.object(forKey: listUser[indexPath.row].email.getEncodedEmail() as AnyObject) {
-            controller.notChatterProfileImage = (cachedImage as! UIImage)
+            controller.leftCellProfileImage = (cachedImage as! UIImage)
         } else {
             downloadUserProfileImage(from: listUser[indexPath.row].email.getEncodedEmail()) { (image) in
-                controller.notChatterProfileImage = image
+                controller.leftCellProfileImage = image
             }
         }
         self.navigationController?.pushViewController(controller, animated: true)

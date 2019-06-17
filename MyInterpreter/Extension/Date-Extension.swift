@@ -16,4 +16,9 @@ extension Date {
         formatter.timeZone = TimeZone(abbreviation: "GMT+7:00")
         return formatter.string(from: self)
     }
+    
+    func toInt() -> Int {
+        let timeInterval = self.timeIntervalSince1970
+        return Int(timeInterval)
+    }
 }

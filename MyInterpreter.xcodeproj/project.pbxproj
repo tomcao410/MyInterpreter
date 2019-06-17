@@ -19,7 +19,6 @@
 		5449B8CE22A7D9E500250518 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5449B8CD22A7D9E500250518 /* Message.swift */; };
 		5449B8D022A7DA0500250518 /* ClientsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5449B8CF22A7DA0500250518 /* ClientsController.swift */; };
 		5466FEE1225255A10071B8FE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5466FEE0225255A10071B8FE /* User.swift */; };
-		548ABB922297D18300A7D9C4 /* ConfirmPaymentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548ABB912297D18300A7D9C4 /* ConfirmPaymentVC.swift */; };
 		54B59CAF224E26FC0026814A /* SignInInterpreterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B59CAE224E26FC0026814A /* SignInInterpreterVC.swift */; };
 		54B59CB5224E31690026814A /* SignInUserVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B59CB4224E31690026814A /* SignInUserVC.swift */; };
 		54B59CB7224E37B60026814A /* SignUpStage1VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B59CB6224E37B60026814A /* SignUpStage1VC.swift */; };
@@ -39,7 +38,6 @@
 		54C8AAA922AA146500696C15 /* Booking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C8AAA822AA146500696C15 /* Booking.swift */; };
 		54C8AAAB22AA171D00696C15 /* String-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C8AAAA22AA171D00696C15 /* String-Extension.swift */; };
 		54C8AAAD22AA181E00696C15 /* Data-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C8AAAC22AA181E00696C15 /* Data-Extension.swift */; };
-		54E4BAA2229A618C0011C7D0 /* UserDashboardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E4BAA1229A618C0011C7D0 /* UserDashboardVC.swift */; };
 		54DBEA7A228802CB00672238 /* PaymentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DBEA79228802CB00672238 /* PaymentVC.swift */; };
 		54E6B53A2245E81B000F82D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E6B5392245E81B000F82D8 /* AppDelegate.swift */; };
 		54E6B53C2245E81B000F82D8 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E6B53B2245E81B000F82D8 /* MainVC.swift */; };
@@ -49,6 +47,7 @@
 		54E6B5522245E81C000F82D8 /* MyInterpreterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E6B5512245E81C000F82D8 /* MyInterpreterTests.swift */; };
 		54E6B55D2245E81C000F82D8 /* MyInterpreterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E6B55C2245E81C000F82D8 /* MyInterpreterUITests.swift */; };
 		54E8E74D22AA7B3100A08A39 /* ViewController-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E8E74C22AA7B3100A08A39 /* ViewController-Extension.swift */; };
+		FAD6EAD622B5F53000E62CDF /* ChatLogMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6EAD522B5F53000E62CDF /* ChatLogMessageCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,7 +100,6 @@
 		54C8AAA822AA146500696C15 /* Booking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Booking.swift; sourceTree = "<group>"; };
 		54C8AAAA22AA171D00696C15 /* String-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String-Extension.swift"; sourceTree = "<group>"; };
 		54C8AAAC22AA181E00696C15 /* Data-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data-Extension.swift"; sourceTree = "<group>"; };
-		54E4BAA1229A618C0011C7D0 /* UserDashboardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDashboardVC.swift; sourceTree = "<group>"; };
 		54DBEA79228802CB00672238 /* PaymentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentVC.swift; sourceTree = "<group>"; };
 		54E6B5362245E81B000F82D8 /* MyInterpreter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyInterpreter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		54E6B5392245E81B000F82D8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -119,6 +117,7 @@
 		54E8E74C22AA7B3100A08A39 /* ViewController-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController-Extension.swift"; sourceTree = "<group>"; };
 		67EC764C6C6ED974C804A8BF /* Pods-MyInterpreter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyInterpreter.debug.xcconfig"; path = "Target Support Files/Pods-MyInterpreter/Pods-MyInterpreter.debug.xcconfig"; sourceTree = "<group>"; };
 		D82D9072DBB8F4749C58B0C0 /* Pods_MyInterpreter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyInterpreter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAD6EAD522B5F53000E62CDF /* ChatLogMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogMessageCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -237,6 +236,7 @@
 				54B73F1122AC232200402EBF /* DetailHeaderView.swift */,
 				543DDA5D22B01DBE00532536 /* BaseCell.swift */,
 				543DDA5F22B01E1700532536 /* MessageCell.swift */,
+				FAD6EAD522B5F53000E62CDF /* ChatLogMessageCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -262,7 +262,6 @@
 				54E6B5372245E81B000F82D8 /* Products */,
 				DAB0D5ED8D7BAD646A5CAC73 /* Pods */,
 				E354ED6B10CFCD8DE554759A /* Frameworks */,
-				FAD2427422B2982200DABF0A /* Recovered References */,
 				54BF5FE322B37DA400D05EB4 /* Recovered References */,
 			);
 			sourceTree = "<group>";
@@ -554,6 +553,7 @@
 				54C8AAAB22AA171D00696C15 /* String-Extension.swift in Sources */,
 				543DDA6022B01E1700532536 /* MessageCell.swift in Sources */,
 				54BBEFBF22AAB33F00D86C17 /* NavigationBar-Extension.swift in Sources */,
+				FAD6EAD622B5F53000E62CDF /* ChatLogMessageCell.swift in Sources */,
 				5449B8CE22A7D9E500250518 /* Message.swift in Sources */,
 				54C8AAAD22AA181E00696C15 /* Data-Extension.swift in Sources */,
 				54B73F1222AC232200402EBF /* DetailHeaderView.swift in Sources */,
