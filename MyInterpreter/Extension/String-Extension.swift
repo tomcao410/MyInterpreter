@@ -29,11 +29,11 @@ extension String {
         let estimatedFrame = NSString(string: self).boundingRect(with: sizeToFit, options: options, attributes: [NSAttributedString.Key.font: font], context: nil)
         return CGRect(x: startPoint.x, y: startPoint.y, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
     }
-    
     func stringDateToInt(with stringFormat: String) -> Int {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = stringFormat
         dateFormatter.timeZone = TimeZone(abbreviation: "GMT+0:00")
+    
         let date = dateFormatter.date(from:self)!
         let timeInterval = date.timeIntervalSince1970
         return Int(timeInterval)
@@ -44,11 +44,10 @@ extension String {
         dateFormatter.dateFormat = stringFormatFromFirebase
         dateFormatter.timeZone = TimeZone(abbreviation: "GMT+0:00")
         guard let date = dateFormatter.date(from: self) else {
-            return Date()
         }
+            return Date()
         return date
     }
-    
     func toDate(with formatString: String) -> Date {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = formatString
@@ -57,5 +56,31 @@ extension String {
             return Date()
         }
         return date
+    }
+    
+    // From this: 2016-06-15 12:24:26 PM
+    // to: Jun 15, 2019 at 12:24:26 PM
+    func dateFormatter(date: String) -> String
+    {
+        var result = ""
+        
+        let dateFormatterGet = DateFormatter()
+        dateFormatterGet.dateFormat = "yyyy-MM-dd HH:mm:ss a"
+        dateFormatterGet.amSymbol = "AM"
+        dateFormatterGet.pmSymbol = "PM"
+        
+        let dateFormatterPrint = DateFormatter()
+        dateFormatterPrint.dateFormat = "MMM dd, yyyy 'at' H:mm:ss a"
+        dateFormatterPrint.amSymbol = "AM"
+        dateFormatterPrint.pmSymbol = "PM"
+        
+
+        if let formattedDate = dateFormatterGet.date(from: date) {
+            result = dateFormatterPrint.string(from: formattedDate)
+        } else {
+            print("There was an error decoding the string")
+        }
+        
+        return result
     }
 }

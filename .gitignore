@@ -1,4 +1,9 @@
 
+
+*.xcuserstate
+MyInterpreter.xcworkspace/xcuserdata/itom.xcuserdatad/UserInterfaceState.xcuserstate
+*.xcuserstate
+
 #########################
 # **.gitignore** file for Xcode4 / OS X Source projects
 #
