@@ -90,6 +90,7 @@ class ChatLogMessageCell: BaseCell {
         addSubview(profileImageView)
         addSubview(imageContentView)
         addSubview(spinner)
+        self.backgroundColor = .clear
         profileImageView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -159,7 +160,7 @@ class ChatLogMessageCell: BaseCell {
                 if ratio > 1.0 {
                     imageContentView.frame = CGRect(x: viewWidth - maxWidth - 16, y: 0, width: maxWidth, height: maxWidth / ratio)
                 } else {
-                    imageContentView.frame = CGRect(x: viewWidth - maxHeight * ratio, y: 0, width: maxHeight * ratio, height: maxHeight)
+                    imageContentView.frame = CGRect(x: viewWidth - maxHeight * ratio - 16, y: 0, width: maxHeight * ratio, height: maxHeight)
                 }
             }
         case .none:
