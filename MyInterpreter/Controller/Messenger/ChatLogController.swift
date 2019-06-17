@@ -50,6 +50,11 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if (messages.count == 0) {
+            tableView.setEmptyView(title: "Chat log is empty", message: "Your conversation here")
+        } else {
+            tableView.restore()
+        }
         return messages.count
     }
         
@@ -179,8 +184,17 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let guide = view.safeAreaLayoutGuide
+        view.backgroundColor = .white
+        let backgroundView = UIImageView()
+        backgroundView.image = #imageLiteral(resourceName: "background")
+        backgroundView.translatesAutoresizingMaskIntoConstraints = false
         
-        view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        view.addSubview(backgroundView)
+        backgroundView.topAnchor.constraint(equalTo: guide.topAnchor).isActive = true
+        backgroundView.bottomAnchor.constraint(equalTo: guide.bottomAnchor).isActive = true
+        backgroundView.leftAnchor.constraint(equalTo: guide.leftAnchor).isActive = true
+        backgroundView.rightAnchor.constraint(equalTo: guide.rightAnchor).isActive = true
         
         hideKeyboard()
         
@@ -189,7 +203,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        tableView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.293557363)
         tableView.register(ChatLogMessageCell.self, forCellReuseIdentifier: cellID)
         tableView.separatorColor = .clear
         tableView.allowsSelection = false
@@ -207,8 +221,6 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
                 self.scrollToBottom()
             }
         }
-        
-        let guide = view.safeAreaLayoutGuide
         
         view.addSubview(messageInputContainerView)
         messageInputContainerView.translatesAutoresizingMaskIntoConstraints = false

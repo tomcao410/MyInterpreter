@@ -195,9 +195,18 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Recent"
+        let backgroundView = UIImageView()
+        backgroundView.image = #imageLiteral(resourceName: "background")
+        backgroundView.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(backgroundView)
+        backgroundView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        backgroundView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        backgroundView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        
         view.addSubview(tableView)
-        view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        tableView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        tableView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.2880190497)
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -304,6 +313,11 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if (listUser.count == 0) {
+            tableView.setEmptyView(title: "User list is empty", message: "Waiting for some booking...")
+        } else {
+            tableView.restore()
+        }
         return listUser.count
     }
     

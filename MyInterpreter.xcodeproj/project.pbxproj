@@ -48,6 +48,7 @@
 		54E6B55D2245E81C000F82D8 /* MyInterpreterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E6B55C2245E81C000F82D8 /* MyInterpreterUITests.swift */; };
 		54E8E74D22AA7B3100A08A39 /* ViewController-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E8E74C22AA7B3100A08A39 /* ViewController-Extension.swift */; };
 		FAB487B122B7EE6900162954 /* FullImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB487B022B7EE6900162954 /* FullImageViewController.swift */; };
+		FAB487B322B8043E00162954 /* TableView-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB487B222B8043E00162954 /* TableView-Extension.swift */; };
 		FAD6EAD622B5F53000E62CDF /* ChatLogMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6EAD522B5F53000E62CDF /* ChatLogMessageCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -118,6 +119,7 @@
 		67EC764C6C6ED974C804A8BF /* Pods-MyInterpreter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyInterpreter.debug.xcconfig"; path = "Target Support Files/Pods-MyInterpreter/Pods-MyInterpreter.debug.xcconfig"; sourceTree = "<group>"; };
 		D82D9072DBB8F4749C58B0C0 /* Pods_MyInterpreter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyInterpreter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAB487B022B7EE6900162954 /* FullImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullImageViewController.swift; sourceTree = "<group>"; };
+		FAB487B222B8043E00162954 /* TableView-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TableView-Extension.swift"; sourceTree = "<group>"; };
 		FAD6EAD522B5F53000E62CDF /* ChatLogMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogMessageCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -158,6 +160,7 @@
 				54BBEFBE22AAB33F00D86C17 /* NavigationBar-Extension.swift */,
 				54C2B82722ACC89D001A9CFB /* Alert-Extension.swift */,
 				54BE147B22AEA11B00ED5947 /* Picker-Extension.swift */,
+				FAB487B222B8043E00162954 /* TableView-Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -552,6 +555,7 @@
 				54B73F1222AC232200402EBF /* DetailHeaderView.swift in Sources */,
 				5449B8D022A7DA0500250518 /* ClientsController.swift in Sources */,
 				54E8E74D22AA7B3100A08A39 /* ViewController-Extension.swift in Sources */,
+				FAB487B322B8043E00162954 /* TableView-Extension.swift in Sources */,
 				54E6B53C2245E81B000F82D8 /* MainVC.swift in Sources */,
 				549F869822B4B399003C428B /* ConfirmPaymentVC.swift in Sources */,
 				54C2B82822ACC89D001A9CFB /* Alert-Extension.swift in Sources */,
