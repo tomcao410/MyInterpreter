@@ -18,7 +18,7 @@ class UserDashboardVC: UIViewController {
     
     // Params
     var cache = NSCache<AnyObject, AnyObject>()
-    static var interpreter = Interpreter()
+    var interpreter = Interpreter()
     var timer = Timer()
     
     let dataRef = Database.database().reference()
@@ -80,9 +80,9 @@ class UserDashboardVC: UIViewController {
                         return
                     }
                     
-                    if let interpreter = bookingObject["interpreter"] as? String
+                    if let interpreterBooked = bookingObject["interpreter"] as? String
                     {
-                        let interpreterRef = self.dataRef.child("interpreters").child(interpreter)
+                        let interpreterRef = self.dataRef.child("interpreters").child(interpreterBooked)
                         
                         interpreterRef.observe(.value, with: { (interpreterSnapshot: DataSnapshot) in
                             
@@ -99,12 +99,12 @@ class UserDashboardVC: UIViewController {
                                 let secondLanguage = interpreterObject["secondLanguage"] as? String,
                                 let profileImageURL = interpreterObject["profileImageURL"] as? String
                             {
-                                UserDashboardVC.interpreter.name = name
-                                UserDashboardVC.interpreter.email = email
-                                UserDashboardVC.interpreter.status = status
-                                UserDashboardVC.interpreter.motherLanguage = motherLanguage
-                                UserDashboardVC.interpreter.secondLanguage = secondLanguage
-                                UserDashboardVC.interpreter.profileImageURL = profileImageURL
+                                self.interpreter.name = name
+                                self.interpreter.email = email
+                                self.interpreter.status = status
+                                self.interpreter.motherLanguage = motherLanguage
+                                self.interpreter.secondLanguage = secondLanguage
+                                self.interpreter.profileImageURL = profileImageURL
                                 
                                 if let img = self.cache.object(forKey: "interpreterImageURL" as AnyObject)
                                 {
@@ -112,7 +112,7 @@ class UserDashboardVC: UIViewController {
                                 }
                                 else
                                 {
-                                    let url = URL(string: UserDashboardVC.interpreter.profileImageURL)
+                                    let url = URL(string: self.interpreter.profileImageURL)
                                     
                                     guard let data = NSData(contentsOf: url!)
                                         else {
@@ -189,7 +189,7 @@ class UserDashboardVC: UIViewController {
     {
         let controller = ChatLogController()
         controller.userId = ((Auth.auth().currentUser?.email?.getEncodedEmail())!)
-        controller.interpreterEmail = UserDashboardVC.interpreter.email
+        controller.interpreterEmail = interpreter.email
         controller.chatter = "user"
         if let notChatterProfileImage = interpreterProfileImage.image {
             controller.leftCellProfileImage = notChatterProfileImage
@@ -200,6 +200,12 @@ class UserDashboardVC: UIViewController {
     @objc func userButtonClicked()
     {
         UserInfoVC.objectID = (Auth.auth().currentUser?.email?.getEncodedEmail())!
+        performSegue(withIdentifier: "userInfoSegue", sender: nil)
+    }
+    
+    
+    @IBAction func interpreterProfileButtonClicked(_ sender: Any) {
+        UserInfoVC.objectID = interpreter.email.getEncodedEmail()
         performSegue(withIdentifier: "userInfoSegue", sender: nil)
     }
 }

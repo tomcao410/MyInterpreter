@@ -52,7 +52,7 @@ class ConfirmPaymentVC: UIViewController {
         
         navigationItem.setCustomNavBar(title: "Payment")
         
-        nameLbl.text = ListInterpretersVC.selectedInterpreter.getName()
+        nameLbl.text = ListInterpretersVC.selectedInterpreter.name
         priceLbl.text = "$\(Float(PaymentVC.price) / 100)"
         
         cardNumberTxtFlield.addDoneCancelToolbar()
@@ -64,7 +64,7 @@ class ConfirmPaymentVC: UIViewController {
         
         DispatchQueue.global().async
             {
-                let url = URL(string: ListInterpretersVC.selectedInterpreter.getProfileImageURL())
+                let url = URL(string: ListInterpretersVC.selectedInterpreter.profileImageURL)
                 let data = NSData(contentsOf: url!)
                 DispatchQueue.main.async
                     {
@@ -239,7 +239,7 @@ class ConfirmPaymentVC: UIViewController {
                 "token": (token?.tokenId)!,
                 "amount": amount,
                 "currency": "usd",
-                "description": "User: \((Auth.auth().currentUser?.email)!) BOOKED Interpreter: \(ListInterpretersVC.selectedInterpreter.getEmail())"
+                "description": "User: \((Auth.auth().currentUser?.email)!) BOOKED Interpreter: \(ListInterpretersVC.selectedInterpreter.email)"
             ]
             
             Alamofire.request(self.backendBaseURL, method: .post, parameters: params).validate(statusCode: 200..<300).responseJSON{

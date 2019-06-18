@@ -1184,13 +1184,22 @@ Price: $1.49 per day</string>
                                 </constraints>
                                 <color key="color" red="0.76078431372549016" green="0.76078431372549016" blue="0.792156862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ruu-ub-4Dl">
+                                <rect key="frame" x="112.5" y="508.5" width="150" height="30"/>
+                                <state key="normal" title="See interpreter profile"/>
+                                <connections>
+                                    <action selector="interpreterProfileButtonClicked:" destination="k7P-0h-k7g" eventType="touchUpInside" id="g8u-ZA-pxb"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="hS8-g4-ceJ" firstAttribute="centerX" secondItem="UMQ-9M-JmE" secondAttribute="centerX" id="2ga-La-anc"/>
                             <constraint firstItem="Mwq-4k-H8m" firstAttribute="centerX" secondItem="UMQ-9M-JmE" secondAttribute="centerX" id="DQX-4y-9D8"/>
                             <constraint firstItem="Mwq-4k-H8m" firstAttribute="centerY" secondItem="UMQ-9M-JmE" secondAttribute="centerY" id="E0N-dM-mVF"/>
+                            <constraint firstItem="ruu-ub-4Dl" firstAttribute="centerX" secondItem="UMQ-9M-JmE" secondAttribute="centerX" id="MHQ-U1-Gme"/>
                             <constraint firstItem="hS8-g4-ceJ" firstAttribute="centerY" secondItem="UMQ-9M-JmE" secondAttribute="centerY" id="Zvy-Va-PAl"/>
+                            <constraint firstItem="ruu-ub-4Dl" firstAttribute="top" secondItem="hS8-g4-ceJ" secondAttribute="bottom" constant="50" id="wi5-ul-2kj"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="LRI-SP-t3A"/>
                     </view>
@@ -1359,7 +1368,7 @@ Price: $1.49 per day</string>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="swn-Pe-bnL"/>
-        <segue reference="BYu-OV-1O9"/>
+        <segue reference="OHD-fK-jgn"/>
         <segue reference="NIp-pH-V6n"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -23,7 +23,7 @@ class UserInfoVC: UIViewController {
     let screenSize = UIScreen.main.bounds
     var header: DetailHeaderView!
     var headerMaskLayer: CAShapeLayer!
-    var userInfoSection: [String] = ["Name", "1st language", "2nd language","Email", "Booking status"]
+    var infoSection: [String] = ["Name", "1st language", "2nd language","Email", "Status"]
     var interpreter = Interpreter()
     
     static var objectID: String = ""
@@ -45,7 +45,15 @@ class UserInfoVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        getUserData()
+        
+        if UserInfoVC.objectID.contains("interpreter")
+        {
+            getInterpreterData()
+        }
+        else
+        {
+            getUserData()
+        }
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -109,36 +117,71 @@ class UserInfoVC: UIViewController {
                     let email = object["email"] as? String,
                     let motherLanguage = object["motherLanguage"] as? String,
                     let secondLanguage = object["secondLanguage"] as? String,
-                    let profileImageURL = object["profileImageURL"] as? String
+                    let profileImageURL = object["profileImageURL"] as? String,
+                    let booking = object["booking"] as? String
                 {
-                    if UserInfoVC.objectID.contains("interpreter")
+                    UserInfoVC.user.name = name
+                    UserInfoVC.user.email = email
+                    UserInfoVC.user.booking = booking
+                    UserInfoVC.user.motherLanguage = motherLanguage
+                    UserInfoVC.user.secondLanguage = secondLanguage
+                    UserInfoVC.user.profileImageURL = profileImageURL
+                    
+                    imageURL = URL(string: UserInfoVC.user.profileImageURL)
+                }
+                
+                // Set image view
+                guard let data = NSData(contentsOf: imageURL!)
+                    else {
+                        self.customAlertAction(title: "Error!", message: "Something wrong with your profile image!")
+                        return
+                }
+                DispatchQueue.main.async
                     {
-                        if let status = object["status"] as? Bool
-                        {
-                            self.interpreter.name = name
-                            self.interpreter.email = email
-                            self.interpreter.status = status
-                            self.interpreter.motherLanguage = motherLanguage
-                            self.interpreter.secondLanguage = secondLanguage
-                            self.interpreter.profileImageURL = profileImageURL
-                            
-                            imageURL = URL(string: self.interpreter.profileImageURL)
-                        }
-                    }
-                    else
-                    {
-                        if let booking = object["booking"] as? String
-                        {
-                            UserInfoVC.user.name = name
-                            UserInfoVC.user.email = email
-                            UserInfoVC.user.booking = booking
-                            UserInfoVC.user.motherLanguage = motherLanguage
-                            UserInfoVC.user.secondLanguage = secondLanguage
-                            UserInfoVC.user.profileImageURL = profileImageURL
-                            
-                            imageURL = URL(string: UserInfoVC.user.profileImageURL)
-                        }
-                    }
+                        
+                        self.headerImage.image = UIImage(data: data as Data)
+                        
+                        self.spinner.stopAnimating()
+                        
+                        self.tableView.reloadData()
+                }
+            })
+        }
+    }
+    
+    // MARK: get interpreter data
+    func getInterpreterData()
+    {
+        spinner.startAnimating()
+        
+        DispatchQueue.global().async {
+            let dataRef = Database.database().reference().child("interpreters").child(UserInfoVC.objectID)
+            
+            dataRef.observeSingleEvent(of: .value, with: { (snapshot: DataSnapshot) in
+                
+                guard let object = snapshot.value as? NSDictionary else
+                {
+                    self.customAlertAction(title: "Error!", message: "Can't observe user info from database")
+                    return
+                }
+                
+                var imageURL = URL(string: "")
+                
+                if let name = object["name"] as? String,
+                    let email = object["email"] as? String,
+                    let motherLanguage = object["motherLanguage"] as? String,
+                    let secondLanguage = object["secondLanguage"] as? String,
+                    let profileImageURL = object["profileImageURL"] as? String,
+                    let status = object["status"] as? Bool
+                {
+                    self.interpreter.name = name
+                    self.interpreter.email = email
+                    self.interpreter.status = status
+                    self.interpreter.motherLanguage = motherLanguage
+                    self.interpreter.secondLanguage = secondLanguage
+                    self.interpreter.profileImageURL = profileImageURL
+                    
+                    imageURL = URL(string: self.interpreter.profileImageURL)
                 }
                 
                 // Set image view
@@ -222,7 +265,7 @@ class UserInfoVC: UIViewController {
 extension UserInfoVC: UITableViewDelegate, UITableViewDataSource
 {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return userInfoSection.count
+        return infoSection.count
     }
     
     
@@ -230,30 +273,64 @@ extension UserInfoVC: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "userInfoCell") as! UserInfoCell
         
-        cell.titleLbl.text = userInfoSection[indexPath.row]
+        cell.titleLbl.text = infoSection[indexPath.row]
         
         var context = ""
         
-        switch indexPath.row {
-        case 0:
-            context = UserInfoVC.user.name
-            break
-        case 1:
-            context = UserInfoVC.user.motherLanguage
-            break
-        case 2:
-            context = UserInfoVC.user.secondLanguage
-            break
-        case 3:
-            context = UserInfoVC.user.email
-            break
-        case 4:
-            context = UserInfoVC.user.booking
-            break
-        default:
-            self.customAlertAction(title: "Error!", message: "Something wrong with your profile!")
-            break
+        if UserInfoVC.objectID.contains("interpreter")
+        {
+            switch indexPath.row {
+            case 0:
+                context = interpreter.name
+                break
+            case 1:
+                context = interpreter.motherLanguage
+                break
+            case 2:
+                context = interpreter.secondLanguage
+                break
+            case 3:
+                context = interpreter.email
+                break
+            case 4:
+                if interpreter.status
+                {
+                    context = "Working"
+                }
+                else
+                {
+                    context = "Not working"
+                }
+                break
+            default:
+                self.customAlertAction(title: "Error!", message: "Something wrong with your profile!")
+                break
+            }
         }
+        else
+        {
+            switch indexPath.row {
+            case 0:
+                context = UserInfoVC.user.name
+                break
+            case 1:
+                context = UserInfoVC.user.motherLanguage
+                break
+            case 2:
+                context = UserInfoVC.user.secondLanguage
+                break
+            case 3:
+                context = UserInfoVC.user.email
+                break
+            case 4:
+                context = UserInfoVC.user.booking
+                break
+            default:
+                self.customAlertAction(title: "Error!", message: "Something wrong with your profile!")
+                break
+            }
+        }
+        
         
         cell.infoLbl.text = context
         

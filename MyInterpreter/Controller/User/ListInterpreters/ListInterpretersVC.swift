@@ -127,8 +127,8 @@ extension ListInterpretersVC: UITableViewDataSource, UITableViewDelegate
         let cell = tableView.dequeueReusableCell(withIdentifier: "interpreterCell") as! ListInterpretersCell
 
         // MARK: THREAD ERROR HERE!!!!
-        cell.nameLbl.text = listInterpreters[indexPath.row].getName()
-        cell.languagesLbl.text = listInterpreters[indexPath.row].getMotherLanguage() + " - " + listInterpreters[indexPath.row].getSecondLanguage()
+        cell.nameLbl.text = listInterpreters[indexPath.row].name
+        cell.languagesLbl.text = listInterpreters[indexPath.row].motherLanguage + " - " + listInterpreters[indexPath.row].secondLanguage
         
         // Save data in cache (prevent from lagging)
         if let img = cache.object(forKey: self.listInterpreters[indexPath.row].email as AnyObject)
@@ -139,7 +139,7 @@ extension ListInterpretersVC: UITableViewDataSource, UITableViewDelegate
         {
             DispatchQueue.global().async
             {
-                let url = URL(string: self.listInterpreters[indexPath.row].getProfileImageURL())
+                let url = URL(string: self.listInterpreters[indexPath.row].profileImageURL)
                 let data = NSData(contentsOf: url!)
                 DispatchQueue.main.async
                 {
