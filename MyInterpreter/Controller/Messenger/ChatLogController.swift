@@ -8,7 +8,6 @@
 
 import UIKit
 import Firebase
-import AVKit
 
 class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     
@@ -16,7 +15,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     var interpreterEmail: String = ""
     var userId: String = ""
     var messages: [Message] = []
-    var notChatterProfileImage: UIImage?
+    var leftCellProfileImage: UIImage?
     var cache = NSCache<AnyObject, AnyObject>()
     var doneCellCount: Int = 0
 
@@ -51,92 +50,48 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if (messages.count == 0) {
+            tableView.setEmptyView(title: "Chat log is empty", message: "Your conversation here")
+        } else {
+            tableView.restore()
+        }
         return messages.count
     }
-    
+        
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! ChatLogMessageCell
+        
+        let cellSide: messageSide
+        
+        if (self.messages[indexPath.row].sender != chatter) {
+            cell.profileImageView.image = leftCellProfileImage
+            cellSide = .left
+        } else {
+            cellSide = .right
+        }
         
         if messages[indexPath.row].imageURL != "" {
-            return setUpImageCellViews(indexPath: indexPath)
-        } else if messages[indexPath.row].text != "" {
-            return setUpTextCellViews(indexPath: indexPath)
-        } else if messages[indexPath.row].videoURL != "" {
-            return setUpVideoCellViews(indexPath: indexPath)
-        }
-        return UITableViewCell()
-    }
-    
-    func setUpVideoCellViews(indexPath: IndexPath) -> ChatLogMessageCell {
-        return ChatLogMessageCell()
-    }
-    
-    func setUpImageCellViews(indexPath: IndexPath) -> ChatLogMessageCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! ChatLogMessageCell
-        
-        cell.messageContent = "image"
-        
-        cell.textBubbleView.isHidden = true
-        cell.imageContentView.isHidden = false
-        
-        if let cachedImage = cache.object(forKey: messages[indexPath.row].imageURL as AnyObject) as? UIImage {
-            let ratio = cachedImage.size.width / cachedImage.size.height
-            let maxWidth = self.view.frame.width / 3 * 2
-            let maxHeight = self.view.frame.height / 3
-            let viewWidth = self.view.frame.width
-            
-            cell.imageContentView.image = cachedImage
-            
-            if (self.messages[indexPath.row].sender != chatter) {
-                cell.profileImageView.image = self.notChatterProfileImage
-                cell.profileImageView.isHidden = false
-                
-                if ratio > 1.0 { //landscape image
-                    cell.imageContentView.frame = CGRect(x: 48, y: 0, width: maxWidth, height: maxWidth / ratio)
-                } else {
-                    cell.imageContentView.frame = CGRect(x: 48, y: 0, width: maxHeight * ratio, height: maxHeight)
-                }
+            if let cachedImage = cache.object(forKey: messages[indexPath.row].imageURL as AnyObject) as? UIImage {
+                cell.messageContent = .image(content: cachedImage, viewWidth: self.view.frame.width, viewHeight:
+                    self.view.frame.height, side: cellSide)
+                setUpImageTapGesture(cell: cell)
             } else {
-                cell.profileImageView.isHidden = true
-                
-                if ratio > 1.0 {
-                    cell.imageContentView.frame = CGRect(x: viewWidth - maxWidth - 16, y: 0, width: maxWidth, height: maxWidth / ratio)
-                } else {
-                    cell.imageContentView.frame = CGRect(x: viewWidth - maxHeight * ratio, y: 0, width: maxHeight * ratio, height: maxHeight)
-                }
+                cell.messageContent = .none
             }
+        } else if messages[indexPath.row].text != "" {
+            cell.messageContent = .text(content: self.messages[indexPath.row].text, viewWidth: self.view.frame.width, side: cellSide)
+        } else if messages[indexPath.row].videoURL != "" {
+            
         }
         return cell
     }
     
-    func setUpTextCellViews(indexPath: IndexPath) -> ChatLogMessageCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! ChatLogMessageCell
-        
-        cell.messageContent = "text"
-        
-        cell.messageTextView.text = self.messages[indexPath.row].text
-        
-        cell.imageContentView.isHidden = true
-        cell.textBubbleView.isHidden = false
-        
-        let sizeToFit = CGSize(width: self.view.frame.width * 2 / 3, height: CGFloat.greatestFiniteMagnitude)
-        let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-        let estimatedFrame = NSString(string: self.messages[indexPath.row].text).boundingRect(with: sizeToFit, options: options, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)], context: nil)
-        if (self.messages[indexPath.row].sender != chatter) {
-            cell.messageTextView.frame = CGRect(x: 48 + 8, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
-            cell.textBubbleView.frame = CGRect(x: 48 , y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 20)
-            cell.profileImageView.image = notChatterProfileImage
-            cell.messageTextView.textColor = .black
-            cell.profileImageView.isHidden = false
-            cell.textBubbleView.backgroundColor = .lightGray
-        } else {
-            cell.messageTextView.frame = CGRect(x: self.view.frame.width - estimatedFrame.width - 16 - 16, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
-            cell.textBubbleView.frame = CGRect(x: self.view.frame.width - estimatedFrame.width - 16 - 8 - 16, y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 20)
-            cell.profileImageView.isHidden = true
-            cell.messageTextView.textColor = .white
-//            cell.textBubbleView.backgroundColor = UIColor(red: 0, green: 137/255, blue: 255/255, alpha: 1)
-            cell.textBubbleView.backgroundColor = .black
-        }
-        return cell
+    func setUpImageTapGesture(cell: ChatLogMessageCell) {
+        cell.imageContentView.isUserInteractionEnabled = true
+        let singleTap = UITapGestureRecognizer(target: self, action: #selector(imageTapDetected(sender:)))
+        singleTap.numberOfTapsRequired = 1
+        singleTap.numberOfTouchesRequired = 1
+        cell.imageContentView.addGestureRecognizer(singleTap)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -229,8 +184,17 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let guide = view.safeAreaLayoutGuide
+        view.backgroundColor = .white
+        let backgroundView = UIImageView()
+        backgroundView.image = #imageLiteral(resourceName: "background")
+        backgroundView.translatesAutoresizingMaskIntoConstraints = false
         
-        view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        view.addSubview(backgroundView)
+        backgroundView.topAnchor.constraint(equalTo: guide.topAnchor).isActive = true
+        backgroundView.bottomAnchor.constraint(equalTo: guide.bottomAnchor).isActive = true
+        backgroundView.leftAnchor.constraint(equalTo: guide.leftAnchor).isActive = true
+        backgroundView.rightAnchor.constraint(equalTo: guide.rightAnchor).isActive = true
         
         hideKeyboard()
         
@@ -239,7 +203,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        tableView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.293557363)
         tableView.register(ChatLogMessageCell.self, forCellReuseIdentifier: cellID)
         tableView.separatorColor = .clear
         tableView.allowsSelection = false
@@ -257,8 +221,6 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
                 self.scrollToBottom()
             }
         }
-        
-        let guide = view.safeAreaLayoutGuide
         
         view.addSubview(messageInputContainerView)
         messageInputContainerView.translatesAutoresizingMaskIntoConstraints = false
@@ -322,11 +284,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     @objc func sendMessage() {
         if (inputTextField.text != "") {
-            let date = Date()
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-            dateFormatter.timeZone = TimeZone(abbreviation: "GMT+7:00")
-            let stringDate = dateFormatter.string(from: date)
+            let stringDate = Date().getString(with: "yyyy-MM-dd HH:mm:ss")
             let messageRef = Database.database().reference().child("messages").childByAutoId()
             messageRef.updateChildValues(["sender": chatter, "text": inputTextField.text!, "user": self.userId, "interpreter": self.interpreterEmail.getEncodedEmail(), "time": stringDate])
             self.inputTextField.text = ""
@@ -364,6 +322,8 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         self.present(actionSheet, animated: true, completion: nil)
     }
     
+    
+    
     func sendImageButtonTouched() {
         let imagePickerController = UIImagePickerController()
         
@@ -396,11 +356,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func uploadMessageToFirebase(using messageImage: UIImage) {
-        let date = Date()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        dateFormatter.timeZone = TimeZone(abbreviation: "GMT+7:00")
-        let stringDate = dateFormatter.string(from: date)
+        let stringDate = Date().getString(with: "yyyy-MM-dd HH:mm:ss")
         
         
         let storageRef = Storage.storage().reference().child("message_images").child(userId + interpreterEmail.getEncodedEmail() + stringDate + ".png")
@@ -428,11 +384,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func sendImage(with urlString: String) {
-        let date = Date()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        dateFormatter.timeZone = TimeZone(abbreviation: "GMT+7:00")
-        let stringDate = dateFormatter.string(from: date)
+        let stringDate = Date().getString(with: "yyyy-MM-dd HH:mm:ss")
         let messageRef = Database.database().reference().child("messages").childByAutoId()
         messageRef.updateChildValues(["sender": chatter, "image": urlString, "user": self.userId, "interpreter": self.interpreterEmail.getEncodedEmail(), "time": stringDate])
     }
@@ -466,6 +418,14 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         }
     }
     
+    
+    @objc func imageTapDetected(sender: UITapGestureRecognizer) {
+        let imageView = sender.view as? UIImageView
+        let controller = FullImageViewController()
+        controller.image = imageView?.image
+        self.navigationController?.pushViewController(controller, animated: true)
+    }
+    
     private func setUpInputComponent() {
         messageInputContainerView.addSubview(inputTextField)
         messageInputContainerView.addSubview(sendButton)
@@ -491,107 +451,3 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         sendButton.bottomAnchor.constraint(equalTo: messageInputContainerView.bottomAnchor).isActive = true
     }
 }
-
-
-class ChatLogMessageCell: BaseCell {
-    
-    override func prepareForReuse() {
-        imageContentView.image = nil
-        messageTextView.text = nil
-        messageTextView.textColor = nil
-    }
-    
-    var messageContent: String = "" {
-        didSet {
-            adjustLayout(with: self.messageContent)
-        }
-    }
-    
-    let textBubbleView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(white: 0.95, alpha: 1)
-        view.layer.cornerRadius = 15
-        view.layer.masksToBounds = true
-        
-        return view
-    }()
-    
-    let profileImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.layer.cornerRadius = 15
-        imageView.layer.masksToBounds = true
-        
-        return imageView
-    }()
-    
-    let imageContentView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 15
-        
-        //        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
-        //        imageView.isUserInteractionEnabled = true
-        //        imageView.addGestureRecognizer(tapGestureRecognizer)
-        
-        return imageView
-    }()
-    
-    //    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
-    //    {
-    //        let tappedImage = tapGestureRecognizer.view as! UIImageView
-    //
-    //
-    //    }
-    
-    let messageTextView: UITextView = {
-        let textView = UITextView()
-        textView.font = .systemFont(ofSize: 16)
-        textView.textAlignment = .left
-        textView.backgroundColor = .clear
-        return textView
-    }()
-    
-    var TextCellProfileImageAnchor: NSLayoutConstraint?
-    
-    var ImageCellProfileImageAnchor: NSLayoutConstraint?
-    
-    override func setupViews() {
-        super.setupViews()
-        addSubview(textBubbleView)
-        addSubview(messageTextView)
-        addSubview(profileImageView)
-        addSubview(imageContentView)
-        profileImageView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        
-        profileImageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        
-        profileImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8).isActive = true
-        profileImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        profileImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        
-        TextCellProfileImageAnchor = profileImageView.bottomAnchor.constraint(equalTo: textBubbleView.bottomAnchor)
-        ImageCellProfileImageAnchor = profileImageView.bottomAnchor.constraint(equalTo: imageContentView.bottomAnchor)
-    }
-    
-    func adjustLayout(with messageContent: String) {
-        if messageContent == "text" {
-            ImageCellProfileImageAnchor?.isActive = false
-            TextCellProfileImageAnchor?.isActive = true
-        } else if messageContent == "image" {
-            TextCellProfileImageAnchor?.isActive = false
-            ImageCellProfileImageAnchor?.isActive = true
-        }
-    }
-}
-
-extension String {
-    func getTextViewRect(sizeToFit: CGSize, font: UIFont, startPoint: CGPoint) -> CGRect {
-        let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-        let estimatedFrame = NSString(string: self).boundingRect(with: sizeToFit, options: options, attributes: [NSAttributedString.Key.font: font], context: nil)
-        return CGRect(x: startPoint.x, y: startPoint.y, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
-    }
-}
-
