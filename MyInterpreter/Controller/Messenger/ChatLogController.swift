@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import AVKit
 
 class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     
@@ -298,11 +299,11 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         // Create your actions - take a look at different style attributes
         let sendImageAction = UIAlertAction(title: "Send Image", style: .default) { (action) in
             // observe it in the buttons block, what button has been pressed
-            self.sendImageButtonTouched()
+            self.sendImageButtonTouched(sourceType: .photoLibrary)
         }
         
-        let sendVideo = UIAlertAction(title: "Send Video", style: .default) { (action) in
-            print("didPress send video")
+        let takePhoto = UIAlertAction(title: "Take Photo", style: .default) { (action) in
+            self.takePhotoImageTouched()
         }
         
         let sendAudio = UIAlertAction(title: "Send Audio", style: .default) { (action) in
@@ -315,21 +316,29 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         
         // Add the actions to your actionSheet
         actionSheet.addAction(sendImageAction)
-        actionSheet.addAction(sendVideo)
+        actionSheet.addAction(takePhoto)
         actionSheet.addAction(sendAudio)
         actionSheet.addAction(cancelAction)
         // Present the controller
         self.present(actionSheet, animated: true, completion: nil)
     }
     
+    func takePhotoImageTouched() {
+        
+        AVCaptureDevice.requestAccess(for: .video) { (hasPermission) in
+            if hasPermission {
+                self.sendImageButtonTouched(sourceType: .camera)
+            }
+        }
+        
+    }
     
-    
-    func sendImageButtonTouched() {
+    func sendImageButtonTouched(sourceType: UIImagePickerController.SourceType) {
         let imagePickerController = UIImagePickerController()
         
         imagePickerController.delegate = self
         imagePickerController.allowsEditing = true
-        imagePickerController.sourceType = .photoLibrary
+        imagePickerController.sourceType = sourceType
         
         present(imagePickerController, animated: true, completion: nil)
     }
