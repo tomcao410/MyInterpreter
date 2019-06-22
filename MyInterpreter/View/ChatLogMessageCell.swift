@@ -13,7 +13,7 @@ enum messageContent {
     case text(content: String, viewWidth: CGFloat, side: messageSide)
     case video
     case image(content: UIImage, viewWidth: CGFloat, viewHeight: CGFloat, side: messageSide)
-    case audio
+    case audio(content: Data, side: messageSide)
 }
 
 enum messageSide {

@@ -8,9 +8,13 @@
 
 import UIKit
 import Firebase
+import AVKit
 
-class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVAudioRecorderDelegate{
     
+    
+    
+    // MARK: declare area
     var chatter: String = ""
     var interpreterEmail: String = ""
     var userId: String = ""
@@ -18,7 +22,92 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     var leftCellProfileImage: UIImage?
     var cache = NSCache<AnyObject, AnyObject>()
     var doneCellCount: Int = 0
-
+    var audioRecorder: AVAudioRecorder!
+    var messageInputBottomAnchor: NSLayoutConstraint?
+    var messageInputActivateBottomAnchor: NSLayoutConstraint?
+    private let cellID = "cellID"
+    let tableView = UITableView()
+    var recording: Bool = false {
+        didSet {
+            if self.recording {
+                recordView.isHidden = false
+            } else {
+                recordView.isHidden = true
+            }
+        }
+    }
+    
+    
+    
+    // MARK: set up views area
+    
+    let messageInputContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }()
+    
+    let inputTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "Enter Message..."
+        return textField
+    }()
+    
+    let sendButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Send", for: .normal)
+        button.setTitleColor(#colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1), for: .normal)
+        button.addTarget(self, action: #selector(sendMessage), for: .touchUpInside)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        return button
+    }()
+    
+    let plusButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(named: "plus"), for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        button.imageEdgeInsets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+        button.addTarget(self, action: #selector(plusButtonTouch), for: .touchUpInside)
+        return button
+    }()
+    
+    let recordButton: UIImageView = {
+        let imageView = UIImageView()
+        
+        let tintedImage = #imageLiteral(resourceName: "record").withRenderingMode(.alwaysTemplate)
+        
+        imageView.image = tintedImage
+        imageView.tintColor = .red
+        imageView.backgroundColor = .clear
+        
+        return imageView
+    }()
+    
+    let recordView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }()
+    
+    let recordTitle: UILabel = {
+        let label = UILabel()
+        label.textColor = .gray
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.textAlignment = .center
+        return label
+    }()
+    
+    let cancelRecordButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(#imageLiteral(resourceName: "X").withRenderingMode(.alwaysTemplate), for: .normal)
+        button.tintColor = .blue
+        return button
+    }()
+    
+    
+    
+    
+    // MARK: declare helper function area
     
     func downloadImage(from urlString: String, completion: @escaping (UIImage) -> ()) {
         if let cachedImage = cache.object(forKey: urlString as AnyObject) {
@@ -46,8 +135,190 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
             
             completion(Interpreter(dic: interpreterDic))
         }
-        
     }
+    
+    func observeMessage(completion: @escaping (Message) -> ()) {
+        Database.database().reference().child("messages").queryOrdered(byChild: "user").queryEqual(toValue: userId).observe(.childAdded) { (snapshot) in
+            
+            guard let newMessage = snapshot.value as? NSDictionary else {
+                return
+            }
+            
+            let encodedEmail = self.interpreterEmail.getEncodedEmail()
+            if (newMessage.value(forKey: "interpreter") as? String == encodedEmail) {
+                if (newMessage.value(forKey: "image") != nil) {
+                    let message = Message(sender: newMessage.value(forKey: "sender") as! String, imageURL: newMessage.value(forKey: "image") as! String, user: newMessage.value(forKey: "user") as! String, interpreter: newMessage.value(forKey: "interpreter") as! String, time: newMessage.value(forKey: "time") as! String)
+                    self.messages.append(message)
+                    completion(message)
+                } else if (newMessage.value(forKey: "text") != nil) {
+                    let message = Message(sender: newMessage.value(forKey: "sender") as! String, text: newMessage.value(forKey: "text") as! String, user: newMessage.value(forKey: "user") as! String, interpreter: newMessage.value(forKey: "interpreter") as! String, time: newMessage.value(forKey: "time") as! String)
+                    self.messages.append(message)
+                    completion(message)
+                } else if (newMessage.value(forKey: "video") != nil) {
+                    let message = Message(sender: newMessage.value(forKey: "sender") as! String, videoURL: newMessage.value(forKey: "video") as! String, user: newMessage.value(forKey: "user") as! String, interpreter: newMessage.value(forKey: "interpreter") as! String, time: newMessage.value(forKey: "time") as! String)
+                    self.messages.append(message)
+                    completion(message)
+                }
+            }
+        }
+    }
+    
+    func uploadMessageToFirebase(using messageImage: UIImage) {
+        let stringDate = Date().getString(with: "yyyy-MM-dd HH:mm:ss")
+        
+        
+        let storageRef = Storage.storage().reference().child("message_images").child(userId + interpreterEmail.getEncodedEmail() + stringDate + ".png")
+        
+        if let messageImageData = messageImage.pngData()
+        {
+            storageRef.putData(messageImageData, metadata: nil) { (metaData, error) in
+                if error != nil
+                {
+                    self.alertAction(title: "Uploading image failed!", message: String(describing: error))
+                    return
+                }
+                storageRef.downloadURL(completion: { (url: URL?, error: Error?) in
+                    if error != nil
+                    {
+                        self.alertAction(title: "Uploading image failed!", message: String(describing: error))
+                        return
+                    }
+                    let urlString = url?.absoluteString
+                    self.sendImage(with: urlString!)
+                })
+                
+            }
+        }
+    }
+    
+    func sendImage(with urlString: String) {
+        let stringDate = Date().getString(with: "yyyy-MM-dd HH:mm:ss")
+        let messageRef = Database.database().reference().child("messages").childByAutoId()
+        messageRef.updateChildValues(["sender": chatter, "image": urlString, "user": self.userId, "interpreter": self.interpreterEmail.getEncodedEmail(), "time": stringDate])
+    }
+    
+    
+    
+    
+    
+    
+    // MARK: set up user actions area
+    
+    func setUpImageTapGesture(cell: ChatLogMessageCell) {
+        cell.imageContentView.isUserInteractionEnabled = true
+        let singleTap = UITapGestureRecognizer(target: self, action: #selector(imageTapDetected(sender:)))
+        singleTap.numberOfTapsRequired = 1
+        singleTap.numberOfTouchesRequired = 1
+        cell.imageContentView.addGestureRecognizer(singleTap)
+    }
+    
+    @objc func recordButtonTap() {
+        let settings = [
+            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+            AVSampleRateKey: 12000,
+            AVNumberOfChannelsKey: 1,
+            AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
+        ]
+        
+        
+        do {
+            let audioFileURL = getAudioPath()
+            audioRecorder = try AVAudioRecorder(url: audioFileURL, settings: settings)
+            audioRecorder.delegate = self
+            audioRecorder.record()
+            
+        } catch {
+            
+        }
+    }
+    
+    func scrollToBottom(){
+        DispatchQueue.main.async {
+            let indexPath = IndexPath(row: self.doneCellCount - 1, section: 0)
+            self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
+        }
+    }
+    
+    @objc func sendMessage() {
+        if (inputTextField.text != "") {
+            let stringDate = Date().getString(with: "yyyy-MM-dd HH:mm:ss")
+            let messageRef = Database.database().reference().child("messages").childByAutoId()
+            messageRef.updateChildValues(["sender": chatter, "text": inputTextField.text!, "user": self.userId, "interpreter": self.interpreterEmail.getEncodedEmail(), "time": stringDate])
+            self.inputTextField.text = ""
+            
+        }
+    }
+    
+    @objc func plusButtonTouch() {
+        
+        guard !recording else {
+            hideRecordView()
+            return
+        }
+        
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        // Create your actions - take a look at different style attributes
+        let sendImageAction = UIAlertAction(title: "Send Image", style: .default) { (action) in
+            // observe it in the buttons block, what button has been pressed
+            self.sendImageButtonTouched()
+        }
+        
+        let sendVideo = UIAlertAction(title: "Send Video", style: .default) { (action) in
+            print("didPress send video")
+        }
+        
+        let sendAudio = UIAlertAction(title: "Send Audio", style: .default) { (action) in
+            self.sendAudioButtonTouched()
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+            print("didPress cancel")
+        }
+        
+        // Add the actions to your actionSheet
+        actionSheet.addAction(sendImageAction)
+        actionSheet.addAction(sendVideo)
+        actionSheet.addAction(sendAudio)
+        actionSheet.addAction(cancelAction)
+        // Present the controller
+        self.present(actionSheet, animated: true, completion: nil)
+    }
+    
+    func sendAudioButtonTouched() {
+        if !recording {
+            self.view.endEditing(true)
+            showRecordView()
+        }
+    }
+    
+    func getAudioPath() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let documentsDirectory = paths[0]
+        return documentsDirectory.appendingPathComponent(".m4a")
+    }
+    
+    func sendImageButtonTouched() {
+        let imagePickerController = UIImagePickerController()
+        
+        imagePickerController.delegate = self
+        imagePickerController.allowsEditing = true
+        imagePickerController.sourceType = .photoLibrary
+        
+        present(imagePickerController, animated: true, completion: nil)
+    }
+    
+    @objc func imageTapDetected(sender: UITapGestureRecognizer) {
+        let imageView = sender.view as? UIImageView
+        let controller = FullImageViewController()
+        controller.image = imageView?.image
+        self.navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    
+    
+    
+    // MARK: set up chat log table view
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (messages.count == 0) {
@@ -84,14 +355,6 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
             
         }
         return cell
-    }
-    
-    func setUpImageTapGesture(cell: ChatLogMessageCell) {
-        cell.imageContentView.isUserInteractionEnabled = true
-        let singleTap = UITapGestureRecognizer(target: self, action: #selector(imageTapDetected(sender:)))
-        singleTap.numberOfTapsRequired = 1
-        singleTap.numberOfTouchesRequired = 1
-        cell.imageContentView.addGestureRecognizer(singleTap)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -144,43 +407,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     
-    private let cellID = "cellID"
-    let tableView = UITableView()
     
-    let messageInputContainerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        return view
-    }()
-    
-    let inputTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "Enter Message..."
-        return textField
-    }()
-    
-    let sendButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Send", for: .normal)
-        button.setTitleColor(#colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1), for: .normal)
-        button.addTarget(self, action: #selector(sendMessage), for: .touchUpInside)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
-        return button
-    }()
-    
-    let plusButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(named: "plus"), for: .normal)
-        button.imageView?.contentMode = .scaleAspectFit
-        button.imageEdgeInsets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
-        button.addTarget(self, action: #selector(plusButtonTouch), for: .touchUpInside)
-        return button
-    }()
-    
-    
-    
-    var messageInputBottomAnchor: NSLayoutConstraint?
-    var messageInputActivateBottomAnchor: NSLayoutConstraint?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -196,8 +423,9 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         backgroundView.leftAnchor.constraint(equalTo: guide.leftAnchor).isActive = true
         backgroundView.rightAnchor.constraint(equalTo: guide.rightAnchor).isActive = true
         
-        hideKeyboard()
         
+        hideKeyboard()
+        addRecordButtonGesture()
         
         tabBarController?.tabBar.isHidden = true
         
@@ -241,98 +469,30 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         tableView.rightAnchor.constraint(equalTo: guide.rightAnchor).isActive = true
         
         
+        view.addSubview(recordView)
+        recordView.translatesAutoresizingMaskIntoConstraints = false
+        
+        recordView.topAnchor.constraint(equalTo: messageInputContainerView.bottomAnchor).isActive = true
+        recordView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        recordView.leftAnchor.constraint(equalTo: guide.leftAnchor).isActive = true
+        recordView.rightAnchor.constraint(equalTo: guide.rightAnchor).isActive = true
+        recordView.isHidden = true
         
         setUpInputComponent()
+        setUpRecordViews()
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    func scrollToBottom(){
-        DispatchQueue.main.async {
-            let indexPath = IndexPath(row: self.doneCellCount - 1, section: 0)
-            self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
-        }
-    }
-    
-    func observeMessage(completion: @escaping (Message) -> ()) {
-        Database.database().reference().child("messages").queryOrdered(byChild: "user").queryEqual(toValue: userId).observe(.childAdded) { (snapshot) in
-            
-            guard let newMessage = snapshot.value as? NSDictionary else {
-                return
-            }
-            
-            let encodedEmail = self.interpreterEmail.getEncodedEmail()
-            if (newMessage.value(forKey: "interpreter") as? String == encodedEmail) {
-                if (newMessage.value(forKey: "image") != nil) {
-                    let message = Message(sender: newMessage.value(forKey: "sender") as! String, imageURL: newMessage.value(forKey: "image") as! String, user: newMessage.value(forKey: "user") as! String, interpreter: newMessage.value(forKey: "interpreter") as! String, time: newMessage.value(forKey: "time") as! String)
-                    self.messages.append(message)
-                    completion(message)
-                } else if (newMessage.value(forKey: "text") != nil) {
-                    let message = Message(sender: newMessage.value(forKey: "sender") as! String, text: newMessage.value(forKey: "text") as! String, user: newMessage.value(forKey: "user") as! String, interpreter: newMessage.value(forKey: "interpreter") as! String, time: newMessage.value(forKey: "time") as! String)
-                    self.messages.append(message)
-                    completion(message)
-                } else if (newMessage.value(forKey: "video") != nil) {
-                    let message = Message(sender: newMessage.value(forKey: "sender") as! String, videoURL: newMessage.value(forKey: "video") as! String, user: newMessage.value(forKey: "user") as! String, interpreter: newMessage.value(forKey: "interpreter") as! String, time: newMessage.value(forKey: "time") as! String)
-                    self.messages.append(message)
-                    completion(message)
-                }
-            }
-        }
-    }
-    
-    @objc func sendMessage() {
-        if (inputTextField.text != "") {
-            let stringDate = Date().getString(with: "yyyy-MM-dd HH:mm:ss")
-            let messageRef = Database.database().reference().child("messages").childByAutoId()
-            messageRef.updateChildValues(["sender": chatter, "text": inputTextField.text!, "user": self.userId, "interpreter": self.interpreterEmail.getEncodedEmail(), "time": stringDate])
-            self.inputTextField.text = ""
-            
-        }
-    }
-    
-    @objc func plusButtonTouch() {
-        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        // Create your actions - take a look at different style attributes
-        let sendImageAction = UIAlertAction(title: "Send Image", style: .default) { (action) in
-            // observe it in the buttons block, what button has been pressed
-            self.sendImageButtonTouched()
-        }
-        
-        let sendVideo = UIAlertAction(title: "Send Video", style: .default) { (action) in
-            print("didPress send video")
-        }
-        
-        let sendAudio = UIAlertAction(title: "Send Audio", style: .default) { (action) in
-            print("didPress send audio")
-        }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
-            print("didPress cancel")
-        }
-        
-        // Add the actions to your actionSheet
-        actionSheet.addAction(sendImageAction)
-        actionSheet.addAction(sendVideo)
-        actionSheet.addAction(sendAudio)
-        actionSheet.addAction(cancelAction)
-        // Present the controller
-        self.present(actionSheet, animated: true, completion: nil)
-    }
     
     
     
-    func sendImageButtonTouched() {
-        let imagePickerController = UIImagePickerController()
-        
-        imagePickerController.delegate = self
-        imagePickerController.allowsEditing = true
-        imagePickerController.sourceType = .photoLibrary
-        
-        present(imagePickerController, animated: true, completion: nil)
-    }
+    
+    
+    
+    // MARK: image picker set up
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
@@ -355,39 +515,9 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         picker.dismiss(animated: true, completion: nil)
     }
     
-    func uploadMessageToFirebase(using messageImage: UIImage) {
-        let stringDate = Date().getString(with: "yyyy-MM-dd HH:mm:ss")
-        
-        
-        let storageRef = Storage.storage().reference().child("message_images").child(userId + interpreterEmail.getEncodedEmail() + stringDate + ".png")
-        
-        if let messageImageData = messageImage.pngData()
-        {
-            storageRef.putData(messageImageData, metadata: nil) { (metaData, error) in
-                if error != nil
-                {
-                    self.alertAction(title: "Uploading image failed!", message: String(describing: error))
-                    return
-                }
-                storageRef.downloadURL(completion: { (url: URL?, error: Error?) in
-                    if error != nil
-                    {
-                        self.alertAction(title: "Uploading image failed!", message: String(describing: error))
-                        return
-                    }
-                    let urlString = url?.absoluteString
-                    self.sendImage(with: urlString!)
-                })
-                
-            }
-        }
-    }
     
-    func sendImage(with urlString: String) {
-        let stringDate = Date().getString(with: "yyyy-MM-dd HH:mm:ss")
-        let messageRef = Database.database().reference().child("messages").childByAutoId()
-        messageRef.updateChildValues(["sender": chatter, "image": urlString, "user": self.userId, "interpreter": self.interpreterEmail.getEncodedEmail(), "time": stringDate])
-    }
+    
+    // MARK: set up alert
     
     private func alertAction(title: String, message: String)
     {
@@ -395,6 +525,10 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         
         self.present(alert, animated: true, completion: nil)
     }
+    
+    
+    
+    // MARK: set up animations
     
     @objc func handleKeyboardNotification(notification: Notification) {
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
@@ -412,19 +546,55 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
             }
             UIView.animate(withDuration: 0, delay: 0, options: .curveEaseOut, animations: {
                 self.view.layoutIfNeeded()
-            }) { (completed) in
-                
-            }
+            }, completion: nil)
         }
     }
     
-    
-    @objc func imageTapDetected(sender: UITapGestureRecognizer) {
-        let imageView = sender.view as? UIImageView
-        let controller = FullImageViewController()
-        controller.image = imageView?.image
-        self.navigationController?.pushViewController(controller, animated: true)
+    func showRecordView() {
+        messageInputActivateBottomAnchor?.constant = -recordView.frame.height
+        messageInputBottomAnchor?.isActive = false
+        messageInputActivateBottomAnchor?.isActive = true
+        
+        plusButton.setImage(#imageLiteral(resourceName: "X"), for: .normal)
+        recording = true
+        recordTitle.text = "Tap to record"
+        
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+            self.view.layoutIfNeeded()
+        }, completion: nil)
     }
+    
+    @objc func hideRecordView() {
+        messageInputBottomAnchor?.isActive = true
+        messageInputActivateBottomAnchor?.isActive = false
+        
+        plusButton.setImage(#imageLiteral(resourceName: "plus"), for: .normal)
+        
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+            self.view.layoutIfNeeded()
+        }, completion: {done in
+            if done {
+                self.recording = false
+            }
+        })
+    }
+
+    
+    
+    
+    
+    // MARK: set up gesture area
+    func addRecordButtonGesture() {
+        self.recordButton.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(recordButtonTap))
+        tapGesture.numberOfTapsRequired = 1
+        tapGesture.numberOfTouchesRequired = 1
+        self.recordButton.addGestureRecognizer(tapGesture)
+    }
+    
+    
+    
+    // MARK: set up inner views constrains
     
     private func setUpInputComponent() {
         messageInputContainerView.addSubview(inputTextField)
@@ -449,5 +619,24 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         sendButton.leadingAnchor.constraint(equalTo: inputTextField.trailingAnchor).isActive = true
         sendButton.heightAnchor.constraint(equalTo: messageInputContainerView.heightAnchor).isActive = true
         sendButton.bottomAnchor.constraint(equalTo: messageInputContainerView.bottomAnchor).isActive = true
+    }
+    
+    private func setUpRecordViews() {
+        
+        recordButton.translatesAutoresizingMaskIntoConstraints = false
+        recordView.addSubview(recordButton)
+        
+        recordButton.centerXAnchor.constraint(equalTo: recordView.centerXAnchor).isActive = true
+        recordButton.topAnchor.constraint(equalTo: recordView.topAnchor).isActive = true
+        recordButton.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        recordButton.widthAnchor.constraint(equalToConstant: 92).isActive = true
+        
+        recordTitle.translatesAutoresizingMaskIntoConstraints = false
+        recordView.addSubview(recordTitle)
+        
+        recordTitle.topAnchor.constraint(equalTo: recordButton.bottomAnchor).isActive = true
+        recordTitle.leftAnchor.constraint(equalTo: recordView.leftAnchor).isActive = true
+        recordTitle.rightAnchor.constraint(equalTo: recordView.rightAnchor).isActive = true
+        recordTitle.heightAnchor.constraint(equalToConstant: 30).isActive = true
     }
 }
