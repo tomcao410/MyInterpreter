@@ -13,7 +13,7 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     var ref: DatabaseReference!
     
-    var cached = NSCache<AnyObject, AnyObject>()
+    static var cached = NSCache<AnyObject, AnyObject>()
     let tableView = UITableView()
     var visualEffectView = UIVisualEffectView()
     let popUpView = UIView()
@@ -327,14 +327,14 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
         let userID = listUser[indexPath.row].email.getEncodedEmail()
         cell.user = listUser[indexPath.row]
         
-        if let cachedImage = cached.object(forKey: userID as AnyObject) {
+        if let cachedImage = ClientsController.cached.object(forKey: userID as AnyObject) {
             cell.profileImageView.image = cachedImage as? UIImage
             cell.seenImage.image = cachedImage as? UIImage
         } else {
             downloadUserProfileImage(from: userID) { (profileImage) in
                 cell.profileImageView.image = profileImage
                 cell.seenImage.image = profileImage
-                self.cached.setObject(profileImage, forKey: userID as AnyObject)
+                ClientsController.cached.setObject(profileImage, forKey: userID as AnyObject)
             }
         }
         return cell
@@ -349,7 +349,7 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
         controller.interpreterEmail = interpreterEmail
         controller.userId = listUser[indexPath.row].email.getEncodedEmail()
         controller.chatter = "interpreter"
-        if let cachedImage = cached.object(forKey: listUser[indexPath.row].email.getEncodedEmail() as AnyObject) {
+        if let cachedImage = ClientsController.cached.object(forKey: listUser[indexPath.row].email.getEncodedEmail() as AnyObject) {
             controller.leftCellProfileImage = (cachedImage as! UIImage)
         } else {
             downloadUserProfileImage(from: listUser[indexPath.row].email.getEncodedEmail()) { (image) in
