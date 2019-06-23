@@ -9,12 +9,21 @@
 import UIKit
 import AVKit
 
-enum messageContent {
+enum MessageContent {
     case downloading(side: messageSide, viewWidth: CGFloat)
     case text(content: String, viewWidth: CGFloat, side: messageSide)
     case image(content: UIImage, viewWidth: CGFloat, viewHeight: CGFloat, side: messageSide)
     case audio(content: Data, viewWidth: CGFloat, side: messageSide)
     case none
+    
+    func getAudioData() -> Data? {
+        switch self {
+        case .audio(let content, _, _):
+            return content
+        default:
+            return nil
+        }
+    }
 }
 
 enum messageSide {
@@ -22,16 +31,7 @@ enum messageSide {
     case right
 }
 
-protocol audioPlayer {
-    func playAudio(data: Data)
-    func stopAudio()
-    func pauseAudio()
-    func replayAudio()
-}
-
 class ChatLogMessageCell: BaseCell {
-    
-    var delegate: audioPlayer!
     
     override func prepareForReuse() {
         imageContentView.image = nil
@@ -49,7 +49,7 @@ class ChatLogMessageCell: BaseCell {
         spinner.stopAnimating()
     }
     
-    var messageContent:messageContent = .none {
+    var messageContent:MessageContent = .none {
         didSet {
             adjustLayout(with: self.messageContent)
         }
@@ -107,6 +107,33 @@ class ChatLogMessageCell: BaseCell {
         return view
     }()
     
+    let playButton: UIButton = {
+        let playButton = UIButton(type: .system)
+        playButton.addTarget(self, action: #selector(ChatLogController.playButtonTouched), for: .touchUpInside)
+        playButton.setImage(#imageLiteral(resourceName: "play").withRenderingMode(.alwaysTemplate), for: .normal)
+        playButton.imageEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
+        playButton.tintColor = .white
+        return playButton
+    }()
+    
+    let stopButton: UIButton = {
+        let stopButton = UIButton(type: .system)
+        stopButton.addTarget(self, action: #selector(ChatLogController.stopButtonTouched), for: .touchUpInside)
+        stopButton.setImage(#imageLiteral(resourceName: "stop").withRenderingMode(.alwaysTemplate), for: .normal)
+        stopButton.imageEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
+        stopButton.tintColor = .white
+        return stopButton
+    }()
+    
+    let replayButton: UIButton = {
+        let replayButton = UIButton(type: .system)
+        replayButton.addTarget(self, action: #selector(ChatLogController.replayButtonTouched), for: .touchUpInside)
+        replayButton.setImage(#imageLiteral(resourceName: "replay").withRenderingMode(.alwaysTemplate), for: .normal)
+        replayButton.imageEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
+        replayButton.tintColor = .white
+        return replayButton
+    }()
+    
     let audioPlayer: AVAudioPlayer! = nil
     
     var TextCellProfileImageAnchor: NSLayoutConstraint?
@@ -139,7 +166,7 @@ class ChatLogMessageCell: BaseCell {
         DownloadingCellProfileImageAnchor = profileImageView.bottomAnchor.constraint(equalTo: indicatorView.bottomAnchor)
     }
     
-    func adjustBottomProfileImageAnchor(cellContent: messageContent) {
+    func adjustBottomProfileImageAnchor(cellContent: MessageContent) {
         switch cellContent {
         case .audio:
             AudioCellProfileImageAnchor?.isActive = true
@@ -154,7 +181,7 @@ class ChatLogMessageCell: BaseCell {
         }
     }
     
-    func adjustLayout(with messageContent: messageContent) {
+    func adjustLayout(with messageContent: MessageContent) {
         switch messageContent {
         case .text(let content, let viewWidth, let cellSide):
             adjustBottomProfileImageAnchor(cellContent: .text(content: content, viewWidth: viewWidth, side: cellSide))
@@ -238,26 +265,53 @@ class ChatLogMessageCell: BaseCell {
             spinner.rightAnchor.constraint(equalTo: indicatorView.rightAnchor).isActive = true
             spinner.startAnimating()
         case .audio(let data, let viewWidth, let cellSide):
+            audioPlayView.isHidden = false
             adjustBottomProfileImageAnchor(cellContent: .audio(content: data, viewWidth: viewWidth, side: cellSide))
-
-            let maxWidth = viewWidth / 3 * 2
-
-    //            delegate.playAudio(data: data)
+            let maxWidth: CGFloat = 8 + 30 + 12 + 30 + 12 + 30 + 8
             switch cellSide {
             case .left:
                 profileImageView.isHidden = false
                 
-                audioPlayView.frame = CGRect(x: 48, y: 0, width: maxWidth, height: 60)
-                
-                
+                audioPlayView.frame = CGRect(x: 48, y: 0, width: maxWidth, height: 40)
+                audioPlayView.backgroundColor = .lightGray
             case .right:
                 profileImageView.isHidden = true
                 
-                audioPlayView.frame = CGRect(x: viewWidth - maxWidth - 16, y: 0, width: maxWidth, height: 60)
+                audioPlayView.frame = CGRect(x: viewWidth - maxWidth - 16, y: 0, width: maxWidth, height: 40)
+                audioPlayView.backgroundColor = .black
             }
+            setInnerPlayerView()
         case .none:
             print("nothing")
         }
+    }
+    
+    func setInnerPlayerView() {
+        
+        audioPlayView.addSubview(playButton)
+        playButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        playButton.leadingAnchor.constraint(equalTo: audioPlayView.leadingAnchor, constant: 8).isActive = true
+        playButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        playButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        playButton.centerYAnchor.constraint(equalTo: audioPlayView.centerYAnchor).isActive = true
+        
+        audioPlayView.addSubview(replayButton)
+        replayButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        replayButton.trailingAnchor.constraint(equalTo: audioPlayView.trailingAnchor, constant: -8).isActive = true
+        replayButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        replayButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        replayButton.centerYAnchor.constraint(equalTo: audioPlayView.centerYAnchor).isActive = true
+        
+        audioPlayView.addSubview(stopButton)
+        stopButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        stopButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        stopButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        stopButton.centerXAnchor.constraint(equalTo: audioPlayView.centerXAnchor).isActive = true
+        stopButton.centerYAnchor.constraint(equalTo: audioPlayView.centerYAnchor).isActive = true
+        
     }
 }
 

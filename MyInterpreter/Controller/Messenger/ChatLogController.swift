@@ -17,7 +17,7 @@ enum recordState {
     case recordFail
 }
 
-class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVAudioRecorderDelegate, audioPlayer, AVAudioPlayerDelegate {
+class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     
     
     
@@ -33,6 +33,7 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
     var audioRecorder: AVAudioRecorder!
     var messageInputBottomAnchor: NSLayoutConstraint?
     var messageInputActivateBottomAnchor: NSLayoutConstraint?
+    var isPlaying: Bool = false
     var audioPlayer: AVAudioPlayer!
     private let cellID = "cellID"
     let tableView = UITableView()
@@ -368,31 +369,40 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         }
     }
     
-    func playAudio(data: Data) {
-        do {
-            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
-            audioPlayer = try AVAudioPlayer(data: data)
-            audioPlayer.delegate = self
-            audioPlayer.prepareToPlay()
-            audioPlayer.play()
-        } catch let error {
-            self.alertAction(title: "Audio Problem", message: error.localizedDescription)
+    @objc func playButtonTouched(sender: UIButton) {
+        
+        if isPlaying == false {
+            if let data = ChatLogController.cache.object(forKey: messages[sender.tag].audioURL as AnyObject) as? Data {
+                do {
+                    try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+                    self.audioPlayer = try AVAudioPlayer(data: data)
+                    self.audioPlayer.delegate = self
+                    self.audioPlayer.prepareToPlay()
+                    self.audioPlayer.play()
+                    self.isPlaying = true
+                    sender.setImage(#imageLiteral(resourceName: "pause").withRenderingMode(.alwaysTemplate), for: .normal)
+                    sender.imageEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+                } catch let error {
+                    self.alertAction(title: "Audio Problem", message: error.localizedDescription)
+                }
+            }
+        } else if let audioPlayer = self.audioPlayer {
+            sender.setImage(#imageLiteral(resourceName: "play").withRenderingMode(.alwaysTemplate), for: .normal)
+            sender.imageEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
+            audioPlayer.pause()
+            self.isPlaying = false
         }
     }
     
-    func stopAudio() {
+    @objc func stopButtonTouched() {
+        guard let audioPlayer = self.audioPlayer else { return }
         if audioPlayer.isPlaying {
             audioPlayer.stop()
         }
     }
     
-    func pauseAudio() {
-        if audioPlayer.isPlaying {
-            audioPlayer.pause()
-        }
-    }
-    
-    func replayAudio() {
+    @objc func replayButtonTouched() {
+        guard let audioPlayer = self.audioPlayer else { return }
         if audioPlayer.isPlaying {
             audioPlayer.currentTime = 0
             audioPlayer.play()
@@ -400,7 +410,6 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
             audioPlayer.play()
         }
     }
-    
 
     
     
@@ -490,8 +499,8 @@ class ChatLogController: UIViewController, UITableViewDelegate, UITableViewDataS
         } else if messages[indexPath.row].text != "" {
             cell.messageContent = .text(content: self.messages[indexPath.row].text, viewWidth: self.view.frame.width, side: cellSide)
         } else if messages[indexPath.row].audioURL != "" {
-            cell.delegate = self
             if let cachedAudio = ChatLogController.cache.object(forKey: messages[indexPath.row].audioURL as AnyObject) as? Data {
+                cell.playButton.tag = indexPath.row
                 cell.messageContent = .audio(content: cachedAudio, viewWidth: self.view.frame.width, side: cellSide)
             } else {
                 cell.messageContent = .downloading(side: cellSide, viewWidth: self.view.frame.width)
