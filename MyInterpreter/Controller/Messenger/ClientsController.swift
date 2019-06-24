@@ -238,7 +238,7 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
     @objc func checkUserExpired() {
         var bookingIndexExpired = -1
         for (index, item) in self.listBooking.enumerated() {
-            let intEndDate = item.timeEnd.cutPMAMTail().stringDateToInt(with: "yyyy-MM-dd HH:mm:ss")
+            let intEndDate = item.timeEnd.stringDateToInt(with: "yyyy-MM-dd HH:mm:ss")
             let intNowDate = Date().getString(with: "yyyy-MM-dd HH:mm:ss").stringDateToInt(with: "yyyy-MM-dd HH:mm:ss")
             if intEndDate < intNowDate {
                 let alert = UIAlertController(title: "Notice", message: "A booking to you just expired", preferredStyle: .alert)
@@ -289,8 +289,8 @@ class ClientsController: UIViewController, UITableViewDelegate, UITableViewDataS
             }
             let encodedEmail = self.interpreterEmail.getEncodedEmail()
             let intDate = Date().getString(with: "yyyy-MM-dd HH:mm:ss").stringDateToInt(with: "yyyy-MM-dd HH:mm:ss")
-            let intTimeEnd = (newBooking["timeEnd"] as! String).cutPMAMTail().stringDateToInt(with: "yyyy-MM-dd HH:mm:ss")
-            let intTimeStart = (newBooking["timeStart"] as! String).cutPMAMTail().stringDateToInt(with: "yyyy-MM-dd HH:mm:ss")
+            let intTimeEnd = (newBooking["timeEnd"] as! String).stringDateToInt(with: "yyyy-MM-dd HH:mm:ss")
+            let intTimeStart = (newBooking["timeStart"] as! String).stringDateToInt(with: "yyyy-MM-dd HH:mm:ss")
             if ((newBooking["interpreter"] as! String) == encodedEmail && intDate > intTimeStart && intDate < intTimeEnd) {
                 if (newBooking["confirm"] as! Bool == true) {
                     self.getUser(from: newBooking["user"] as! String, completion: { (user) in
