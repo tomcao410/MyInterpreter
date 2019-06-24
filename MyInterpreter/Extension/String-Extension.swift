@@ -65,16 +65,36 @@ extension String {
         var result = ""
         
         let dateFormatterGet = DateFormatter()
-        dateFormatterGet.dateFormat = "yyyy-MM-dd HH:mm:ss a"
-        dateFormatterGet.amSymbol = "AM"
-        dateFormatterGet.pmSymbol = "PM"
+        dateFormatterGet.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatterGet.timeZone = TimeZone(abbreviation: "GMT+7:00")
         
         let dateFormatterPrint = DateFormatter()
-        dateFormatterPrint.dateFormat = "MMM dd, yyyy 'at' H:mm:ss a"
-        dateFormatterPrint.amSymbol = "AM"
-        dateFormatterPrint.pmSymbol = "PM"
-        
+        dateFormatterPrint.dateFormat = "MMM dd, yyyy 'at' HH:mm:ss"
+        dateFormatterPrint.timeZone = TimeZone(abbreviation: "GMT+7:00")
+   
 
+        if let formattedDate = dateFormatterGet.date(from: date) {
+            result = dateFormatterPrint.string(from: formattedDate)
+        } else {
+            print("There was an error decoding the string")
+        }
+        
+        return result
+    }
+    
+    func dateFormatter_dropAMPM(date: String) -> String
+    {
+        var result = ""
+        
+        let dateFormatterGet = DateFormatter()
+        dateFormatterGet.dateFormat = "MMM dd, yyyy 'at' HH:mm:ss a"
+        dateFormatterGet.timeZone = TimeZone(abbreviation: "GMT+7:00")
+
+        let dateFormatterPrint = DateFormatter()
+        dateFormatterPrint.dateFormat = "MMM dd, yyyy 'at' HH:mm:ss"
+        dateFormatterPrint.timeZone = TimeZone(abbreviation: "GMT+7:00")
+        
+        
         if let formattedDate = dateFormatterGet.date(from: date) {
             result = dateFormatterPrint.string(from: formattedDate)
         } else {

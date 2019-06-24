@@ -159,9 +159,10 @@ class UserDashboardVC: UIViewController {
                     }
                     
                     let endTimeFormatter = DateFormatter.localizedString(from: Date(), dateStyle: DateFormatter.Style.medium, timeStyle: DateFormatter.Style.medium)
+                    let endTemp = String().dateFormatter_dropAMPM(date: endTimeFormatter)
                     
                     let endTime = String().dateFormatter(date: (bookingObject["timeEnd"] as? String)!)
-
+                    print("\(endTemp) - \(endTime)")
                     if endTime == endTimeFormatter
                     {
                         self.timer.invalidate()

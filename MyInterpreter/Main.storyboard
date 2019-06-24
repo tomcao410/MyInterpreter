@@ -59,13 +59,22 @@
                                     <segue destination="ChC-xa-tbo" kind="show" id="L9k-Y3-HZK"/>
                                 </connections>
                             </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="trans-logo1" translatesAutoresizingMaskIntoConstraints="NO" id="nd5-fu-lju">
+                                <rect key="frame" x="62.5" y="114" width="250" height="250"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="250" id="TjC-iO-7l5"/>
+                                    <constraint firstAttribute="width" constant="250" id="al3-w7-zNW"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="1Ko-XM-Hjh" secondAttribute="bottom" constant="100" id="2hl-q4-EVd"/>
                             <constraint firstItem="1Ko-XM-Hjh" firstAttribute="top" secondItem="AxL-6l-sAM" secondAttribute="bottom" constant="20" id="MvX-nJ-Iuy"/>
                             <constraint firstItem="1Ko-XM-Hjh" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="P8B-wK-vmx"/>
+                            <constraint firstItem="nd5-fu-lju" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="SsD-Ol-Ifc"/>
                             <constraint firstItem="AxL-6l-sAM" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="va4-yI-q56"/>
+                            <constraint firstItem="nd5-fu-lju" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="zqI-3E-nFP"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -125,12 +134,36 @@
                                 </constraints>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YLI-s0-jWW">
-                                <rect key="frame" x="166.5" y="473" width="42" height="30"/>
-                                <state key="normal" title="Log In"/>
+                                <rect key="frame" x="137.5" y="473" width="100" height="30"/>
+                                <color key="backgroundColor" red="0.76078431372549016" green="0.76078431372549016" blue="0.792156862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="DvR-Gn-TqM"/>
+                                    <constraint firstAttribute="width" constant="100" id="Nya-tH-Epl"/>
+                                </constraints>
+                                <state key="normal" title="Log In">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="handleLogIn:" destination="Fay-yH-e3y" eventType="touchUpInside" id="8zM-Ug-iVV"/>
                                 </connections>
                             </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="trans-logo4" translatesAutoresizingMaskIntoConstraints="NO" id="EMC-nO-ujs">
+                                <rect key="frame" x="87.5" y="80" width="200" height="150"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="BYl-YA-Mpg"/>
+                                    <constraint firstAttribute="width" constant="200" id="b1E-Q4-nPu"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -138,6 +171,8 @@
                             <constraint firstItem="Al5-TD-ZGh" firstAttribute="centerY" secondItem="8y9-ex-ww8" secondAttribute="centerY" id="Gjh-Rr-897"/>
                             <constraint firstItem="Al5-TD-ZGh" firstAttribute="leading" secondItem="1TS-NY-vAy" secondAttribute="leading" constant="20" id="IXD-9q-nLR"/>
                             <constraint firstItem="YLI-s0-jWW" firstAttribute="centerX" secondItem="8y9-ex-ww8" secondAttribute="centerX" id="ann-Cw-QG9"/>
+                            <constraint firstItem="EMC-nO-ujs" firstAttribute="centerX" secondItem="8y9-ex-ww8" secondAttribute="centerX" id="eaK-v3-xc8"/>
+                            <constraint firstItem="EMC-nO-ujs" firstAttribute="top" secondItem="1TS-NY-vAy" secondAttribute="top" constant="16" id="lds-KG-Jno"/>
                             <constraint firstItem="YLI-s0-jWW" firstAttribute="top" secondItem="Al5-TD-ZGh" secondAttribute="bottom" constant="50" id="qZ0-Md-hTb"/>
                             <constraint firstItem="1TS-NY-vAy" firstAttribute="trailing" secondItem="Al5-TD-ZGh" secondAttribute="trailing" constant="20" id="vKI-zW-O0c"/>
                         </constraints>
@@ -162,25 +197,63 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D6O-Nw-4jD">
-                                <rect key="frame" x="164" y="487" width="47" height="30"/>
-                                <state key="normal" title="Sign In"/>
+                                <rect key="frame" x="72.5" y="447" width="230" height="50"/>
+                                <color key="backgroundColor" red="0.76078431369999999" green="0.76078431369999999" blue="0.79215686269999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="230" id="djd-Ed-kT8"/>
+                                    <constraint firstAttribute="height" constant="50" id="r30-xo-clT"/>
+                                </constraints>
+                                <state key="normal" title="Sign In">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="15"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <segue destination="TBD-jY-w96" kind="show" id="v08-4X-vt8"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dp5-zo-wgb">
-                                <rect key="frame" x="160.5" y="537" width="54" height="30"/>
-                                <state key="normal" title="Sign Up"/>
+                                <rect key="frame" x="72.5" y="517" width="230" height="50"/>
+                                <color key="backgroundColor" red="0.76078431372549016" green="0.76078431372549016" blue="0.792156862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="230" id="8Nd-4L-qyU"/>
+                                    <constraint firstAttribute="height" constant="50" id="cT3-2g-0C0"/>
+                                </constraints>
+                                <state key="normal" title="Sign Up">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="15"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <segue destination="18b-7F-bni" kind="show" id="m4P-KR-UgJ"/>
                                 </connections>
                             </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="trans-logo3" translatesAutoresizingMaskIntoConstraints="NO" id="dnM-Ix-aIb">
+                                <rect key="frame" x="62.5" y="114" width="250" height="250"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="250" id="BAS-86-3EX"/>
+                                    <constraint firstAttribute="height" constant="250" id="OGK-oj-x3R"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="30"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Dp5-zo-wgb" firstAttribute="centerX" secondItem="txq-j3-RFN" secondAttribute="centerX" id="36w-ns-52U"/>
                             <constraint firstItem="Dp5-zo-wgb" firstAttribute="top" secondItem="D6O-Nw-4jD" secondAttribute="bottom" constant="20" id="BIS-3e-Tjh"/>
+                            <constraint firstItem="dnM-Ix-aIb" firstAttribute="centerX" secondItem="txq-j3-RFN" secondAttribute="centerX" id="GCt-dY-RYy"/>
                             <constraint firstItem="6IW-o4-gqc" firstAttribute="bottom" secondItem="Dp5-zo-wgb" secondAttribute="bottom" constant="100" id="OZl-YW-IlP"/>
+                            <constraint firstItem="dnM-Ix-aIb" firstAttribute="top" secondItem="6IW-o4-gqc" secondAttribute="top" constant="50" id="RbV-An-w6n"/>
                             <constraint firstItem="D6O-Nw-4jD" firstAttribute="centerX" secondItem="txq-j3-RFN" secondAttribute="centerX" id="tVh-jO-NKd"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6IW-o4-gqc"/>
@@ -255,8 +328,21 @@
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6AG-9d-7ES">
-                                <rect key="frame" x="171.5" y="582.5" width="32" height="30"/>
-                                <state key="normal" title="Next"/>
+                                <rect key="frame" x="137.5" y="582.5" width="100" height="30"/>
+                                <color key="backgroundColor" red="0.76078431372549016" green="0.76078431372549016" blue="0.792156862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="Sy3-Ub-FoZ"/>
+                                    <constraint firstAttribute="width" constant="100" id="Xdx-NB-dCv"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <state key="normal" title="Next">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="nextButtonClicked:" destination="18b-7F-bni" eventType="touchUpInside" id="XAb-n1-lHj"/>
                                 </connections>
@@ -349,8 +435,20 @@
                                 </userDefinedRuntimeAttributes>
                             </activityIndicatorView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9N2-bR-mtl">
-                                <rect key="frame" x="166.5" y="473" width="42" height="30"/>
-                                <state key="normal" title="Log In"/>
+                                <rect key="frame" x="137.5" y="473" width="100" height="30"/>
+                                <color key="backgroundColor" red="0.76078431372549016" green="0.76078431372549016" blue="0.78823529411764703" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="J1u-5W-WDu"/>
+                                    <constraint firstAttribute="width" constant="100" id="Jgn-mR-YPz"/>
+                                </constraints>
+                                <state key="normal" title="Log In">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="handleLogIn:" destination="TBD-jY-w96" eventType="touchUpInside" id="kB0-Zt-GYs"/>
                                 </connections>
@@ -765,8 +863,20 @@ Price: $1.49 per day</string>
                                 </userDefinedRuntimeAttributes>
                             </activityIndicatorView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hxi-Yb-wYY">
-                                <rect key="frame" x="170" y="506" width="35" height="30"/>
-                                <state key="normal" title="Book"/>
+                                <rect key="frame" x="137.5" y="506" width="100" height="30"/>
+                                <color key="backgroundColor" red="0.76078431372549016" green="0.76078431372549016" blue="0.7803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="2in-Cr-kbQ"/>
+                                    <constraint firstAttribute="height" constant="30" id="Cte-8n-ZXh"/>
+                                </constraints>
+                                <state key="normal" title="Book">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="bookBtnClicked:" destination="cCi-af-cFv" eventType="touchUpInside" id="RDy-EP-DXB"/>
                                 </connections>
@@ -1324,8 +1434,20 @@ Price: $1.49 per day</string>
                                 </userDefinedRuntimeAttributes>
                             </activityIndicatorView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wkb-d0-06v">
-                                <rect key="frame" x="164.5" y="576.5" width="46" height="30"/>
-                                <state key="normal" title="Create"/>
+                                <rect key="frame" x="137.5" y="576.5" width="100" height="30"/>
+                                <color key="backgroundColor" red="0.76078431372549016" green="0.76078431372549016" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="4i5-AJ-1Be"/>
+                                    <constraint firstAttribute="height" constant="30" id="xj9-sX-boO"/>
+                                </constraints>
+                                <state key="normal" title="Create">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="handleCreate:" destination="ImR-5R-XqO" eventType="touchUpInside" id="z15-Qq-GHq"/>
                                 </connections>
@@ -1364,11 +1486,14 @@ Price: $1.49 per day</string>
     </scenes>
     <resources>
         <image name="Credit-Card-Logos" width="2364" height="360"/>
+        <image name="trans-logo1" width="400" height="300"/>
+        <image name="trans-logo3" width="800" height="600"/>
+        <image name="trans-logo4" width="800" height="600"/>
         <image name="userIcon" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="swn-Pe-bnL"/>
         <segue reference="OHD-fK-jgn"/>
-        <segue reference="NIp-pH-V6n"/>
+        <segue reference="HIX-ul-aOt"/>
     </inferredMetricsTieBreakers>
 </document>

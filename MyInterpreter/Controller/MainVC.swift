@@ -12,7 +12,7 @@ import FirebaseDatabase
 
 class MainVC: UIViewController {
 
-    
+
     // MARK: To do
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +31,7 @@ class MainVC: UIViewController {
     // MARK: Work place
     private func setUI()
     {
+
         navigationItem.setCustomNavBar(title: "MyInterpreter")
 
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
