@@ -87,16 +87,15 @@ extension String {
         var result = ""
         
         let dateFormatterGet = DateFormatter()
-        dateFormatterGet.dateFormat = "MMM dd, yyyy 'at' HH:mm:ss a"
-        dateFormatterGet.timeZone = TimeZone(abbreviation: "GMT+7:00")
+        dateFormatterGet.dateFormat = "MMM dd, yyyy 'at' h:mm:ss a"
+        
 
         let dateFormatterPrint = DateFormatter()
         dateFormatterPrint.dateFormat = "MMM dd, yyyy 'at' HH:mm:ss"
-        dateFormatterPrint.timeZone = TimeZone(abbreviation: "GMT+7:00")
-        
         
         if let formattedDate = dateFormatterGet.date(from: date) {
-            result = dateFormatterPrint.string(from: formattedDate)
+            dateFormatterGet.dateFormat = "MMM dd, yyyy 'at' HH:mm:ss"
+            result = dateFormatterGet.string(from: formattedDate)
         } else {
             print("There was an error decoding the string")
         }

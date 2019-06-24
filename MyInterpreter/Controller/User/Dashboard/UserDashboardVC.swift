@@ -163,7 +163,7 @@ class UserDashboardVC: UIViewController {
                     
                     let endTime = String().dateFormatter(date: (bookingObject["timeEnd"] as? String)!)
                     print("\(endTemp) - \(endTime)")
-                    if endTime == endTimeFormatter
+                    if endTime == endTemp
                     {
                         self.timer.invalidate()
                         userBookingRef.setValue("interpreter0")
