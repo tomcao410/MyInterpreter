@@ -219,10 +219,30 @@ class ConfirmPaymentVC: UIViewController {
         let l = UInt(comps!.last!)
         
         let cardParams =  STPCardParams()
-        cardParams.number = cardNumberTxtFlield.text!
-        cardParams.expMonth = f!
-        cardParams.expYear = l!
-        cardParams.cvc = cvcTxtField.text!
+        guard case cardParams.number = cardNumberTxtFlield.text! else {
+            self.customAlertAction(title: "Error!", message: "Some information are missing!")
+            self.spinner.stopAnimating()
+            self.bookButton.status(enable: true, hidden: false)
+            return
+        }
+        guard case cardParams.expMonth = f! else {
+            self.customAlertAction(title: "Error!", message: "Some information are missing!")
+            self.spinner.stopAnimating()
+            self.bookButton.status(enable: true, hidden: false)
+            return
+        }
+        guard case cardParams.expYear = l! else {
+            self.customAlertAction(title: "Error!", message: "Some information are missing!")
+            self.spinner.stopAnimating()
+            self.bookButton.status(enable: true, hidden: false)
+            return
+        }
+        guard case cardParams.cvc = cvcTxtField.text! else {
+            self.customAlertAction(title: "Error!", message: "Some information are missing!")
+            self.spinner.stopAnimating()
+            self.bookButton.status(enable: true, hidden: false)
+            return
+        }
         
         STPAPIClient.shared().createToken(withCard: cardParams) { (token: STPToken?, error: Error?) in
             
